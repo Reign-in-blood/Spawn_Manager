@@ -50,7 +50,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     // Valeurs
     private static final String KEY = "SpawnBlockSet";
-    private static final String SAFE_DISABLED_FALLBACK = "Volcanic";
 
     // Liste affichée
     private final List<String> displayedMobs = new ArrayList<>();
@@ -294,23 +293,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
     }
-
-
     private static String resolveDisabledBlockSet(String desiredDisabledBlockSet, String mobId, String path) {
         if (desiredDisabledBlockSet == null || desiredDisabledBlockSet.isBlank()) {
-            return SAFE_DISABLED_FALLBACK;
+            LOGGER.warning("[SpawnManager] mapping disabledBlockSet is blank for mob=" + mobId + " path=" + path);
+            return null;
         }
-
-        // Garde-fou: cette valeur a déjà provoqué un crash codec "Unknown key" côté serveur.
-        if ("SpawnBlockSet_NotUsed".equals(desiredDisabledBlockSet)) {
-            LOGGER.warning("[SpawnManager] disabledBlockSet '" + desiredDisabledBlockSet
-                    + "' is not recognized by server codec for mob=" + mobId
-                    + " path=" + path + ". Fallback='" + SAFE_DISABLED_FALLBACK + "'.");
-            return SAFE_DISABLED_FALLBACK;
-        }
-
         return desiredDisabledBlockSet;
     }
+
+
 
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
