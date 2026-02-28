@@ -7,10 +7,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hypixel.hytale.assetstore.AssetPack;
-import com.hypixel.hytale.protocol.Message;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.asset.AssetModule;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractSyncCommand;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.reigninblood.spawnmanager.SpawnManagerPlugin;
 import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
@@ -25,29 +29,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.logging.Logger;
 
-public final class SpawnManagerCommand extends AbstractSyncCommand {
+public final class SpawnManagerCommand extends AbstractPlayerCommand {
 
+    private static final Logger LOGGER = Logger.getLogger(SpawnManagerCommand.class.getName());
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final String KEY = "SpawnBlockSet";
 
     public SpawnManagerCommand() {
-        super("spawnmanager", "Apply spawn_manager_map.json values using current SpawnManager config");
+        super("spawnmanager", "Apply spawn_manager_map.json values using current SpawnManager config", false);
     }
 
     @Override
-    protected void executeSync(@Nonnull CommandContext context) {
+    protected void execute(
+            @Nonnull CommandContext context,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull PlayerRef playerRef,
+            @Nonnull World world
+    ) {
         try {
             SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             SpawnManagerConfig config = plugin != null ? plugin.getConfig() : null;
             if (config == null) {
-                context.sendMessage(Message.raw("[SpawnManager] Config unavailable"));
+                LOGGER.warning("[SpawnManager] /spawnmanager: Config unavailable");
                 return;
             }
 
             SpawnManagerMap mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
             if (mapping == null || mapping.mobs == null) {
-                context.sendMessage(Message.raw("[SpawnManager] Mapping unavailable or invalid"));
+                LOGGER.warning("[SpawnManager] /spawnmanager: Mapping unavailable or invalid");
                 return;
             }
 
@@ -83,9 +95,9 @@ public final class SpawnManagerCommand extends AbstractSyncCommand {
                 }
             }
 
-            context.sendMessage(Message.raw("[SpawnManager] Apply mapping done. patched=" + filesPatched + ", missingFiles=" + filesMissing + ", missingIds=" + idsMissing));
+            LOGGER.info("[SpawnManager] /spawnmanager done. patched=" + filesPatched + ", missingFiles=" + filesMissing + ", missingIds=" + idsMissing);
         } catch (Exception e) {
-            context.sendMessage(Message.raw("[SpawnManager] ERREUR: " + e.getClass().getSimpleName() + ": " + e.getMessage()));
+            LOGGER.warning("[SpawnManager] /spawnmanager error: " + e.getClass().getSimpleName() + ": " + e.getMessage());
         }
     }
 
