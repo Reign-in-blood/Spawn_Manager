@@ -92,9 +92,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         ensureStagedForDisplayedMobs();
         buildMobList(cmd, events);
 
-        // Si le BackButton ne ferme pas automatiquement dans certains builds,
-        // cet event permet au moins d'exécuter la même routine de commit.
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#BackButton", EventData.of("Action", "close"));
     }
 
     @Override
@@ -116,7 +113,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        if ("close".equals(action) || "apply".equals(action)) {
+        if ("apply".equals(action)) {
             applyPersistAndPopulate();
         }
     }
