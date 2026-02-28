@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "disabledBlockSet": "SpawnBlockSet_NotUsed",
+  "disabledBlockSet": "Volcanic",
   "mobs": {
     "Spider": {
       "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"],
