@@ -1,0 +1,22 @@
+{
+  "Environments": [
+    "Env_Zone2_Savanna"
+  ],
+  "NPCs": [
+    {
+      "Weight": 5,
+      "Id": "Catfish",
+      "Flock": "Group_Small",
+      "SpawnFluidTag": "Water"
+    },
+    {
+      "Weight": 5,
+      "Id": "Eel_Moray",
+      "SpawnFluidTag": "Water"
+    }
+  ],
+  "DayTimeRange": [
+    6,
+    24
+  ]
+}

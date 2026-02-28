@@ -1,0 +1,22 @@
+{
+  "Environments": [
+    "Env_Zone3_Glacial"
+  ],
+  "NPCs": [
+    {
+      "Weight": 5,
+      "Id": "Frostgill",
+      "Flock": "Group_Small",
+      "SpawnFluidTag": "Water"
+    },
+    {
+      "Weight": 5,
+      "Id": "Trilobite",
+      "SpawnFluidTag": "Water"
+    }
+  ],
+  "DayTimeRange": [
+    6,
+    24
+  ]
+}

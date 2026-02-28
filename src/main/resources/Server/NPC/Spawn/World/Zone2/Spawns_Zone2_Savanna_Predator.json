@@ -1,19 +1,18 @@
 {
   "Environments": [
-    "Env_Zone1_Forests",
-    "Env_Zone1_Autumn",
-    "Env_Zone1_Azure"
+    "Env_Zone2_Savanna"
   ],
   "NPCs": [
     {
       "Weight": 5,
       "SpawnBlockSet": "Soil",
-      "Id": "Bear_Grizzly"
+      "Id": "Hyena",
+      "Flock": "Pack_Small"
     },
     {
       "Weight": 5,
       "SpawnBlockSet": "Soil",
-      "Id": "Spider"
+      "Id": "Tiger_Sabertooth"
     }
   ],
   "DayTimeRange": [

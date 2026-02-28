@@ -1,0 +1,22 @@
+{
+  "Environments": [
+    "Env_Zone3_Tundra"
+  ],
+  "NPCs": [
+    {
+      "Weight": 10,
+      "Id": "Bluegill",
+      "Flock": "Group_Small",
+      "SpawnFluidTag": "Water"
+    },
+    {
+      "Weight": 10,
+      "Id": "Pike",
+      "SpawnFluidTag": "Water"
+    }
+  ],
+  "DayTimeRange": [
+    6,
+    24
+  ]
+}

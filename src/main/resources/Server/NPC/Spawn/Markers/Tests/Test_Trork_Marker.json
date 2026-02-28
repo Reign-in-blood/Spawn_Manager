@@ -1,0 +1,13 @@
+{
+  "Model": "NPC_Spawn_Marker",
+  "NPCs": [
+    {
+      "Name": "Trork_Warrior",
+      "Weight": 10,
+      "RealtimeRespawnTime": 5
+    }
+  ],
+  "ExclusionRadius": 0,
+  "RealtimeRespawn": true,
+  "DeactivationDistance": 150
+}

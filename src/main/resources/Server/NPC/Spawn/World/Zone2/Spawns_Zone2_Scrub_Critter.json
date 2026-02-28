@@ -1,21 +1,19 @@
 {
   "Environments": [
-    "Env_Zone1_Forests",
-    "Env_Zone1_Autumn",
-    "Env_Zone1_Azure"
+    "Env_Zone2_Scrub"
   ],
   "NPCs": [
     {
-      "Weight": 5,
+      "Weight": 10,
       "SpawnBlockSet": "Soil",
-      "Id": "Bear_Grizzly"
+      "Id": "Armadillo"
     },
     {
-      "Weight": 5,
+      "Weight": 10,
       "SpawnBlockSet": "Soil",
-      "Id": "Spider"
+      "Id": "Skrill"
     }
-  ],
+],
   "DayTimeRange": [
     6,
     18

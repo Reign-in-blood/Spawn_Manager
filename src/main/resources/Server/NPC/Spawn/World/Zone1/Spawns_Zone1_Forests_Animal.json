@@ -6,14 +6,16 @@
   ],
   "NPCs": [
     {
-      "Weight": 5,
+      "Weight": 20,
       "SpawnBlockSet": "Soil",
-      "Id": "Bear_Grizzly"
+      "Id": "Boar",
+      "Flock": "Group_Small"
     },
     {
-      "Weight": 5,
+      "Weight": 10,
       "SpawnBlockSet": "Soil",
-      "Id": "Spider"
+      "Id": "Bunny",
+      "Flock": "Group_Tiny"
     }
   ],
   "DayTimeRange": [

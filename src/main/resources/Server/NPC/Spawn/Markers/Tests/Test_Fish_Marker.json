@@ -1,0 +1,20 @@
+{
+  "Model": "NPC_Spawn_Marker",
+  "NPCs": [
+    {
+      "Name": "Catfish",
+      "Weight": 10,
+      "RealtimeRespawnTime": 5,
+      "Flock": {
+        "Size": [
+          1,
+          2
+        ]
+      }
+    }
+  ],
+  "ExclusionRadius": 10,
+  "RealtimeRespawn": true,
+  "MaxDropHeight": 4,
+  "DeactivationDistance": 150
+}

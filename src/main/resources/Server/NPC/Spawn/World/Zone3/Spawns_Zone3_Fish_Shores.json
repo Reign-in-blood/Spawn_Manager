@@ -1,0 +1,27 @@
+{
+  "Environments": [
+    "Env_Zone3_Shores"
+  ],
+  "NPCs": [
+    {
+      "Weight": 10,
+      "Id": "Frostgill",
+      "Flock": "Group_Small",
+      "SpawnFluidTag": "Water"
+    },
+    {
+      "Weight": 10,
+      "Id": "Trilobite",
+      "SpawnFluidTag": "Water"
+    },
+    {
+      "Weight": 10,
+      "Id": "Snapjaw",
+      "SpawnFluidTag": "Water"
+    }
+  ],
+  "DayTimeRange": [
+    6,
+    24
+  ]
+}
