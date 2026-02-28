@@ -1,0 +1,116 @@
+@FilterButtonStyle = TextButtonStyle(
+  Default: (Background: #2b3542, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #3b4552, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #1b2532, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@FilterActiveStyle = TextButtonStyle(
+  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 13, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@CollabButtonStyle = TextButtonStyle(
+  Default: (Background: #2a3545, LabelStyle: (FontSize: 13, TextColor: #7eb8d4, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #3a4555, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #1a2535, LabelStyle: (FontSize: 13, TextColor: #7eb8d4, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+Group {
+  LayoutMode: Top;
+  Background: #151e28;
+  Padding: (Full: 10);
+
+  Label {
+    Text: "Filter Mode";
+    Anchor: (Height: 18);
+    Style: (FontSize: 12, TextColor: #96a9be, RenderBold: true);
+  }
+
+  Group { Anchor: (Height: 6); }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 26);
+
+    TextButton #FilterALL {
+      Text: "ALL";
+      Anchor: (Width: 46, Height: 26);
+      Style: @FilterActiveStyle;
+    }
+
+    Group { Anchor: (Width: 3); }
+
+    TextButton #FilterPASSIVE {
+      Text: "PAS";
+      Anchor: (Width: 46, Height: 26);
+      Style: @FilterButtonStyle;
+    }
+
+    Group { Anchor: (Width: 3); }
+
+    TextButton #FilterAGGRESSIVE {
+      Text: "AGR";
+      Anchor: (Width: 46, Height: 26);
+      Style: @FilterButtonStyle;
+    }
+
+    Group { Anchor: (Width: 3); }
+
+    TextButton #FilterMONSTER {
+      Text: "MON";
+      Anchor: (Width: 46, Height: 26);
+      Style: @FilterButtonStyle;
+    }
+  }
+
+  Group { Anchor: (Height: 4); }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 26);
+
+    TextButton #FilterANIMALS {
+      Text: "ANIMALS";
+      Anchor: (Width: 96, Height: 26);
+      Style: @FilterButtonStyle;
+    }
+
+    Group { Anchor: (Width: 3); }
+
+    TextButton #FilterENEMIES {
+      Text: "ENEMIES";
+      Anchor: (Width: 96, Height: 26);
+      Style: @FilterButtonStyle;
+    }
+  }
+
+  Group { Anchor: (Height: 10); }
+
+  Label {
+    Text: "Collaborations";
+    Anchor: (Height: 16);
+    Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true);
+  }
+
+  Group { Anchor: (Height: 4); }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 26);
+
+    TextButton #SelectWildTale {
+      Text: "WildTale";
+      Anchor: (Width: 96, Height: 26);
+      Style: @CollabButtonStyle;
+    }
+
+    Group { Anchor: (Width: 3); }
+
+    TextButton #SelectTaleMon {
+      Text: "TaleMon";
+      Anchor: (Width: 96, Height: 26);
+      Style: @CollabButtonStyle;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+$C = "../Common.ui";
+
+Group { LayoutMode: Left; Anchor: (Height: 30); Padding: (Left: 4, Right: 4);
+  $C.@CheckBox #Toggle { }
+  Group { Anchor: (Width: 4); }
+  Label #Name { Text: ""; Anchor: (Width: 310, Height: 28); Style: (FontSize: 13, TextColor: #e5e7eb, VerticalAlignment: Center); }
+  Group { FlexWeight: 1; }
+  Label #Cat { Text: ""; Anchor: (Width: 80, Height: 28); Style: (FontSize: 11, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center); }
+}
