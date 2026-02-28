@@ -94,10 +94,10 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         ensureStagedForDisplayedMobs();
         buildMobList(cmd, events);
 
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"));
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"));
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"));
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"));
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
     }
 
     @Override
@@ -160,6 +160,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            rebuild();
             return;
         }
 
@@ -169,6 +170,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             if (plugin != null) {
                 CompletableFuture.runAsync(() -> plugin.triggerSpawningPopulate(player));
             }
+            rebuild();
         }
     }
 

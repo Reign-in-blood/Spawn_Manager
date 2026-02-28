@@ -38,9 +38,10 @@ public final class SpawnManagerPlugin extends JavaPlugin {
 
     public void triggerSpawningPopulate(Object preferredSender) {
         final String command = "spawning populate";
+        final Object resolvedSender = resolveSender(preferredSender);
 
         // 1) API suggérée côté user: HytaleServer.get().getCommandManager().handleCommand(...)
-        if (invokeViaHytaleServer(preferredSender, command)) {
+        if (invokeViaHytaleServer(resolvedSender, command)) {
             LOGGER.info("[SpawnManager] populate triggered via HytaleServer CommandManager");
             return;
         }
@@ -52,12 +53,37 @@ public final class SpawnManagerPlugin extends JavaPlugin {
             return;
         }
 
-        if (invokeCommandObject(registry, preferredSender, command)) {
+        if (invokeCommandObject(registry, resolvedSender, command)) {
             LOGGER.info("[SpawnManager] populate triggered via plugin CommandRegistry");
             return;
         }
 
         LOGGER.warning("[SpawnManager] populate failed: no compatible command API found for '/" + command + "'");
+    }
+
+
+    private Object resolveSender(Object preferredSender) {
+        if (preferredSender == null) return null;
+
+        // Si on reçoit déjà un sender, on le garde.
+        if (preferredSender.getClass().getSimpleName().toLowerCase().contains("sender")) {
+            return preferredSender;
+        }
+
+        for (String methodName : new String[]{"getCommandSender", "getSender", "asCommandSender"}) {
+            try {
+                Method m = preferredSender.getClass().getMethod(methodName);
+                m.setAccessible(true);
+                Object sender = m.invoke(preferredSender);
+                if (sender != null) {
+                    return sender;
+                }
+            } catch (Exception ignored) {
+                // on continue
+            }
+        }
+
+        return preferredSender;
     }
 
     private boolean invokeViaHytaleServer(Object preferredSender, String command) {
@@ -109,8 +135,8 @@ public final class SpawnManagerPlugin extends JavaPlugin {
                             return true;
                         }
                     }
-                } catch (Exception ignored) {
-                    // on tente la prochaine signature
+                } catch (Exception ex) {
+                    LOGGER.fine("[SpawnManager] command invoke failed on " + name + ": " + ex.getClass().getSimpleName());
                 }
             }
         }
