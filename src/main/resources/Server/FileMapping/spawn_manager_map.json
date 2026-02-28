@@ -1,36 +1,23 @@
 {
   "schemaVersion": 1,
-  "disabledBlockSet": "SpawnBlockSet_NotUsed",
   "mobs": {
     "Spider": {
-      "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"],
-      "world": [
-        {
-          "path": "NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
-          "originalSpawnBlockSet": "Soil"
-        },
-        {
-          "path": "NPC/Spawn/World/Zone1/Spawns_Zone1_Caves.json",
-          "originalSpawnBlockSet": "Stone"
-        }
+      "vanillaSpawnBlockSet": "Soil",
+      "replacementSpawnBlockSet": "SpawnBlockSet_NotUsed",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Caves.json"
       ],
-      "beacons": [],
-      "markers": []
+      "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"]
     },
     "Bear_Grizzly": {
-      "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"],
-      "world": [
-        {
-          "path": "NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
-          "originalSpawnBlockSet": "Soil"
-        },
-        {
-          "path": "NPC/Spawn/World/Zone1/Spawns_Zone1_Montains_Predator.json",
-          "originalSpawnBlockSet": "Soil"
-        }
+      "vanillaSpawnBlockSet": "Soil",
+      "replacementSpawnBlockSet": "SpawnBlockSet_NotUsed",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Predator.json"
       ],
-      "beacons": [],
-      "markers": []
+      "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"]
     }
   }
 }

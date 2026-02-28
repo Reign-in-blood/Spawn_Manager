@@ -25,7 +25,6 @@ import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.SpawnManagerMap;
-import com.reigninblood.spawnmanager.mapping.FileMappingLoader.WorldEntry;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -44,17 +43,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Type MAP_TYPE = new TypeToken<Map<String, String>>() {}.getType();
 
-    // UI paths (style AnimalTracker: Pages/...)
     private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
     private static final String ROW_PATH = "Pages/MobRow.ui";
-
-    // Valeurs
     private static final String KEY = "SpawnBlockSet";
 
-    // Liste affichée
     private final List<String> displayedMobs = new ArrayList<>();
-
-    // Source de vérité UI (chargée depuis config puis modifiée au toggle)
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
 
@@ -255,30 +248,29 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         for (String mobId : dirtySnapshot) {
             MobMapping mobMapping = mapping.mobs.get(mobId);
-            if (mobMapping == null || mobMapping.world == null || mobMapping.world.isEmpty()) {
-                LOGGER.warning("[SpawnManager] apply: no world mapping for mob=" + mobId);
+            if (mobMapping == null || mobMapping.files == null || mobMapping.files.isEmpty()) {
+                LOGGER.warning("[SpawnManager] apply: no file mapping for mob=" + mobId);
                 continue;
             }
 
             boolean enabled = stagedSnapshot.getOrDefault(mobId, true);
-            for (WorldEntry entry : mobMapping.world) {
-                if (entry == null || entry.path == null || entry.path.isBlank()) {
-                    LOGGER.warning("[SpawnManager] apply: invalid world entry for mob=" + mobId);
+            String targetSpawnBlockSet = enabled ? mobMapping.vanillaSpawnBlockSet : mobMapping.replacementSpawnBlockSet;
+
+            if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
+                LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId);
+                continue;
+            }
+
+            for (String mappedPath : mobMapping.files) {
+                String relativePath = normalizeMappedPath(mappedPath);
+                if (relativePath == null) {
+                    LOGGER.warning("[SpawnManager] apply: invalid path for mob=" + mobId + " raw='" + mappedPath + "'");
                     continue;
                 }
 
-                String targetSpawnBlockSet = enabled
-                        ? entry.originalSpawnBlockSet
-                        : resolveDisabledBlockSet(mapping.disabledBlockSet, mobId, entry.path);
-
-                if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
-                    LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " path=" + entry.path);
-                    continue;
-                }
-
-                Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), entry.path);
+                Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
                 if (targetFile == null) {
-                    LOGGER.warning("[SpawnManager] apply: file not found for mob=" + mobId + " path=Server/" + entry.path);
+                    LOGGER.warning("[SpawnManager] apply: file not found for mob=" + mobId + " path=Server/" + relativePath);
                     continue;
                 }
 
@@ -293,15 +285,22 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
     }
-    private static String resolveDisabledBlockSet(String desiredDisabledBlockSet, String mobId, String path) {
-        if (desiredDisabledBlockSet == null || desiredDisabledBlockSet.isBlank()) {
-            LOGGER.warning("[SpawnManager] mapping disabledBlockSet is blank for mob=" + mobId + " path=" + path);
-            return null;
+
+    private static String normalizeMappedPath(String rawPath) {
+        if (rawPath == null || rawPath.isBlank()) return null;
+
+        String normalized = rawPath.replace('\\', '/').trim();
+        if (normalized.startsWith("src/main/resources/Server/")) {
+            return normalized.substring("src/main/resources/Server/".length());
         }
-        return desiredDisabledBlockSet;
+        if (normalized.startsWith("main/resources/Server/")) {
+            return normalized.substring("main/resources/Server/".length());
+        }
+        if (normalized.startsWith("Server/")) {
+            return normalized.substring("Server/".length());
+        }
+        return normalized;
     }
-
-
 
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
@@ -330,7 +329,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         JsonObject root = el.getAsJsonObject();
 
-        // nettoyage: évite SpawnBlockSet au root
         if (root.has(KEY)) root.remove(KEY);
 
         if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return new PatchOutcome(false, false);

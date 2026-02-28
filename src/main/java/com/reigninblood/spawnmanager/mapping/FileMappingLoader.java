@@ -68,23 +68,30 @@ public final class FileMappingLoader {
     private static boolean isValid(SpawnManagerMap map) {
         if (map == null) return false;
         if (map.schemaVersion != 1) return false;
-        if (map.disabledBlockSet == null || map.disabledBlockSet.isBlank()) return false;
-        return map.mobs != null;
+        if (map.mobs == null || map.mobs.isEmpty()) return false;
+
+        for (Map.Entry<String, MobMapping> entry : map.mobs.entrySet()) {
+            String mobId = entry.getKey();
+            MobMapping mob = entry.getValue();
+            if (mobId == null || mobId.isBlank() || mob == null) return false;
+            if (mob.vanillaSpawnBlockSet == null || mob.vanillaSpawnBlockSet.isBlank()) return false;
+            if (mob.replacementSpawnBlockSet == null || mob.replacementSpawnBlockSet.isBlank()) return false;
+            if (mob.files == null || mob.files.isEmpty()) return false;
+        }
+        return true;
     }
 
     public static final class SpawnManagerMap {
         public int schemaVersion;
-        public String disabledBlockSet;
         public Map<String, MobMapping> mobs = new LinkedHashMap<>();
     }
 
     public static final class MobMapping {
-        public List<WorldEntry> world = new ArrayList<>();
-        public List<String> tags = new ArrayList<>();
-    }
+        public String vanillaSpawnBlockSet;
+        public String replacementSpawnBlockSet;
+        public List<String> files = new ArrayList<>();
 
-    public static final class WorldEntry {
-        public String path;
-        public String originalSpawnBlockSet;
+        // optionnel pour plus tard (filtrage UI)
+        public List<String> tags = new ArrayList<>();
     }
 }
