@@ -37,7 +37,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     // UI paths
     private static final String PAGE_PATH = "Custom/Pages/SpawnManagerPage.ui";
-    private static final String ROW_PATH = "Custom/Pages/SpawnRow.ui";
+    private static final String ROW_PATH = "Custom/Pages/MobRow.ui";
 
     // Fichier cible (test)
     private static final String FILE_NAME = "Spawns_Zone1_Forests_Predator.json";
