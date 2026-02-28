@@ -3,7 +3,7 @@
   "mobs": {
     "Spider": {
       "vanillaSpawnBlockSet": "Soil",
-      "replacementSpawnBlockSet": "SpawnBlockSet_NotUsed",
+      "replacementSpawnBlockSet": "Volcanic",
       "files": [
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Caves.json"
@@ -12,7 +12,7 @@
     },
     "Bear_Grizzly": {
       "vanillaSpawnBlockSet": "Soil",
-      "replacementSpawnBlockSet": "SpawnBlockSet_NotUsed",
+      "replacementSpawnBlockSet": "Volcanic",
       "files": [
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Predator.json"
