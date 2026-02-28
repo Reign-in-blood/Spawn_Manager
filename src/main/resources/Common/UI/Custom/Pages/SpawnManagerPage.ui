@@ -1,30 +1,8 @@
+SpawnManagerPage.ui
+
 $C = "../Common.ui";
 
-// Custom styles only for elements needing dynamic color changes via cmd.set()
-@FilterButtonStyle = TextButtonStyle(
-  Default: (Background: #2b3542, LabelStyle: (FontSize: 11, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #3b4552, LabelStyle: (FontSize: 11, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #1b2532, LabelStyle: (FontSize: 11, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@FilterActiveStyle = TextButtonStyle(
-  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 11, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 11, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 11, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@TabButtonStyle = TextButtonStyle(
-  Default: (Background: #151e28, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #1e293b, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a1119, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@ToggleOnStyle = TextButtonStyle(
-  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 13, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
+// Custom Styles
 @RadiusButtonStyle = TextButtonStyle(
   Default: (Background: $C.@DefaultSquareButtonDefaultBackground, LabelStyle: $C.@DefaultButtonLabelStyle),
   Hovered: (Background: $C.@DefaultSquareButtonHoveredBackground, LabelStyle: $C.@DefaultButtonLabelStyle),
@@ -56,14 +34,19 @@ $C.@PageOverlay {
         Group #LeftPane {
           FlexWeight: 1;
           LayoutMode: Top;
+          Background: #151e28;
+          Padding: (Full: 10);
 
-          Group { Anchor: (Height: 6); }
+          Label {
+            Text: "MOBS";
+            Anchor: (Height: 18);
+            Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
+          }
 
-          Group #ContentArea {
-            FlexWeight: 1;
-            Background: #151e28;
+          Group { Anchor: (Height: 8); }
+
+          Group #MobListContainer {
             LayoutMode: Top;
-            Padding: (Full: 8);
           }
         }
 
@@ -73,56 +56,22 @@ $C.@PageOverlay {
           Anchor: (Width: 420);
           LayoutMode: Top;
 
-          Group { Anchor: (Height: 8); }
-
-          Group #FilterArea {
-            LayoutMode: Top;
-          }
-
-          Group { Anchor: (Height: 8); }
-
-          Group { Anchor: (Height: 8); }
-
-          Group #SelectionSection {
+          Group #EnableSection {
             LayoutMode: Top;
             Background: #151e28;
             Padding: (Full: 10);
 
-            Group {
-              LayoutMode: Left;
+            Label {
+              Text: "SPAWN STATUS";
               Anchor: (Height: 18);
-
-              Label #SelectionTitle {
-                Text: "Select Mobs";
-                Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
-              }
-
-              Group { FlexWeight: 1; }
-
-              Label #ItemCount {
-                Text: "(0)";
-                Anchor: (Width: 80, Height: 18);
-                Style: (FontSize: 11, TextColor: #5a7a8a, HorizontalAlignment: Center);
-              }
+              Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
             }
 
             Group { Anchor: (Height: 6); }
 
-            Group {
-              LayoutMode: Left;
+            TextButton #EnableToggle {
+              Text: "ENABLED";
               Anchor: (Height: 36);
-
-              $C.@TextButton #SelectAllButton {
-                @Text = "Select All";
-                Anchor: (Width: 160, Height: 34);
-              }
-
-              Group { Anchor: (Width: 4); }
-
-              $C.@SecondaryTextButton #ClearAllButton {
-                @Text = "Clear All";
-                Anchor: (Width: 160, Height: 34);
-              }
             }
           }
         }
@@ -130,5 +79,3 @@ $C.@PageOverlay {
     }
   }
 }
-
-$C.@BackButton {}
