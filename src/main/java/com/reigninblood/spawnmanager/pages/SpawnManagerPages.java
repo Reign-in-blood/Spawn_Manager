@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
 import com.hypixel.hytale.assetstore.AssetPack;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -20,6 +19,8 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.reigninblood.spawnmanager.SpawnManagerPlugin;
+import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -29,13 +30,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.logging.Logger;
 
 public final class SpawnManagerPages extends BasicCustomUIPage {
 
+    private static final Logger LOGGER = Logger.getLogger(SpawnManagerPages.class.getName());
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Type MAP_TYPE = new TypeToken<Map<String, String>>() {}.getType();
 
-    // UI paths
+    // UI paths (style AnimalTracker: Pages/...)
     private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
     private static final String ROW_PATH = "Pages/MobRow.ui";
 
@@ -54,44 +57,44 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     // Liste affichée (test)
     private final List<String> displayedMobs = new ArrayList<>();
 
-    // staging
+    // Source de vérité UI (chargée depuis config puis modifiée au toggle)
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
+
+    private final SpawnManagerConfig config;
 
     public SpawnManagerPages(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismiss);
 
+        SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+        this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
+
         // test list
         displayedMobs.add("Spider");
         displayedMobs.add("Bear_Grizzly");
+
+        initializeFromConfig();
     }
 
-    /**
-     * OBLIGATOIRE: BasicCustomUIPage exige cette méthode.
-     * On met juste la page (sans events).
-     * (La vraie build avec events est dans l'override ci-dessous.)
-     */
     @Override
     public void build(@Nonnull UICommandBuilder cmd) {
         cmd.append(PAGE_PATH);
     }
 
-    /**
-     * Build complet (avec events) — ici tu peux faire comme AnimalTracker.
-     */
     @Override
     public void build(@Nonnull Ref<EntityStore> ref,
                       @Nonnull UICommandBuilder cmd,
                       @Nonnull UIEventBuilder events,
                       @Nonnull Store<EntityStore> store) {
 
-        // On construit nous-même tout (et on ne dépend pas de build(cmd) ici)
         cmd.append(PAGE_PATH);
 
+        ensureStagedForDisplayedMobs();
         buildMobList(cmd, events);
 
-        // Si tu veux un bouton "Apply" plus tard:
-        // events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"));
+        // Si le BackButton ne ferme pas automatiquement dans certains builds,
+        // cet event permet au moins d'exécuter la même routine de commit.
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#BackButton", EventData.of("Action", "close"));
     }
 
     @Override
@@ -113,14 +116,26 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        if ("apply".equals(action)) {
-            applyChanges();
+        if ("close".equals(action) || "apply".equals(action)) {
+            applyPersistAndPopulate();
         }
     }
 
     @Override
     public void onDismiss(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
-        applyChanges();
+        applyPersistAndPopulate();
+    }
+
+    private void initializeFromConfig() {
+        Set<String> disabled = config.getDisabledMobsSnapshot();
+        LOGGER.info("[SpawnManager] UI open: disabledMobs loaded=" + disabled.size());
+        ensureStagedForDisplayedMobs();
+    }
+
+    private void ensureStagedForDisplayedMobs() {
+        for (String mobId : displayedMobs) {
+            stagedEnabled.putIfAbsent(mobId, config.isEnabled(mobId));
+        }
     }
 
     private void buildMobList(UICommandBuilder cmd, UIEventBuilder events) {
@@ -129,7 +144,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         for (int i = 0; i < displayedMobs.size(); i++) {
             String mobId = displayedMobs.get(i);
 
-            boolean enabled = stagedEnabled.getOrDefault(mobId, true);
+            boolean enabled = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
 
             String itemPath = "#MobListContainer[" + i + "]";
             cmd.append("#MobListContainer", ROW_PATH);
@@ -152,30 +167,47 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return s.equalsIgnoreCase("true") || s.equals("1") || s.equalsIgnoreCase("yes");
     }
 
+    private void applyPersistAndPopulate() {
+        int dirtyCount = dirty.size();
+        LOGGER.info("[SpawnManager] UI close: dirty mobs=" + dirtyCount);
+
+        applyChanges();
+
+        for (Map.Entry<String, Boolean> e : stagedEnabled.entrySet()) {
+            config.setEnabled(e.getKey(), e.getValue());
+        }
+        config.save();
+
+        SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+        if (plugin != null) {
+            plugin.triggerSpawningPopulate();
+            LOGGER.info("[SpawnManager] UI close: save + populate triggered");
+        } else {
+            LOGGER.warning("[SpawnManager] UI close: config saved, populate skipped (plugin unavailable)");
+        }
+
+        dirty.clear();
+    }
+
     private void applyChanges() {
         // phase test: on applique uniquement Spider
         if (!dirty.contains(TARGET_ID)) {
-            dirty.clear();
             return;
         }
 
         Boolean enabled = stagedEnabled.get(TARGET_ID);
         if (enabled == null) {
-            dirty.clear();
             return;
         }
 
         try {
             Path targetFile = locateTargetInAssetPacks(AssetModule.get());
             if (targetFile == null) {
-                dirty.clear();
                 return;
             }
 
             setMobEnabledInFile(targetFile, TARGET_ID, enabled);
         } catch (Exception ignored) {
-        } finally {
-            dirty.clear();
         }
     }
 
