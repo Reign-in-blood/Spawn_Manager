@@ -36,10 +36,10 @@ public final class SpawnManagerCommand extends CommandBase {
     // Toggle valeurs
     private static final String KEY = "SpawnBlockSet";
     private static final String ON_VALUE = "Soil";
-    private static final String OFF_VALUE = "Volcanic";
+    private static final String OFF_VALUE = "SpawnBlockSet_NotUsed";
 
     public SpawnManagerCommand() {
-        super("spawnmanager", "Toggle Spider SpawnBlockSet Soil <-> Volcanic dans " + FILE_NAME);
+        super("spawnmanager", "Toggle Spider SpawnBlockSet Soil <-> SpawnBlockSet_NotUsed dans " + FILE_NAME);
     }
 
     @Override

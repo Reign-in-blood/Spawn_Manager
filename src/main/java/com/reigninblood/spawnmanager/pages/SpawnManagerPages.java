@@ -54,7 +54,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     // Valeurs
     private static final String KEY = "SpawnBlockSet";
     private static final String ENABLED_VALUE = "Soil";
-    private static final String DISABLED_VALUE = "Volcanic";
+    private static final String DISABLED_VALUE = "SpawnBlockSet_NotUsed";
 
     // Liste affichée (test)
     private final List<String> displayedMobs = new ArrayList<>();
