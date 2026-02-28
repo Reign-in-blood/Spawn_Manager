@@ -13,6 +13,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.asset.AssetModule;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.BasicCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
@@ -30,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 public final class SpawnManagerPages extends BasicCustomUIPage {
@@ -111,46 +113,76 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             boolean value = parseBool(data.get("@ValueBool"));
 
             if (mobId != null) {
-                stagedEnabled.put(mobId, value);
-                dirty.add(mobId);
+                synchronized (stagedEnabled) {
+                    stagedEnabled.put(mobId, value);
+                }
+                synchronized (dirty) {
+                    dirty.add(mobId);
+                }
             }
             return;
         }
 
         if ("selectAll".equals(action)) {
-            for (String mobId : displayedMobs) {
-                stagedEnabled.put(mobId, true);
-                dirty.add(mobId);
+            synchronized (stagedEnabled) {
+                for (String mobId : displayedMobs) {
+                    stagedEnabled.put(mobId, true);
+                }
+            }
+            synchronized (dirty) {
+                dirty.addAll(displayedMobs);
             }
             rebuild();
             return;
         }
 
         if ("clearAll".equals(action)) {
-            for (String mobId : displayedMobs) {
-                stagedEnabled.put(mobId, false);
-                dirty.add(mobId);
+            synchronized (stagedEnabled) {
+                for (String mobId : displayedMobs) {
+                    stagedEnabled.put(mobId, false);
+                }
+            }
+            synchronized (dirty) {
+                dirty.addAll(displayedMobs);
             }
             rebuild();
             return;
         }
 
         if ("apply".equals(action)) {
-            applyAndSave();
+            final Map<String, Boolean> snapshot;
+            final Set<String> dirtySnapshot;
+            synchronized (stagedEnabled) {
+                snapshot = new HashMap<>(stagedEnabled);
+            }
+            synchronized (dirty) {
+                dirtySnapshot = new HashSet<>(dirty);
+            }
+
+            CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
             return;
         }
 
         if ("reloadNpc".equals(action)) {
+            Player player = store.getComponent(ref, Player.getComponentType());
             SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             if (plugin != null) {
-                plugin.triggerSpawningPopulate();
+                CompletableFuture.runAsync(() -> plugin.triggerSpawningPopulate(player));
             }
         }
     }
 
     @Override
     public void onDismiss(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
-        applyAndSave();
+        final Map<String, Boolean> snapshot;
+        final Set<String> dirtySnapshot;
+        synchronized (stagedEnabled) {
+            snapshot = new HashMap<>(stagedEnabled);
+        }
+        synchronized (dirty) {
+            dirtySnapshot = new HashSet<>(dirty);
+        }
+        CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
     }
 
     private void initializeFromConfig() {
@@ -194,27 +226,29 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return s.equalsIgnoreCase("true") || s.equals("1") || s.equalsIgnoreCase("yes");
     }
 
-    private void applyAndSave() {
-        int dirtyCount = dirty.size();
-        LOGGER.info("[SpawnManager] UI close/apply: dirty mobs=" + dirtyCount);
+    private void applyAndSave(Map<String, Boolean> stagedSnapshot, Set<String> dirtySnapshot) {
+        int dirtyCount = dirtySnapshot.size();
+        LOGGER.info("[SpawnManager] UI close/apply async: dirty mobs=" + dirtyCount);
 
-        applyChanges();
+        applyChanges(stagedSnapshot, dirtySnapshot);
 
-        for (Map.Entry<String, Boolean> e : stagedEnabled.entrySet()) {
+        for (Map.Entry<String, Boolean> e : stagedSnapshot.entrySet()) {
             config.setEnabled(e.getKey(), e.getValue());
         }
         config.save();
 
-        dirty.clear();
+        synchronized (dirty) {
+            dirty.removeAll(dirtySnapshot);
+        }
     }
 
-    private void applyChanges() {
+    private void applyChanges(Map<String, Boolean> stagedSnapshot, Set<String> dirtySnapshot) {
         // phase test: on applique uniquement Spider
-        if (!dirty.contains(TARGET_ID)) {
+        if (!dirtySnapshot.contains(TARGET_ID)) {
             return;
         }
 
-        Boolean enabled = stagedEnabled.get(TARGET_ID);
+        Boolean enabled = stagedSnapshot.get(TARGET_ID);
         if (enabled == null) {
             return;
         }
