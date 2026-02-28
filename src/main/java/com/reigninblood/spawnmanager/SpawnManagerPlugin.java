@@ -1,7 +1,6 @@
 package com.reigninblood.spawnmanager;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
-import com.reigninblood.spawnmanager.command.SpawnManagerCommand;
 import com.reigninblood.spawnmanager.command.SpawnManagerUICommand;
 import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 
@@ -32,7 +31,6 @@ public final class SpawnManagerPlugin extends JavaPlugin {
     @Override
     protected void start() {
         config.load();
-        getCommandRegistry().registerCommand(new SpawnManagerCommand());
         getCommandRegistry().registerCommand(new SpawnManagerUICommand());
     }
 
