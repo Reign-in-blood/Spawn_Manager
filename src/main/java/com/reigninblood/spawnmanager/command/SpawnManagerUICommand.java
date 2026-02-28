@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 public final class SpawnManagerUICommand extends AbstractPlayerCommand {
 
     public SpawnManagerUICommand() {
-        super("spawnmanagerui", "Opens Spawn Manager UI", false);
+        super("spawnmanager", "Opens Spawn Manager UI", false);
     }
 
     @Override
