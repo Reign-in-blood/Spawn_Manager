@@ -43,6 +43,27 @@ $C.@PageOverlay {
 
           Group { Anchor: (Height: 8); }
 
+          Group { Anchor: (Height: 6); }
+
+          Group {
+            LayoutMode: Left;
+            Anchor: (Height: 36);
+
+            $C.@TextButton #SelectAllButton {
+              @Text = "Select All";
+              Anchor: (Width: 160, Height: 34);
+            }
+
+            Group { Anchor: (Width: 4); }
+
+            $C.@SecondaryTextButton #ClearAllButton {
+              @Text = "Clear All";
+              Anchor: (Width: 160, Height: 34);
+            }
+          }
+
+          Group { Anchor: (Height: 8); }
+
           Group #MobListContainer {
             LayoutMode: Top;
           }
@@ -70,6 +91,20 @@ $C.@PageOverlay {
             TextButton #EnableToggle {
               Text: "ENABLED";
               Anchor: (Height: 36);
+            }
+
+            Group { Anchor: (Height: 8); }
+
+            $C.@TextButton #ApplyButton {
+              @Text = "Apply";
+              Anchor: (Width: 160, Height: 34);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            $C.@SecondaryTextButton #ReloadNpcButton {
+              @Text = "Reload NPC";
+              Anchor: (Width: 160, Height: 34);
             }
           }
         }

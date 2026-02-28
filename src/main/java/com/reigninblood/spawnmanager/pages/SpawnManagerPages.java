@@ -92,6 +92,10 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         ensureStagedForDisplayedMobs();
         buildMobList(cmd, events);
 
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"));
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"));
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"));
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"));
     }
 
     @Override
@@ -113,14 +117,40 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
+        if ("selectAll".equals(action)) {
+            for (String mobId : displayedMobs) {
+                stagedEnabled.put(mobId, true);
+                dirty.add(mobId);
+            }
+            rebuild();
+            return;
+        }
+
+        if ("clearAll".equals(action)) {
+            for (String mobId : displayedMobs) {
+                stagedEnabled.put(mobId, false);
+                dirty.add(mobId);
+            }
+            rebuild();
+            return;
+        }
+
         if ("apply".equals(action)) {
-            applyPersistAndPopulate();
+            applyAndSave();
+            return;
+        }
+
+        if ("reloadNpc".equals(action)) {
+            SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+            if (plugin != null) {
+                plugin.triggerSpawningPopulate();
+            }
         }
     }
 
     @Override
     public void onDismiss(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
-        applyPersistAndPopulate();
+        applyAndSave();
     }
 
     private void initializeFromConfig() {
@@ -164,9 +194,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return s.equalsIgnoreCase("true") || s.equals("1") || s.equalsIgnoreCase("yes");
     }
 
-    private void applyPersistAndPopulate() {
+    private void applyAndSave() {
         int dirtyCount = dirty.size();
-        LOGGER.info("[SpawnManager] UI close: dirty mobs=" + dirtyCount);
+        LOGGER.info("[SpawnManager] UI close/apply: dirty mobs=" + dirtyCount);
 
         applyChanges();
 
@@ -174,14 +204,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             config.setEnabled(e.getKey(), e.getValue());
         }
         config.save();
-
-        SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
-        if (plugin != null) {
-            plugin.triggerSpawningPopulate();
-            LOGGER.info("[SpawnManager] UI close: save + populate triggered");
-        } else {
-            LOGGER.warning("[SpawnManager] UI close: config saved, populate skipped (plugin unavailable)");
-        }
 
         dirty.clear();
     }
