@@ -7,19 +7,21 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
 import com.hypixel.hytale.assetstore.AssetPack;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.asset.AssetModule;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.BasicCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.reigninblood.spawnmanager.SpawnManagerPlugin;
+import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -29,15 +31,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public final class SpawnManagerPages extends BasicCustomUIPage {
 
+    private static final Logger LOGGER = Logger.getLogger(SpawnManagerPages.class.getName());
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Type MAP_TYPE = new TypeToken<Map<String, String>>() {}.getType();
 
-    // UI paths
-    private static final String PAGE_PATH = "Custom/Pages/SpawnManagerPage.ui";
-    private static final String ROW_PATH = "Custom/Pages/SpawnRow.ui";
+    // UI paths (style AnimalTracker: Pages/...)
+    private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
+    private static final String ROW_PATH = "Pages/MobRow.ui";
 
     // Fichier cible (test)
     private static final String FILE_NAME = "Spawns_Zone1_Forests_Predator.json";
@@ -49,49 +54,50 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     // Valeurs
     private static final String KEY = "SpawnBlockSet";
     private static final String ENABLED_VALUE = "Soil";
-    private static final String DISABLED_VALUE = "Volcanic";
+    private static final String DISABLED_VALUE = "SpawnBlockSet_NotUsed";
 
     // Liste affichée (test)
     private final List<String> displayedMobs = new ArrayList<>();
 
-    // staging
+    // Source de vérité UI (chargée depuis config puis modifiée au toggle)
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
+
+    private final SpawnManagerConfig config;
 
     public SpawnManagerPages(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismiss);
 
+        SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+        this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
+
         // test list
         displayedMobs.add("Spider");
         displayedMobs.add("Bear_Grizzly");
+
+        initializeFromConfig();
     }
 
-    /**
-     * OBLIGATOIRE: BasicCustomUIPage exige cette méthode.
-     * On met juste la page (sans events).
-     * (La vraie build avec events est dans l'override ci-dessous.)
-     */
     @Override
     public void build(@Nonnull UICommandBuilder cmd) {
         cmd.append(PAGE_PATH);
     }
 
-    /**
-     * Build complet (avec events) — ici tu peux faire comme AnimalTracker.
-     */
     @Override
     public void build(@Nonnull Ref<EntityStore> ref,
                       @Nonnull UICommandBuilder cmd,
                       @Nonnull UIEventBuilder events,
                       @Nonnull Store<EntityStore> store) {
 
-        // On construit nous-même tout (et on ne dépend pas de build(cmd) ici)
         cmd.append(PAGE_PATH);
 
+        ensureStagedForDisplayedMobs();
         buildMobList(cmd, events);
 
-        // Si tu veux un bouton "Apply" plus tard:
-        // events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"));
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
     }
 
     @Override
@@ -107,20 +113,90 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             boolean value = parseBool(data.get("@ValueBool"));
 
             if (mobId != null) {
-                stagedEnabled.put(mobId, value);
-                dirty.add(mobId);
+                synchronized (stagedEnabled) {
+                    stagedEnabled.put(mobId, value);
+                }
+                synchronized (dirty) {
+                    dirty.add(mobId);
+                }
             }
             return;
         }
 
+        if ("selectAll".equals(action)) {
+            synchronized (stagedEnabled) {
+                for (String mobId : displayedMobs) {
+                    stagedEnabled.put(mobId, true);
+                }
+            }
+            synchronized (dirty) {
+                dirty.addAll(displayedMobs);
+            }
+            rebuild();
+            return;
+        }
+
+        if ("clearAll".equals(action)) {
+            synchronized (stagedEnabled) {
+                for (String mobId : displayedMobs) {
+                    stagedEnabled.put(mobId, false);
+                }
+            }
+            synchronized (dirty) {
+                dirty.addAll(displayedMobs);
+            }
+            rebuild();
+            return;
+        }
+
         if ("apply".equals(action)) {
-            applyChanges();
+            final Map<String, Boolean> snapshot;
+            final Set<String> dirtySnapshot;
+            synchronized (stagedEnabled) {
+                snapshot = new HashMap<>(stagedEnabled);
+            }
+            synchronized (dirty) {
+                dirtySnapshot = new HashSet<>(dirty);
+            }
+
+            CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            rebuild();
+            return;
+        }
+
+        if ("reloadNpc".equals(action)) {
+            Player player = store.getComponent(ref, Player.getComponentType());
+            SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+            if (plugin != null) {
+                CompletableFuture.runAsync(() -> plugin.triggerSpawningPopulate(player));
+            }
+            rebuild();
         }
     }
 
     @Override
     public void onDismiss(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
-        applyChanges();
+        final Map<String, Boolean> snapshot;
+        final Set<String> dirtySnapshot;
+        synchronized (stagedEnabled) {
+            snapshot = new HashMap<>(stagedEnabled);
+        }
+        synchronized (dirty) {
+            dirtySnapshot = new HashSet<>(dirty);
+        }
+        CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+    }
+
+    private void initializeFromConfig() {
+        Set<String> disabled = config.getDisabledMobsSnapshot();
+        LOGGER.info("[SpawnManager] UI open: disabledMobs loaded=" + disabled.size());
+        ensureStagedForDisplayedMobs();
+    }
+
+    private void ensureStagedForDisplayedMobs() {
+        for (String mobId : displayedMobs) {
+            stagedEnabled.putIfAbsent(mobId, config.isEnabled(mobId));
+        }
     }
 
     private void buildMobList(UICommandBuilder cmd, UIEventBuilder events) {
@@ -129,7 +205,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         for (int i = 0; i < displayedMobs.size(); i++) {
             String mobId = displayedMobs.get(i);
 
-            boolean enabled = stagedEnabled.getOrDefault(mobId, true);
+            boolean enabled = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
 
             String itemPath = "#MobListContainer[" + i + "]";
             cmd.append("#MobListContainer", ROW_PATH);
@@ -152,30 +228,41 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return s.equalsIgnoreCase("true") || s.equals("1") || s.equalsIgnoreCase("yes");
     }
 
-    private void applyChanges() {
+    private void applyAndSave(Map<String, Boolean> stagedSnapshot, Set<String> dirtySnapshot) {
+        int dirtyCount = dirtySnapshot.size();
+        LOGGER.info("[SpawnManager] UI close/apply async: dirty mobs=" + dirtyCount);
+
+        applyChanges(stagedSnapshot, dirtySnapshot);
+
+        for (Map.Entry<String, Boolean> e : stagedSnapshot.entrySet()) {
+            config.setEnabled(e.getKey(), e.getValue());
+        }
+        config.save();
+
+        synchronized (dirty) {
+            dirty.removeAll(dirtySnapshot);
+        }
+    }
+
+    private void applyChanges(Map<String, Boolean> stagedSnapshot, Set<String> dirtySnapshot) {
         // phase test: on applique uniquement Spider
-        if (!dirty.contains(TARGET_ID)) {
-            dirty.clear();
+        if (!dirtySnapshot.contains(TARGET_ID)) {
             return;
         }
 
-        Boolean enabled = stagedEnabled.get(TARGET_ID);
+        Boolean enabled = stagedSnapshot.get(TARGET_ID);
         if (enabled == null) {
-            dirty.clear();
             return;
         }
 
         try {
             Path targetFile = locateTargetInAssetPacks(AssetModule.get());
             if (targetFile == null) {
-                dirty.clear();
                 return;
             }
 
             setMobEnabledInFile(targetFile, TARGET_ID, enabled);
         } catch (Exception ignored) {
-        } finally {
-            dirty.clear();
         }
     }
 

@@ -12,7 +12,7 @@
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "SpawnBlockSet_NotUsed",
       "Id": "Spider"
     }
   ],
