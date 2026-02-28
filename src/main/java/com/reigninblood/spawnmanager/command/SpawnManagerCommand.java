@@ -7,10 +7,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hypixel.hytale.assetstore.AssetPack;
-import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.protocol.Message;
 import com.hypixel.hytale.server.core.asset.AssetModule;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
-import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractSyncCommand;
+import com.reigninblood.spawnmanager.SpawnManagerPlugin;
+import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader.SpawnManagerMap;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader.WorldEntry;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -18,161 +24,127 @@ import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 
-public final class SpawnManagerCommand extends CommandBase {
+public final class SpawnManagerCommand extends AbstractSyncCommand {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-    // Fichier cible (test)
-    private static final String FILE_NAME = "Spawns_Zone1_Forests_Predator.json";
-    private static final String RELATIVE_UNDER_SERVER = "NPC/Spawn/World/Zone1/" + FILE_NAME;
-
-    // Cible unique
-    private static final String TARGET_ID = "Spider";
-
-    // Toggle valeurs
     private static final String KEY = "SpawnBlockSet";
-    private static final String ON_VALUE = "Soil";
-    private static final String OFF_VALUE = "Volcanic";
 
     public SpawnManagerCommand() {
-        super("spawnmanager", "Toggle Spider SpawnBlockSet Soil <-> Volcanic dans " + FILE_NAME);
+        super("spawnmanager", "Apply spawn_manager_map.json values using current SpawnManager config");
     }
 
     @Override
     protected void executeSync(@Nonnull CommandContext context) {
         try {
-            AssetModule assetModule = AssetModule.get();
-            if (assetModule == null) {
-                context.sendMessage(Message.raw("[SpawnManager] AssetModule.get() == null"));
+            SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
+            SpawnManagerConfig config = plugin != null ? plugin.getConfig() : null;
+            if (config == null) {
+                context.sendMessage(Message.raw("[SpawnManager] Config unavailable"));
                 return;
             }
 
-            LocateResult locate = locateTargetInAssetPacks(assetModule);
-            if (locate.target == null) {
-                context.sendMessage(Message.raw("[SpawnManager] Fichier introuvable: Server/" + RELATIVE_UNDER_SERVER));
-                for (String line : locate.debugLines) {
-                    context.sendMessage(Message.raw(" - " + line));
+            SpawnManagerMap mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
+            if (mapping == null || mapping.mobs == null) {
+                context.sendMessage(Message.raw("[SpawnManager] Mapping unavailable or invalid"));
+                return;
+            }
+
+            int filesPatched = 0;
+            int filesMissing = 0;
+            int idsMissing = 0;
+
+            for (var entry : mapping.mobs.entrySet()) {
+                String mobId = entry.getKey();
+                MobMapping mobMapping = entry.getValue();
+                if (mobMapping == null || mobMapping.world == null) continue;
+
+                boolean enabled = config.isEnabled(mobId);
+                for (WorldEntry worldEntry : mobMapping.world) {
+                    if (worldEntry == null || worldEntry.path == null || worldEntry.path.isBlank()) continue;
+
+                    String value = enabled ? worldEntry.originalSpawnBlockSet : mapping.disabledBlockSet;
+                    if (value == null || value.isBlank()) continue;
+
+                    Path file = locateWorldPathInAssetPacks(AssetModule.get(), worldEntry.path);
+                    if (file == null) {
+                        filesMissing++;
+                        continue;
+                    }
+
+                    PatchOutcome outcome = setMobSpawnBlockSetInFile(file, mobId, value);
+                    if (!outcome.foundMobId) {
+                        idsMissing++;
+                    }
+                    if (outcome.modified) {
+                        filesPatched++;
+                    }
                 }
-                return;
             }
 
-            Path target = locate.target;
-
-            PatchResult res = toggleOnlySpider(target);
-
-            context.sendMessage(Message.raw("[SpawnManager] Target = " + target));
-
-            if (!res.foundSpider) {
-                context.sendMessage(Message.raw("[SpawnManager] Spider introuvable dans NPCs[]. IDs présents: " + String.join(", ", res.knownIds)));
-                return;
-            }
-
-            context.sendMessage(Message.raw("[SpawnManager] Spider SpawnBlockSet: " + res.before + " -> " + res.after));
-
+            context.sendMessage(Message.raw("[SpawnManager] Apply mapping done. patched=" + filesPatched + ", missingFiles=" + filesMissing + ", missingIds=" + idsMissing));
         } catch (Exception e) {
             context.sendMessage(Message.raw("[SpawnManager] ERREUR: " + e.getClass().getSimpleName() + ": " + e.getMessage()));
         }
     }
 
-    private static PatchResult toggleOnlySpider(Path file) throws IOException {
-        String json = Files.readString(file);
-        JsonElement el = JsonParser.parseString(json);
+    private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
+        if (assetModule == null || relativeUnderServer == null) return null;
 
-        if (!el.isJsonObject()) throw new IOException("JSON root n'est pas un objet: " + file);
-        JsonObject root = el.getAsJsonObject();
-
-        // Nettoyage: supprime un SpawnBlockSet root (si ajouté par une ancienne version)
-        if (root.has(KEY)) root.remove(KEY);
-
-        if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) {
-            throw new IOException("Champ 'NPCs' manquant ou non-array: " + file);
-        }
-
-        JsonArray npcs = root.getAsJsonArray("NPCs");
-
-        List<String> knownIds = new ArrayList<>();
-        boolean found = false;
-        String before = null;
-        String after = null;
-
-        // 1) match exact d'abord
-        for (JsonElement npcEl : npcs) {
-            if (!npcEl.isJsonObject()) continue;
-            JsonObject npc = npcEl.getAsJsonObject();
-            String id = getId(npc);
-            if (id != null) knownIds.add(id);
-
-            if (TARGET_ID.equals(id)) {
-                found = true;
-                before = getSpawnBlockSet(npc);
-                after = ON_VALUE.equals(before) ? OFF_VALUE : ON_VALUE;
-                npc.addProperty(KEY, after);
-                break;
-            }
-        }
-
-        // 2) fallback case-insensitive si pas trouvé
-        if (!found) {
-            String targetLower = TARGET_ID.toLowerCase(Locale.ROOT);
-            for (JsonElement npcEl : npcs) {
-                if (!npcEl.isJsonObject()) continue;
-                JsonObject npc = npcEl.getAsJsonObject();
-                String id = getId(npc);
-                if (id == null) continue;
-
-                if (id.toLowerCase(Locale.ROOT).equals(targetLower)) {
-                    found = true;
-                    before = getSpawnBlockSet(npc);
-                    after = ON_VALUE.equals(before) ? OFF_VALUE : ON_VALUE;
-                    npc.addProperty(KEY, after);
-                    break;
-                }
-            }
-        }
-
-        if (found) {
-            writeAtomic(file, GSON.toJson(root));
-        }
-
-        return new PatchResult(found, before, after, knownIds);
-    }
-
-    private static String getId(JsonObject npc) {
-        if (!npc.has("Id") || !npc.get("Id").isJsonPrimitive()) return null;
-        return npc.get("Id").getAsString();
-    }
-
-    private static String getSpawnBlockSet(JsonObject npc) {
-        if (!npc.has(KEY) || !npc.get(KEY).isJsonPrimitive()) return null;
-        return npc.get(KEY).getAsString();
-    }
-
-    private static LocateResult locateTargetInAssetPacks(AssetModule assetModule) {
-        List<String> debug = new ArrayList<>();
         Path foundMutable = null;
         Path foundAny = null;
 
-        List<AssetPack> packs = assetModule.getAssetPacks();
-        debug.add("assetPacks=" + packs.size());
-
-        for (AssetPack pack : packs) {
+        for (AssetPack pack : assetModule.getAssetPacks()) {
             Path root = pack.getRoot();
             boolean immutable = pack.isImmutable();
 
-            Path candidate = root.resolve("Server").resolve(RELATIVE_UNDER_SERVER).normalize();
-            debug.add(pack.getName() + " | immutable=" + immutable + " | root=" + root + " | candidate=" + candidate);
-
+            Path candidate = root.resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
                 if (!immutable && foundMutable == null) foundMutable = candidate;
                 if (foundAny == null) foundAny = candidate;
             }
         }
 
-        return new LocateResult(foundMutable != null ? foundMutable : foundAny, debug);
+        return (foundMutable != null) ? foundMutable : foundAny;
+    }
+
+    private static PatchOutcome setMobSpawnBlockSetInFile(Path file, String mobId, String spawnBlockSetValue) throws IOException {
+        String json = Files.readString(file);
+        JsonElement el = JsonParser.parseString(json);
+        if (!el.isJsonObject()) return new PatchOutcome(false, false);
+
+        JsonObject root = el.getAsJsonObject();
+        if (root.has(KEY)) root.remove(KEY);
+
+        if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return new PatchOutcome(false, false);
+        JsonArray npcs = root.getAsJsonArray("NPCs");
+
+        boolean found = false;
+        boolean modified = false;
+
+        for (JsonElement npcEl : npcs) {
+            if (!npcEl.isJsonObject()) continue;
+            JsonObject npc = npcEl.getAsJsonObject();
+            if (!npc.has("Id") || !npc.get("Id").isJsonPrimitive()) continue;
+
+            String id = npc.get("Id").getAsString();
+            if (mobId.equals(id)) {
+                found = true;
+                String before = npc.has(KEY) && npc.get(KEY).isJsonPrimitive() ? npc.get(KEY).getAsString() : null;
+                if (!Objects.equals(before, spawnBlockSetValue)) {
+                    npc.addProperty(KEY, spawnBlockSetValue);
+                    modified = true;
+                }
+                break;
+            }
+        }
+
+        if (modified) {
+            writeAtomic(file, GSON.toJson(root));
+        }
+
+        return new PatchOutcome(found, modified);
     }
 
     private static void writeAtomic(Path target, String content) throws IOException {
@@ -186,6 +158,5 @@ public final class SpawnManagerCommand extends CommandBase {
         }
     }
 
-    private record LocateResult(Path target, List<String> debugLines) {}
-    private record PatchResult(boolean foundSpider, String before, String after, List<String> knownIds) {}
+    private record PatchOutcome(boolean foundMobId, boolean modified) {}
 }
