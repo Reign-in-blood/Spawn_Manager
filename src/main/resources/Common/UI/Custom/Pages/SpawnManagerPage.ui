@@ -53,13 +53,7 @@ $C.@PageOverlay {
           Background: #151e28;
           Padding: (Full: 10);
 
-          Label {
-            Text: "MOBS";
-            Anchor: (Height: 18);
-            Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
-          }
-
-          Group { Anchor: (Height: 8); }
+          Group { Anchor: (Height: 6); }
 
           Group {
             LayoutMode: Left;
@@ -75,7 +69,7 @@ $C.@PageOverlay {
 
             $C.@TextButton #SearchBtn {
               @Text = "Search";
-              Anchor: (Width: 110, Height: 34);
+              Anchor: (Width: 120, Height: 34);
             }
 
             Group { Anchor: (Width: 4); }
@@ -86,7 +80,7 @@ $C.@PageOverlay {
             }
           }
 
-          Group { Anchor: (Height: 8); }
+          Group { Anchor: (Height: 10); }
 
           Group #MobListContainer {
             LayoutMode: TopScrolling;
@@ -203,20 +197,6 @@ $C.@PageOverlay {
                 TextButton #FilterSpiritOn { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
-            Group { Anchor: (Height: 4); }
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterDinosaursOff { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterDinosaursOn { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-            }
 
             Group { Anchor: (Height: 4); }
             Group {
@@ -237,6 +217,21 @@ $C.@PageOverlay {
                 TextButton #FilterOtherOn { Text: "Other"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
+
+                        Group { Anchor: (Height: 4); }
+                        Group {
+                          LayoutMode: Left;
+                          Anchor: (Height: 26);
+                          Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                            TextButton #FilterDinosaursOff { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                            TextButton #FilterDinosaursOn { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                          }
+                          Group { Anchor: (Width: 4); }
+                          Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                            TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                            TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                          }
+                        }
 
             Group { Anchor: (Height: 8); }
 
@@ -319,7 +314,7 @@ $C.@PageOverlay {
               }
             }
 
-            Group { Anchor: (Height: 10); }
+            Group { Anchor: (Height: 25); }
 
             Group {
               LayoutMode: Left;
@@ -342,24 +337,24 @@ $C.@PageOverlay {
           Group { FlexWeight: 1; }
 
           Group #BulkSelectionSection {
-            LayoutMode: Top;
+            LayoutMode: Middle;
             Background: #151e28;
             Padding: (Full: 10);
 
             Group {
               LayoutMode: Left;
-              Anchor: (Height: 26);
+              Anchor: (Width: 328, Height: 34);
 
               $C.@TextButton #SelectAllButton {
                 @Text = "Select All";
-                Anchor: (Width: 96, Height: 26);
+                Anchor: (Width: 160, Height: 34);
               }
 
               Group { Anchor: (Width: 4); }
 
               $C.@SecondaryTextButton #ClearAllButton {
                 @Text = "Clear All";
-                Anchor: (Width: 96, Height: 26);
+                Anchor: (Width: 160, Height: 34);
               }
             }
           }
