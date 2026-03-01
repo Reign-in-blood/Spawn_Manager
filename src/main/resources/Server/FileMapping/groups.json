@@ -182,7 +182,7 @@
       "Skeleton_Soldier",
       "Skeleton_Archer"
     ],
-    "Scaraks": [
+    "Scarak": [
       "Scarak_Broodmother",
       "Scarak_Defender",
       "Scarak_Fighter",
@@ -198,7 +198,7 @@
       "Dungeon_Scarak_Seeker",
       "Dungeon_Scarak_Seeker_Patrol"
     ],
-    "Voids": [
+    "Void": [
       "Larva_Void",
       "Crawler_Void",
       "Eye_Void",
@@ -206,14 +206,14 @@
       "Spectre_Void",
       "Spectre_Void"
     ],
-    "Golems": [
+    "Golem": [
       "Golem_Crystal_Earth",
       "Golem_Crystal_Flame",
       "Golem_Crystal_Frost",
       "Golem_Crystal_Sand",
       "Golem_Firesteel"
     ],
-    "Trorks": [
+    "Trork": [
       "Trork",
       "Trork_Brawler",
       "Trork_Chieftain",
@@ -227,7 +227,7 @@
       "Trork_Warrior",
       "Trork_Warrior_Patrol"
     ],
-    "Outlanders": [
+    "Outlander": [
       "Outlander_Berserker",
       "Outlander_Brute",
       "Outlander_Hunter",
@@ -238,7 +238,7 @@
       "Outlander_Stalker",
       "Outlander_Unsworn"
     ],
-    "Goblins": [
+    "Goblin": [
       "Golem_Firesteel",
       "Goblin_Duke",
       "Goblin_Hermit",
@@ -252,19 +252,19 @@
       "Goblin_Thief",
       "Goblin_Thief_Patrol"
     ],
-    "Undeads": [
+    "Undead": [
       "Zombie_Burnt",
       "Chicken_Undead",
       "Cow_Undead",
       "Hound_Bleached",
       "Pig_Undead"
     ],
-    "Spirits": [
+    "Spirit": [
       "Spirit_Frost",
       "Spirit_Root",
       "Spirit_Thunder"
     ],
-    "Dinosaurs": [
+    "Dinosaur": [
       "Archaeopteryx",
       "Pterodactyl",
       "Raptor_Cave",
@@ -276,10 +276,10 @@
       "Trillodon",
       "Wraith"
     ],
-    "Fens": [
+    "Fen": [
       "Fen_Stalker"
     ],
-    "Others": [
+    "Other": [
       "Larva_Silk",
       "Hatworm",
       "Cactee",
@@ -309,7 +309,7 @@
       "Feran_Sharptooth",
       "Feran_Windwalker"
     ],
-    "Gentleman": [
+    "Klops": [
       "Klops_Gentleman",
       "Klops_Miner",
       "Klops_Merchant"
@@ -325,7 +325,7 @@
     "Boss": [
       "Vorthak"
     ],
-    "Dragons": [
+    "Dragon": [
       "Dragon_Ember",
       "Dragon_Frost"
     ],
