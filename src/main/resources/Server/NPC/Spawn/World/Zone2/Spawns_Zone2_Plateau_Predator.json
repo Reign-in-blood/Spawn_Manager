@@ -5,23 +5,23 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Vulture"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Hyena",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Scorpion"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Scarak_Seeker"
     }
   ],

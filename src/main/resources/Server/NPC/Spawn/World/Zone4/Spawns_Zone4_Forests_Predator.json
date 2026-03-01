@@ -5,17 +5,17 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Spark_Living"
     },
     {
       "Weight": 20,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Incandescent_Head"
     },
     {
       "Weight": 20,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Hound_Bleached"
     }
   ],

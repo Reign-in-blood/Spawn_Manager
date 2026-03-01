@@ -6,12 +6,12 @@
     {
       "Weight": 3,
       "Id": "Outlander_Berserker",
-      "SpawnBlockSet": "Outlander"
+      "SpawnBlockSet": "Empty"
     },
     {
       "Weight": 1,
       "Id": "Outlander_Hunter",
-      "SpawnBlockSet": "Outlander"
+      "SpawnBlockSet": "Empty"
     }
   ],
   "DayTimeRange": [

@@ -6,7 +6,7 @@
   "NPCs": [
     {
       "Weight": 6.5,
-      "SpawnBlockSet": "IceAndSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Frost_Fighter",
       "Flock": {
         "Size": [
@@ -17,7 +17,7 @@
     },
     {
       "Weight": 1,
-      "SpawnBlockSet": "IceAndSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Frost_Fighter_Wander",
       "Flock": {
         "Size": [
@@ -28,7 +28,7 @@
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Fighter",
       "Flock": {
         "Size": [
@@ -39,7 +39,7 @@
     },
     {
       "Weight": 0.5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Fighter_Wander",
       "Flock": {
         "Size": [

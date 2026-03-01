@@ -5,15 +5,15 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Armadillo"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skrill"
     }
-],
+  ],
   "DayTimeRange": [
     6,
     18

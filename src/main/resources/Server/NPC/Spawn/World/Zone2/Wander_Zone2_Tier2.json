@@ -6,7 +6,7 @@
   "NPCs": [
     {
       "Weight": 2,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Sand_Guard_Wander",
       "Flock": {
         "Size": [
@@ -28,7 +28,7 @@
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Sand_Assassin",
       "Flock": {
         "Size": [
@@ -39,7 +39,7 @@
     },
     {
       "Weight": 1,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Sand_Assassin_Wander",
       "Flock": {
         "Size": [

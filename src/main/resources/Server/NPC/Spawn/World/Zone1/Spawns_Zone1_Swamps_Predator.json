@@ -5,12 +5,12 @@
   "NPCs": [
     {
       "Weight": 25,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Snake_Marsh"
     },
     {
       "Weight": 15,
-      "SpawnBlockSet": "Mud",
+      "SpawnBlockSet": "Empty",
       "Id": "Fen_Stalker"
     }
   ],

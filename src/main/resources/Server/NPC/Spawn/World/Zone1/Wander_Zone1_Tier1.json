@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 3,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Fighter",
       "Flock": {
         "Size": [
@@ -16,7 +16,7 @@
     },
     {
       "Weight": 1,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Skeleton_Fighter_Wander",
       "Flock": {
         "Size": [

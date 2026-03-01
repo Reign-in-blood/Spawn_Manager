@@ -22,7 +22,7 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Spectre_Void"
     }
   ],

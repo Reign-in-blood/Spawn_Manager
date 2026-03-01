@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 1,
-      "SpawnBlockSet": "StoneAndSoil",
+      "SpawnBlockSet": "Empty",
       "Id": "Scarak_Fighter"
     }
   ],

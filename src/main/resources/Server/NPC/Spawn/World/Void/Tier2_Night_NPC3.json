@@ -24,7 +24,7 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Eye_Void"
     }
   ],
