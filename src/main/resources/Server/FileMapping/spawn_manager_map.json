@@ -3,16 +3,48 @@
   "mobs": {
     "Spider": {
       "vanillaSpawnBlockSet": "Soil",
-      "replacementSpawnBlockSet": "Volcanic",
+      "replacementSpawnBlockSet": "Empty",
       "files": [
-        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
-        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Caves.json"
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json"
       ],
       "tags": ["Animal", "AGGRESSIVE", "Zone1", "Forests"]
     },
+    "Crow": {
+      "vanillaSpawnBlockSet": "Birds",
+      "replacementSpawnBlockSet": "Empty",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json"
+      ],
+      "tags": ["Animal", "Birds", "AGGRESSIVE", "Zone1", "Forests"]
+    },
+    "Finch_Green": {
+      "vanillaSpawnBlockSet": "Birds",
+      "replacementSpawnBlockSet": "Empty",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json"
+      ],
+      "tags": ["Animal", "Birds", "AGGRESSIVE", "Zone1", "Forests"]
+    },
+    "Bunny": {
+      "vanillaSpawnBlockSet": "Soil",
+      "replacementSpawnBlockSet": "Empty",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Animal.json",
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json"
+      ],
+      "tags": ["Animal", "PASSIVE", "Zone1", "Forests"]
+    },
+    "Boar": {
+      "vanillaSpawnBlockSet": "Soil",
+      "replacementSpawnBlockSet": "Empty",
+      "files": [
+        "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Animal.json"
+      ],
+      "tags": ["Animal", "PASSIVE", "Zone1", "Forests"]
+    },
     "Bear_Grizzly": {
       "vanillaSpawnBlockSet": "Soil",
-      "replacementSpawnBlockSet": "Volcanic",
+      "replacementSpawnBlockSet": "Empty",
       "files": [
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
         "main/resources/Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Predator.json"
