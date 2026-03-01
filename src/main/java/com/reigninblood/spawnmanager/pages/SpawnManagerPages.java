@@ -50,9 +50,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String ROW_PATH = "Pages/MobRow.ui";
     private static final String KEY = "SpawnBlockSet";
 
-    private static final String FILTER_ACTIVE_STYLE = "@FilterActiveStyle";
-    private static final String FILTER_BUTTON_STYLE = "@FilterButtonStyle";
-
     private final List<String> displayedMobs = new ArrayList<>();
     private String currentSearchFilter = "";
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
@@ -94,7 +91,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if (currentSearchFilter != null && !currentSearchFilter.isBlank()) {
             cmd.set("#MobSearchField.Value", currentSearchFilter);
         }
-        applyFilterButtonStyles(cmd);
+        applyFilterButtonLabels(cmd);
         buildMobList(cmd, events);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
@@ -342,17 +339,17 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return selected;
     }
 
-    private void applyFilterButtonStyles(UICommandBuilder cmd) {
-        setFilterButtonStyle(cmd, "#FilterALL", activeFilters.isEmpty());
-        setFilterButtonStyle(cmd, "#FilterPASSIVE", activeFilters.contains("PASSIVE"));
-        setFilterButtonStyle(cmd, "#FilterAGGRESSIVE", activeFilters.contains("AGGRESSIVE"));
-        setFilterButtonStyle(cmd, "#FilterMONSTER", activeFilters.contains("MONSTER"));
-        setFilterButtonStyle(cmd, "#FilterANIMALS", activeFilters.contains("ANIMALS"));
-        setFilterButtonStyle(cmd, "#FilterENEMIES", activeFilters.contains("ENEMIES"));
+    private void applyFilterButtonLabels(UICommandBuilder cmd) {
+        setFilterButtonLabel(cmd, "#FilterALL", "ALL", activeFilters.isEmpty());
+        setFilterButtonLabel(cmd, "#FilterPASSIVE", "PAS", activeFilters.contains("PASSIVE"));
+        setFilterButtonLabel(cmd, "#FilterAGGRESSIVE", "AGR", activeFilters.contains("AGGRESSIVE"));
+        setFilterButtonLabel(cmd, "#FilterMONSTER", "MON", activeFilters.contains("MONSTER"));
+        setFilterButtonLabel(cmd, "#FilterANIMALS", "ANIMALS", activeFilters.contains("ANIMALS"));
+        setFilterButtonLabel(cmd, "#FilterENEMIES", "ENEMIES", activeFilters.contains("ENEMIES"));
     }
 
-    private static void setFilterButtonStyle(UICommandBuilder cmd, String selector, boolean active) {
-        cmd.set(selector + ".Style", active ? FILTER_ACTIVE_STYLE : FILTER_BUTTON_STYLE);
+    private static void setFilterButtonLabel(UICommandBuilder cmd, String selector, String baseLabel, boolean active) {
+        cmd.set(selector + ".Text", active ? "✓ " + baseLabel : baseLabel);
     }
 
     private void rebuildDisplayedMobs() {
