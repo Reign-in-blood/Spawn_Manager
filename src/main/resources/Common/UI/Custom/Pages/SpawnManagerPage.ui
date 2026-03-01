@@ -86,83 +86,6 @@ $C.@PageOverlay {
             }
           }
 
-          Group { Anchor: (Height: 6); }
-
-          Group {
-            LayoutMode: Left;
-            Anchor: (Height: 26);
-
-            TextButton #FilterALL {
-              Text: "ALL";
-              Anchor: (Width: 46, Height: 26);
-              Style: @FilterActiveStyle;
-            }
-
-            Group { Anchor: (Width: 3); }
-
-            TextButton #FilterPASSIVE {
-              Text: "PAS";
-              Anchor: (Width: 46, Height: 26);
-              Style: @FilterButtonStyle;
-            }
-
-            Group { Anchor: (Width: 3); }
-
-            TextButton #FilterAGGRESSIVE {
-              Text: "AGR";
-              Anchor: (Width: 46, Height: 26);
-              Style: @FilterButtonStyle;
-            }
-
-            Group { Anchor: (Width: 3); }
-
-            TextButton #FilterMONSTER {
-              Text: "MON";
-              Anchor: (Width: 46, Height: 26);
-              Style: @FilterButtonStyle;
-            }
-          }
-
-          Group { Anchor: (Height: 4); }
-
-          Group {
-            LayoutMode: Left;
-            Anchor: (Height: 26);
-
-            TextButton #FilterANIMALS {
-              Text: "ANIMALS";
-              Anchor: (Width: 96, Height: 26);
-              Style: @FilterButtonStyle;
-            }
-
-            Group { Anchor: (Width: 3); }
-
-            TextButton #FilterENEMIES {
-              Text: "ENEMIES";
-              Anchor: (Width: 96, Height: 26);
-              Style: @FilterButtonStyle;
-            }
-          }
-
-          Group { Anchor: (Height: 6); }
-
-          Group {
-            LayoutMode: Left;
-            Anchor: (Height: 36);
-
-            $C.@TextButton #SelectAllButton {
-              @Text = "Select All";
-              Anchor: (Width: 160, Height: 34);
-            }
-
-            Group { Anchor: (Width: 4); }
-
-            $C.@SecondaryTextButton #ClearAllButton {
-              @Text = "Clear All";
-              Anchor: (Width: 160, Height: 34);
-            }
-          }
-
           Group { Anchor: (Height: 8); }
 
           Group #MobListContainer {
@@ -179,39 +102,112 @@ $C.@PageOverlay {
         Group #RightPane {
           Anchor: (Width: 420);
           LayoutMode: Top;
+          FlexWeight: 1;
 
-          Group #EnableSection {
+          Group #FilterSection {
             LayoutMode: Top;
             Background: #151e28;
             Padding: (Full: 10);
 
-            Label {
-              Text: "SPAWN STATUS";
-              Anchor: (Height: 18);
-              Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
-            }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
 
-            Group { Anchor: (Height: 6); }
+              TextButton #FilterALL {
+                Text: "ALL";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterActiveStyle;
+              }
 
-            TextButton #EnableToggle {
-              Text: "ENABLED";
-              Anchor: (Height: 36);
-            }
+              Group { Anchor: (Width: 4); }
 
-            Group { Anchor: (Height: 8); }
+              TextButton #FilterPASSIVE {
+                Text: "PAS";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterButtonStyle;
+              }
 
-            $C.@TextButton #ApplyButton {
-              @Text = "Apply";
-              Anchor: (Width: 160, Height: 34);
+              Group { Anchor: (Width: 4); }
+
+              TextButton #FilterAGGRESSIVE {
+                Text: "AGR";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterButtonStyle;
+              }
             }
 
             Group { Anchor: (Height: 4); }
 
-            $C.@SecondaryTextButton #ReloadNpcButton {
-              @Text = "Reload NPC";
-              Anchor: (Width: 160, Height: 34);
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+
+              TextButton #FilterMONSTER {
+                Text: "MON";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterButtonStyle;
+              }
+
+              Group { Anchor: (Width: 4); }
+
+              TextButton #FilterANIMALS {
+                Text: "ANIMALS";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterButtonStyle;
+              }
+
+              Group { Anchor: (Width: 4); }
+
+              TextButton #FilterENEMIES {
+                Text: "ENEMIES";
+                Anchor: (Width: 96, Height: 26);
+                Style: @FilterButtonStyle;
+              }
             }
 
+            Group { Anchor: (Height: 10); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 34);
+
+              $C.@TextButton #ApplyButton {
+                @Text = "Apply";
+                Anchor: (Width: 160, Height: 34);
+              }
+
+              Group { Anchor: (Width: 4); }
+
+              $C.@SecondaryTextButton #ReloadNpcButton {
+                @Text = "Reload NPC";
+                Anchor: (Width: 160, Height: 34);
+              }
+            }
+          }
+
+          Group { FlexWeight: 1; }
+
+          Group #BulkSelectionSection {
+            LayoutMode: Top;
+            Background: #151e28;
+            Padding: (Full: 10);
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+
+              $C.@TextButton #SelectAllButton {
+                @Text = "Select All";
+                Anchor: (Width: 96, Height: 26);
+              }
+
+              Group { Anchor: (Width: 4); }
+
+              $C.@SecondaryTextButton #ClearAllButton {
+                @Text = "Clear All";
+                Anchor: (Width: 96, Height: 26);
+              }
+            }
           }
         }
       }

@@ -349,7 +349,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     }
 
     private static void setFilterButtonLabel(UICommandBuilder cmd, String selector, String baseLabel, boolean active) {
-        cmd.set(selector + ".Text", active ? "✓ " + baseLabel : baseLabel);
+        cmd.set(selector + ".Text", active ? baseLabel + " [ON]" : baseLabel);
     }
 
     private void rebuildDisplayedMobs() {
