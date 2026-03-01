@@ -101,16 +101,55 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
 
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROff", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROn", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOff", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOn", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOff", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOn", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTerrestrialOff", EventData.of("Action", "toggleFilter").append("Value", "Terrestrial"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTerrestrialOn", EventData.of("Action", "toggleFilter").append("Value", "Terrestrial"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAquaticOff", EventData.of("Action", "toggleFilter").append("Value", "Aquatic"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAquaticOn", EventData.of("Action", "toggleFilter").append("Value", "Aquatic"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFlyingOff", EventData.of("Action", "toggleFilter").append("Value", "Flying"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFlyingOn", EventData.of("Action", "toggleFilter").append("Value", "Flying"), false);
+
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSkeletonOff", EventData.of("Action", "toggleFilter").append("Value", "Skeleton"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSkeletonOn", EventData.of("Action", "toggleFilter").append("Value", "Skeleton"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterScarakOff", EventData.of("Action", "toggleFilter").append("Value", "Scarak"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterScarakOn", EventData.of("Action", "toggleFilter").append("Value", "Scarak"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterVoidOff", EventData.of("Action", "toggleFilter").append("Value", "Void"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterVoidOn", EventData.of("Action", "toggleFilter").append("Value", "Void"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGolemOff", EventData.of("Action", "toggleFilter").append("Value", "Golem"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGolemOn", EventData.of("Action", "toggleFilter").append("Value", "Golem"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTrorkOff", EventData.of("Action", "toggleFilter").append("Value", "Trork"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTrorkOn", EventData.of("Action", "toggleFilter").append("Value", "Trork"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterOutlanderOff", EventData.of("Action", "toggleFilter").append("Value", "Outlander"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterOutlanderOn", EventData.of("Action", "toggleFilter").append("Value", "Outlander"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGoblinOff", EventData.of("Action", "toggleFilter").append("Value", "Goblin"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGoblinOn", EventData.of("Action", "toggleFilter").append("Value", "Goblin"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZombieOff", EventData.of("Action", "toggleFilter").append("Value", "Zombie"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZombieOn", EventData.of("Action", "toggleFilter").append("Value", "Zombie"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOff", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOn", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOff", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOn", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOff", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOn", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
+
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterKweebecOff", EventData.of("Action", "toggleFilter").append("Value", "Kweebec"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterKweebecOn", EventData.of("Action", "toggleFilter").append("Value", "Kweebec"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFeranOff", EventData.of("Action", "toggleFilter").append("Value", "Feran"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFeranOn", EventData.of("Action", "toggleFilter").append("Value", "Feran"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGentlemanOff", EventData.of("Action", "toggleFilter").append("Value", "Gentleman"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterGentlemanOn", EventData.of("Action", "toggleFilter").append("Value", "Gentleman"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTempleOff", EventData.of("Action", "toggleFilter").append("Value", "Temple"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTempleOn", EventData.of("Action", "toggleFilter").append("Value", "Temple"), false);
+
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone0Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 0"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone0On", EventData.of("Action", "toggleFilter").append("Value", "Zone 0"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone1Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 1"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone1On", EventData.of("Action", "toggleFilter").append("Value", "Zone 1"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone2Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 2"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone2On", EventData.of("Action", "toggleFilter").append("Value", "Zone 2"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone3Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 3"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone3On", EventData.of("Action", "toggleFilter").append("Value", "Zone 3"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone4Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 4"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone4On", EventData.of("Action", "toggleFilter").append("Value", "Zone 4"), false);
     }
 
     @Override
@@ -240,11 +279,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        String normalizedFilter = filterName.toUpperCase(Locale.ROOT);
-        Set<String> groupMobIds = resolveFilterMobIds(normalizedFilter);
+        String groupName = filterName.trim();
+        Set<String> groupMobIds = resolveFilterMobIds(groupName);
 
-        if (activeGroups.contains(normalizedFilter)) {
-            activeGroups.remove(normalizedFilter);
+        if (activeGroups.contains(groupName)) {
+            activeGroups.remove(groupName);
             synchronized (stagedEnabled) {
                 synchronized (dirty) {
                     for (String mobId : groupMobIds) {
@@ -261,9 +300,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        activeGroups.add(normalizedFilter);
+        activeGroups.add(groupName);
         if (groupMobIds.isEmpty()) {
-            LOGGER.info("[SpawnManager] toggleFilter: filter '" + normalizedFilter + "' has no mapped mobs");
+            LOGGER.info("[SpawnManager] toggleFilter: group '" + groupName + "' has no mapped mobs");
             return;
         }
 
@@ -292,38 +331,17 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private Set<String> resolveFilterMobIds(String filterName) {
         LinkedHashSet<String> selected = new LinkedHashSet<>();
-        if (mapping == null || mapping.mobs == null) {
+        if (mapping == null || mapping.mobs == null || filterName == null || filterName.isBlank()) {
             return selected;
         }
 
-        switch (filterName) {
-            case "PASSIVE":
-                selected.addAll(resolveConfiguredGroup("Passive"));
-                break;
-            case "AGGRESSIVE":
-                selected.addAll(resolveConfiguredGroup("Aggressive"));
-                break;
-            case "MONSTER":
-                selected.addAll(resolveConfiguredGroup("Monsters"));
-                break;
-            case "ANIMALS":
-                selected.addAll(resolveConfiguredGroup("Animals"));
-                break;
-            case "ENEMIES":
-                selected.addAll(resolveConfiguredGroup("Enemies"));
-                selected.addAll(resolveConfiguredGroup("Aggressive"));
-                selected.addAll(resolveConfiguredGroup("Monsters"));
-                selected.addAll(resolveConfiguredGroup("Skeletons"));
-                if (selected.isEmpty()) {
-                    selected.addAll(resolveSkeletonFallback());
-                }
-                break;
-            default:
-                break;
-        }
+        selected.addAll(resolveConfiguredGroup(filterName));
 
-        if (("MONSTER".equals(filterName) || "ENEMIES".equals(filterName)) && selected.isEmpty()) {
-            selected.addAll(resolveSkeletonFallback());
+        if (selected.isEmpty()) {
+            String normalized = filterName.trim().toLowerCase(Locale.ROOT);
+            if ("skeleton".equals(normalized) || "skeletons".equals(normalized) || "monsters".equals(normalized) || "enemies".equals(normalized)) {
+                selected.addAll(resolveSkeletonFallback());
+            }
         }
 
         return selected;
@@ -331,11 +349,20 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private Set<String> resolveConfiguredGroup(String groupName) {
         LinkedHashSet<String> selected = new LinkedHashSet<>();
-        if (groups == null || groups.groups == null || mapping == null || mapping.mobs == null) {
+        if (groups == null || groups.groups == null || mapping == null || mapping.mobs == null || groupName == null) {
             return selected;
         }
 
         List<String> configured = groups.groups.get(groupName);
+        if (configured == null) {
+            for (Map.Entry<String, List<String>> entry : groups.groups.entrySet()) {
+                if (entry.getKey() != null && entry.getKey().equalsIgnoreCase(groupName)) {
+                    configured = entry.getValue();
+                    break;
+                }
+            }
+        }
+
         if (configured == null) {
             return selected;
         }
@@ -364,11 +391,32 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     }
 
     private void applyFilterButtonVisibility(UICommandBuilder cmd) {
-        setFilterButtonVisibility(cmd, "#FilterPASSIVE", activeGroups.contains("PASSIVE"));
-        setFilterButtonVisibility(cmd, "#FilterAGGRESSIVE", activeGroups.contains("AGGRESSIVE"));
-        setFilterButtonVisibility(cmd, "#FilterMONSTER", activeGroups.contains("MONSTER"));
-        setFilterButtonVisibility(cmd, "#FilterANIMALS", activeGroups.contains("ANIMALS"));
-        setFilterButtonVisibility(cmd, "#FilterENEMIES", activeGroups.contains("ENEMIES"));
+        setFilterButtonVisibility(cmd, "#FilterTerrestrial", activeGroups.contains("Terrestrial"));
+        setFilterButtonVisibility(cmd, "#FilterAquatic", activeGroups.contains("Aquatic"));
+        setFilterButtonVisibility(cmd, "#FilterFlying", activeGroups.contains("Flying"));
+
+        setFilterButtonVisibility(cmd, "#FilterSkeleton", activeGroups.contains("Skeleton"));
+        setFilterButtonVisibility(cmd, "#FilterScarak", activeGroups.contains("Scarak"));
+        setFilterButtonVisibility(cmd, "#FilterVoid", activeGroups.contains("Void"));
+        setFilterButtonVisibility(cmd, "#FilterGolem", activeGroups.contains("Golem"));
+        setFilterButtonVisibility(cmd, "#FilterTrork", activeGroups.contains("Trork"));
+        setFilterButtonVisibility(cmd, "#FilterOutlander", activeGroups.contains("Outlander"));
+        setFilterButtonVisibility(cmd, "#FilterGoblin", activeGroups.contains("Goblin"));
+        setFilterButtonVisibility(cmd, "#FilterZombie", activeGroups.contains("Zombie"));
+        setFilterButtonVisibility(cmd, "#FilterSpirit", activeGroups.contains("Spirit"));
+        setFilterButtonVisibility(cmd, "#FilterDinosaurs", activeGroups.contains("Dinosaurs"));
+        setFilterButtonVisibility(cmd, "#FilterFen", activeGroups.contains("Fen"));
+
+        setFilterButtonVisibility(cmd, "#FilterKweebec", activeGroups.contains("Kweebec"));
+        setFilterButtonVisibility(cmd, "#FilterFeran", activeGroups.contains("Feran"));
+        setFilterButtonVisibility(cmd, "#FilterGentleman", activeGroups.contains("Gentleman"));
+        setFilterButtonVisibility(cmd, "#FilterTemple", activeGroups.contains("Temple"));
+
+        setFilterButtonVisibility(cmd, "#FilterZone0", activeGroups.contains("Zone 0"));
+        setFilterButtonVisibility(cmd, "#FilterZone1", activeGroups.contains("Zone 1"));
+        setFilterButtonVisibility(cmd, "#FilterZone2", activeGroups.contains("Zone 2"));
+        setFilterButtonVisibility(cmd, "#FilterZone3", activeGroups.contains("Zone 3"));
+        setFilterButtonVisibility(cmd, "#FilterZone4", activeGroups.contains("Zone 4"));
     }
 
     private static void setFilterButtonVisibility(UICommandBuilder cmd, String baseSelector, boolean active) {
