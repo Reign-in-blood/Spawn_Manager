@@ -135,6 +135,49 @@ $C.@PageOverlay {
               @Text = "Reload NPC";
               Anchor: (Width: 160, Height: 34);
             }
+
+            Group { Anchor: (Height: 10); }
+
+            Label {
+              Text: "PRESETS";
+              Anchor: (Height: 18);
+              Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
+            }
+
+            Group { Anchor: (Height: 6); }
+
+            $C.@TextButton #GroupAnimals {
+              @Text = "Animals";
+              Anchor: (Width: 180, Height: 34);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            $C.@TextButton #GroupPassive {
+              @Text = "Passive";
+              Anchor: (Width: 180, Height: 34);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            $C.@TextButton #GroupAggressive {
+              @Text = "Aggressive";
+              Anchor: (Width: 180, Height: 34);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            $C.@TextButton #GroupMonsters {
+              @Text = "Monsters";
+              Anchor: (Width: 180, Height: 34);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            $C.@TextButton #GroupSkeletons {
+              @Text = "Skeletons";
+              Anchor: (Width: 180, Height: 34);
+            }
           }
         }
       }

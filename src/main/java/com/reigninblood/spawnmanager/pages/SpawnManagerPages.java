@@ -26,6 +26,8 @@ import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.FileEntry;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.SpawnManagerMap;
+import com.reigninblood.spawnmanager.mapping.GroupsLoader;
+import com.reigninblood.spawnmanager.mapping.GroupsLoader.SpawnManagerGroups;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -55,6 +57,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
+    private final SpawnManagerGroups groups;
 
     public SpawnManagerPages(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismiss);
@@ -63,6 +66,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
 
         this.mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
+        this.groups = GroupsLoader.loadFromAssetPacks(AssetModule.get());
         rebuildDisplayedMobs();
 
         initializeFromConfig();
@@ -94,6 +98,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupAnimals", EventData.of("Action", "selectGroup").append("Value", "Animals"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupPassive", EventData.of("Action", "selectGroup").append("Value", "Passive"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupAggressive", EventData.of("Action", "selectGroup").append("Value", "Aggressive"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupMonsters", EventData.of("Action", "selectGroup").append("Value", "Monsters"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupSkeletons", EventData.of("Action", "selectGroup").append("Value", "Skeletons"), false);
     }
 
     @Override
@@ -130,6 +139,13 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("clearSearch".equals(action)) {
             currentSearchFilter = "";
             rebuildDisplayedMobs();
+            rebuild();
+            return;
+        }
+
+        if ("selectGroup".equals(action)) {
+            String groupName = data.get("Value");
+            applyGroupSelectionReplace(groupName);
             rebuild();
             return;
         }
@@ -207,6 +223,56 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             LOGGER.info("[SpawnManager] UI open: mapping mobs=" + displayedMobs.size());
         }
         ensureStagedForDisplayedMobs();
+    }
+
+    private void applyGroupSelectionReplace(String groupName) {
+        if (groupName == null || groupName.isBlank() || mapping == null || mapping.mobs == null) {
+            return;
+        }
+
+        Set<String> groupMobIds = resolveGroupMobIds(groupName);
+        if (groupMobIds.isEmpty()) {
+            LOGGER.info("[SpawnManager] selectGroup: group '" + groupName + "' has no mapped mobs");
+        }
+
+        Set<String> knownMobs = mapping.mobs.keySet();
+        synchronized (stagedEnabled) {
+            synchronized (dirty) {
+                for (String mobId : knownMobs) {
+                    boolean newValue = groupMobIds.contains(mobId);
+                    boolean previous = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
+                    if (previous != newValue) {
+                        stagedEnabled.put(mobId, newValue);
+                        dirty.add(mobId);
+                    }
+                }
+            }
+        }
+    }
+
+    private Set<String> resolveGroupMobIds(String groupName) {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+
+        if (groups != null && groups.groups != null) {
+            List<String> configured = groups.groups.get(groupName);
+            if (configured != null) {
+                for (String mobId : configured) {
+                    if (mobId != null && mapping != null && mapping.mobs != null && mapping.mobs.containsKey(mobId)) {
+                        selected.add(mobId);
+                    }
+                }
+            }
+        }
+
+        if (selected.isEmpty() && "Skeletons".equalsIgnoreCase(groupName) && mapping != null && mapping.mobs != null) {
+            for (String mobId : mapping.mobs.keySet()) {
+                if (mobId != null && mobId.startsWith("Skeleton")) {
+                    selected.add(mobId);
+                }
+            }
+        }
+
+        return selected;
     }
 
     private void rebuildDisplayedMobs() {
