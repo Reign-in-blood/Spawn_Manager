@@ -129,9 +129,19 @@ public final class SpawnManagerConfig {
         return new HashSet<>(globalConfig.disabledMobs);
     }
 
+
+    public boolean isCaveNpcEnabled() {
+        return globalConfig.caveNpcEnabled;
+    }
+
+    public void setCaveNpcEnabled(boolean enabled) {
+        globalConfig.caveNpcEnabled = enabled;
+    }
+
     // ---- MODEL JSON ----
     public static final class GlobalConfig {
         /** On stocke uniquement les OFF (plus compact et plus stable) */
         public Set<String> disabledMobs = new LinkedHashSet<>();
+        public boolean caveNpcEnabled = true;
     }
 }

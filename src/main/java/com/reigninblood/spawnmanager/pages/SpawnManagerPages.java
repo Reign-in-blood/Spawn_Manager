@@ -262,6 +262,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("toggleCaveNpc".equals(action)) {
             caveNpcEnabled = !caveNpcEnabled;
             boolean targetEnabled = caveNpcEnabled;
+            config.setCaveNpcEnabled(targetEnabled);
+            config.save();
             CompletableFuture.runAsync(() -> applyCaveNpcLightRanges(targetEnabled));
             rebuild();
             return;
@@ -298,6 +300,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         } else {
             LOGGER.info("[SpawnManager] UI open: mapping mobs=" + displayedMobs.size());
         }
+        caveNpcEnabled = config.isCaveNpcEnabled();
         ensureStagedForDisplayedMobs();
     }
 
