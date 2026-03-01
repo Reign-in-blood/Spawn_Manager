@@ -217,6 +217,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         if ("selectAll".equals(action)) {
             activeGroups.clear();
+            persistActiveGroups();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, true);
@@ -231,6 +232,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         if ("clearAll".equals(action)) {
             activeGroups.clear();
+            persistActiveGroups();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, false);
@@ -301,6 +303,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             LOGGER.info("[SpawnManager] UI open: mapping mobs=" + displayedMobs.size());
         }
         caveNpcEnabled = config.isCaveNpcEnabled();
+        activeGroups.clear();
+        activeGroups.addAll(config.getActiveGroupsSnapshot());
         ensureStagedForDisplayedMobs();
     }
 
@@ -314,6 +318,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         if (activeGroups.contains(groupName)) {
             activeGroups.remove(groupName);
+            persistActiveGroups();
             synchronized (stagedEnabled) {
                 synchronized (dirty) {
                     for (String mobId : groupMobIds) {
@@ -331,6 +336,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
 
         activeGroups.add(groupName);
+        persistActiveGroups();
         if (groupMobIds.isEmpty()) {
             LOGGER.info("[SpawnManager] toggleFilter: group '" + groupName + "' has no mapped mobs");
             return;
@@ -418,6 +424,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
         return selected;
+    }
+
+    private void persistActiveGroups() {
+        config.setActiveGroups(new LinkedHashSet<>(activeGroups));
+        config.save();
     }
 
     private void applyCaveNpcButtonVisibility(UICommandBuilder cmd) {

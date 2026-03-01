@@ -138,10 +138,22 @@ public final class SpawnManagerConfig {
         globalConfig.caveNpcEnabled = enabled;
     }
 
+    public Set<String> getActiveGroupsSnapshot() {
+        return new LinkedHashSet<>(globalConfig.activeGroups);
+    }
+
+    public void setActiveGroups(Set<String> groups) {
+        globalConfig.activeGroups.clear();
+        if (groups != null) {
+            globalConfig.activeGroups.addAll(groups);
+        }
+    }
+
     // ---- MODEL JSON ----
     public static final class GlobalConfig {
         /** On stocke uniquement les OFF (plus compact et plus stable) */
         public Set<String> disabledMobs = new LinkedHashSet<>();
         public boolean caveNpcEnabled = true;
+        public Set<String> activeGroups = new LinkedHashSet<>();
     }
 }
