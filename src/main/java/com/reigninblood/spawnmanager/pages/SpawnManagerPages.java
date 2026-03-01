@@ -50,10 +50,14 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String ROW_PATH = "Pages/MobRow.ui";
     private static final String KEY = "SpawnBlockSet";
 
+    private static final String FILTER_ACTIVE_STYLE = "@FilterActiveStyle";
+    private static final String FILTER_BUTTON_STYLE = "@FilterButtonStyle";
+
     private final List<String> displayedMobs = new ArrayList<>();
     private String currentSearchFilter = "";
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
+    private final Set<String> activeFilters = new LinkedHashSet<>();
 
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
@@ -90,6 +94,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if (currentSearchFilter != null && !currentSearchFilter.isBlank()) {
             cmd.set("#MobSearchField.Value", currentSearchFilter);
         }
+        applyFilterButtonStyles(cmd);
         buildMobList(cmd, events);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
@@ -98,11 +103,13 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupAnimals", EventData.of("Action", "selectGroup").append("Value", "Animals"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupPassive", EventData.of("Action", "selectGroup").append("Value", "Passive"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupAggressive", EventData.of("Action", "selectGroup").append("Value", "Aggressive"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupMonsters", EventData.of("Action", "selectGroup").append("Value", "Monsters"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#GroupSkeletons", EventData.of("Action", "selectGroup").append("Value", "Skeletons"), false);
+
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterALL", EventData.of("Action", "clearFilters"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVE", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVE", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTER", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALS", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIES", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
     }
 
     @Override
@@ -143,9 +150,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        if ("selectGroup".equals(action)) {
-            String groupName = data.get("Value");
-            applyGroupSelectionReplace(groupName);
+        if ("toggleFilter".equals(action)) {
+            String filterName = data.get("Value");
+            toggleFilter(filterName);
+            rebuild();
+            return;
+        }
+
+        if ("clearFilters".equals(action)) {
+            activeFilters.clear();
             rebuild();
             return;
         }
@@ -225,24 +238,30 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         ensureStagedForDisplayedMobs();
     }
 
-    private void applyGroupSelectionReplace(String groupName) {
-        if (groupName == null || groupName.isBlank() || mapping == null || mapping.mobs == null) {
+    private void toggleFilter(String filterName) {
+        if (filterName == null || filterName.isBlank() || mapping == null || mapping.mobs == null) {
             return;
         }
 
-        Set<String> groupMobIds = resolveGroupMobIds(groupName);
-        if (groupMobIds.isEmpty()) {
-            LOGGER.info("[SpawnManager] selectGroup: group '" + groupName + "' has no mapped mobs");
+        String normalizedFilter = filterName.toUpperCase(Locale.ROOT);
+        if (activeFilters.contains(normalizedFilter)) {
+            activeFilters.remove(normalizedFilter);
+            return;
         }
 
-        Set<String> knownMobs = mapping.mobs.keySet();
+        activeFilters.add(normalizedFilter);
+        Set<String> groupMobIds = resolveFilterMobIds(normalizedFilter);
+        if (groupMobIds.isEmpty()) {
+            LOGGER.info("[SpawnManager] toggleFilter: filter '" + normalizedFilter + "' has no mapped mobs");
+            return;
+        }
+
         synchronized (stagedEnabled) {
             synchronized (dirty) {
-                for (String mobId : knownMobs) {
-                    boolean newValue = groupMobIds.contains(mobId);
+                for (String mobId : groupMobIds) {
                     boolean previous = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
-                    if (previous != newValue) {
-                        stagedEnabled.put(mobId, newValue);
+                    if (!previous) {
+                        stagedEnabled.put(mobId, true);
                         dirty.add(mobId);
                     }
                 }
@@ -250,29 +269,90 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
     }
 
-    private Set<String> resolveGroupMobIds(String groupName) {
+    private Set<String> resolveFilterMobIds(String filterName) {
         LinkedHashSet<String> selected = new LinkedHashSet<>();
-
-        if (groups != null && groups.groups != null) {
-            List<String> configured = groups.groups.get(groupName);
-            if (configured != null) {
-                for (String mobId : configured) {
-                    if (mobId != null && mapping != null && mapping.mobs != null && mapping.mobs.containsKey(mobId)) {
-                        selected.add(mobId);
-                    }
-                }
-            }
+        if (mapping == null || mapping.mobs == null) {
+            return selected;
         }
 
-        if (selected.isEmpty() && "Skeletons".equalsIgnoreCase(groupName) && mapping != null && mapping.mobs != null) {
-            for (String mobId : mapping.mobs.keySet()) {
-                if (mobId != null && mobId.startsWith("Skeleton")) {
-                    selected.add(mobId);
+        switch (filterName) {
+            case "PASSIVE":
+                selected.addAll(resolveConfiguredGroup("Passive"));
+                break;
+            case "AGGRESSIVE":
+                selected.addAll(resolveConfiguredGroup("Aggressive"));
+                break;
+            case "MONSTER":
+                selected.addAll(resolveConfiguredGroup("Monsters"));
+                break;
+            case "ANIMALS":
+                selected.addAll(resolveConfiguredGroup("Animals"));
+                break;
+            case "ENEMIES":
+                selected.addAll(resolveConfiguredGroup("Enemies"));
+                selected.addAll(resolveConfiguredGroup("Aggressive"));
+                selected.addAll(resolveConfiguredGroup("Monsters"));
+                selected.addAll(resolveConfiguredGroup("Skeletons"));
+                if (selected.isEmpty()) {
+                    selected.addAll(resolveSkeletonFallback());
                 }
+                break;
+            default:
+                break;
+        }
+
+        if (("MONSTER".equals(filterName) || "ENEMIES".equals(filterName)) && selected.isEmpty()) {
+            selected.addAll(resolveSkeletonFallback());
+        }
+
+        return selected;
+    }
+
+    private Set<String> resolveConfiguredGroup(String groupName) {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+        if (groups == null || groups.groups == null || mapping == null || mapping.mobs == null) {
+            return selected;
+        }
+
+        List<String> configured = groups.groups.get(groupName);
+        if (configured == null) {
+            return selected;
+        }
+
+        for (String mobId : configured) {
+            if (mobId != null && mapping.mobs.containsKey(mobId)) {
+                selected.add(mobId);
             }
         }
 
         return selected;
+    }
+
+    private Set<String> resolveSkeletonFallback() {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+        if (mapping == null || mapping.mobs == null) {
+            return selected;
+        }
+
+        for (String mobId : mapping.mobs.keySet()) {
+            if (mobId != null && mobId.startsWith("Skeleton")) {
+                selected.add(mobId);
+            }
+        }
+        return selected;
+    }
+
+    private void applyFilterButtonStyles(UICommandBuilder cmd) {
+        setFilterButtonStyle(cmd, "#FilterALL", activeFilters.isEmpty());
+        setFilterButtonStyle(cmd, "#FilterPASSIVE", activeFilters.contains("PASSIVE"));
+        setFilterButtonStyle(cmd, "#FilterAGGRESSIVE", activeFilters.contains("AGGRESSIVE"));
+        setFilterButtonStyle(cmd, "#FilterMONSTER", activeFilters.contains("MONSTER"));
+        setFilterButtonStyle(cmd, "#FilterANIMALS", activeFilters.contains("ANIMALS"));
+        setFilterButtonStyle(cmd, "#FilterENEMIES", activeFilters.contains("ENEMIES"));
+    }
+
+    private static void setFilterButtonStyle(UICommandBuilder cmd, String selector, boolean active) {
+        cmd.set(selector + ".Style", active ? FILTER_ACTIVE_STYLE : FILTER_BUTTON_STYLE);
     }
 
     private void rebuildDisplayedMobs() {

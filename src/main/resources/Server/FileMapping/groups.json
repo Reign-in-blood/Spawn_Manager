@@ -11,6 +11,10 @@
       "Bear_Grizzly"
     ],
     "Monsters": [],
-    "Skeletons": []
+    "Skeletons": [],
+    "Enemies": [
+      "Spider",
+      "Bear_Grizzly"
+    ]
   }
 }
