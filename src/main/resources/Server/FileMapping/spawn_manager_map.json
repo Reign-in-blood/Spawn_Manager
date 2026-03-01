@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "ReplacementSpawnBlockSet": "Volcanic",
+  "mobs": {
+    "Spider": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Bear_Grizzly": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ]
+    }
+  }
+}
