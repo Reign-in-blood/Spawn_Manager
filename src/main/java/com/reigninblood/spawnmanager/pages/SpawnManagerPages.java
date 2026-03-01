@@ -126,6 +126,10 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZombieOn", EventData.of("Action", "toggleFilter").append("Value", "Zombie"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOff", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOn", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOff", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOn", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOff", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOn", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterKweebecOff", EventData.of("Action", "toggleFilter").append("Value", "Kweebec"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterKweebecOn", EventData.of("Action", "toggleFilter").append("Value", "Kweebec"), false);
@@ -400,6 +404,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         setFilterButtonVisibility(cmd, "#FilterGoblin", activeGroups.contains("Goblin"));
         setFilterButtonVisibility(cmd, "#FilterZombie", activeGroups.contains("Zombie"));
         setFilterButtonVisibility(cmd, "#FilterSpirit", activeGroups.contains("Spirit"));
+        setFilterButtonVisibility(cmd, "#FilterDinosaurs", activeGroups.contains("Dinosaurs"));
+        setFilterButtonVisibility(cmd, "#FilterFen", activeGroups.contains("Fen"));
 
         setFilterButtonVisibility(cmd, "#FilterKweebec", activeGroups.contains("Kweebec"));
         setFilterButtonVisibility(cmd, "#FilterFeran", activeGroups.contains("Feran"));

@@ -203,6 +203,20 @@ $C.@PageOverlay {
                 TextButton #FilterSpiritOn { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
+            Group { Anchor: (Height: 4); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterDinosaursOff { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDinosaursOn { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
 
             Group { Anchor: (Height: 8); }
 
