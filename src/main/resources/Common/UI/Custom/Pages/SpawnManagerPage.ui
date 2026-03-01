@@ -27,6 +27,12 @@ $C = "../Common.ui";
   Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
 );
 
+@DangerButtonStyle = TextButtonStyle(
+  Default: (Background: #3d1a1a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #4d2a2a, LabelStyle: (FontSize: 13, TextColor: #ff8a8a, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #2d0a0a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
 $C.@PageOverlay {
   LayoutMode: Middle;
 
@@ -316,6 +322,26 @@ $C.@PageOverlay {
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterZone4Off { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterZone4On { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+
+            Group { Anchor: (Height: 8); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 30);
+
+              Group { LayoutMode: Middle; Anchor: (Width: 200, Height: 26);
+                TextButton #CaveNpcOnButton {
+                  Text: "ALL CAVE NPC [ON]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
+                TextButton #CaveNpcOffButton {
+                  Text: "ALL CAVE NPC [OFF]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @DangerButtonStyle;
+                }
               }
             }
 

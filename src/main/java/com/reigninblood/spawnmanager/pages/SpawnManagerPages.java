@@ -22,6 +22,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.reigninblood.spawnmanager.SpawnManagerPlugin;
 import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
+import com.reigninblood.spawnmanager.mapping.CaveListLoader;
+import com.reigninblood.spawnmanager.mapping.CaveListLoader.CaveFileEntry;
+import com.reigninblood.spawnmanager.mapping.CaveListLoader.CaveList;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.FileEntry;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
@@ -61,6 +64,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
     private final SpawnManagerGroups groups;
+    private final CaveList caveList;
+
+    private volatile boolean caveNpcEnabled = true;
 
     public SpawnManagerPages(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismiss);
@@ -70,6 +76,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         this.mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
         this.groups = GroupsLoader.loadFromAssetPacks(AssetModule.get());
+        this.caveList = CaveListLoader.loadFromAssetPacks(AssetModule.get());
         rebuildDisplayedMobs();
 
         initializeFromConfig();
@@ -94,6 +101,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             cmd.set("#MobSearchField.Value", currentSearchFilter);
         }
         applyFilterButtonVisibility(cmd);
+        applyCaveNpcButtonVisibility(cmd);
         buildMobList(cmd, events);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
@@ -102,6 +110,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#CaveNpcOnButton", EventData.of("Action", "toggleCaveNpc"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#CaveNpcOffButton", EventData.of("Action", "toggleCaveNpc"), false);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTerrestrialOff", EventData.of("Action", "toggleFilter").append("Value", "Terrestrial"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTerrestrialOn", EventData.of("Action", "toggleFilter").append("Value", "Terrestrial"), false);
@@ -244,6 +254,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            rebuild();
+            return;
+        }
+
+
+        if ("toggleCaveNpc".equals(action)) {
+            caveNpcEnabled = !caveNpcEnabled;
+            boolean targetEnabled = caveNpcEnabled;
+            CompletableFuture.runAsync(() -> applyCaveNpcLightRanges(targetEnabled));
             rebuild();
             return;
         }
@@ -396,6 +415,54 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
         return selected;
+    }
+
+    private void applyCaveNpcButtonVisibility(UICommandBuilder cmd) {
+        boolean showOn = caveNpcEnabled;
+        cmd.set("#CaveNpcOnButton.Visible", showOn);
+        cmd.set("#CaveNpcOffButton.Visible", !showOn);
+    }
+
+    private void applyCaveNpcLightRanges(boolean enabled) {
+        if (caveList == null || caveList.files == null || caveList.files.isEmpty()) {
+            LOGGER.warning("[SpawnManager] cave toggle skipped: cave_list mapping unavailable");
+            return;
+        }
+
+        int[] disabledRange = caveList.getDisabledLightRange();
+        if (!enabled && (disabledRange == null || disabledRange.length != 2)) {
+            LOGGER.warning("[SpawnManager] cave toggle skipped: disabled light range missing/invalid");
+            return;
+        }
+
+        int patched = 0;
+        int missing = 0;
+        for (CaveFileEntry entry : caveList.files) {
+            if (entry == null || entry.path == null || entry.path.isBlank()) continue;
+
+            String relativePath = normalizeMappedPath(entry.path);
+            if (relativePath == null) continue;
+
+            Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+            if (targetFile == null) {
+                missing++;
+                LOGGER.warning("[SpawnManager] cave toggle: file not found path=Server/" + relativePath);
+                continue;
+            }
+
+            int[] range = enabled ? entry.originalLight : disabledRange;
+            if (range == null || range.length != 2) continue;
+
+            try {
+                if (setBeaconLightRangeInFile(targetFile, range[0], range[1])) {
+                    patched++;
+                }
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] cave toggle failed file=" + targetFile + " error=" + e.getMessage());
+            }
+        }
+
+        LOGGER.info("[SpawnManager] cave toggle done: enabled=" + enabled + " patched=" + patched + " missing=" + missing);
     }
 
     private void applyFilterButtonVisibility(UICommandBuilder cmd) {
@@ -802,6 +869,39 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return true;
         }
         return false;
+    }
+
+    private static boolean setBeaconLightRangeInFile(Path file, int minLight, int maxLight) throws IOException {
+        String json = Files.readString(file);
+        JsonElement el = JsonParser.parseString(json);
+        if (!el.isJsonObject()) return false;
+
+        JsonObject root = el.getAsJsonObject();
+        JsonObject lightRanges = root.has("LightRanges") && root.get("LightRanges").isJsonObject()
+                ? root.getAsJsonObject("LightRanges")
+                : new JsonObject();
+
+        int beforeMin = Integer.MIN_VALUE;
+        int beforeMax = Integer.MIN_VALUE;
+        if (lightRanges.has("Light") && lightRanges.get("Light").isJsonArray()) {
+            JsonArray arr = lightRanges.getAsJsonArray("Light");
+            if (arr.size() >= 2 && arr.get(0).isJsonPrimitive() && arr.get(1).isJsonPrimitive()) {
+                beforeMin = arr.get(0).getAsInt();
+                beforeMax = arr.get(1).getAsInt();
+            }
+        }
+
+        boolean modified = beforeMin != minLight || beforeMax != maxLight;
+        if (!modified) return false;
+
+        JsonArray newLight = new JsonArray();
+        newLight.add(minLight);
+        newLight.add(maxLight);
+        lightRanges.add("Light", newLight);
+        root.add("LightRanges", lightRanges);
+
+        writeAtomic(file, GSON.toJson(root));
+        return true;
     }
 
     private static void writeAtomic(Path target, String content) throws IOException {

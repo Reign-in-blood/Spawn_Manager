@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "DisabledLightRange": [99, 100],
+  "files": [
+    {
+      "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Rat.json",
+      "originalLight": [0, 2]
+    },
+    {
+      "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Spider.json",
+      "originalLight": [0, 2]
+    },
+    {
+      "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Goblin.json",
+      "originalLight": [0, 2]
+    }
+  ]
+}
