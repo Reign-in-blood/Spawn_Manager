@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "groups": {
+    "Terrestrial": [],
+    "Aquatic": [],
+    "Flying": [],
+
+    "Skeleton": [],
+    "Scarak": [],
+    "Void": [],
+    "Golem": [],
+    "Trork": [],
+    "Outlander": [],
+    "Goblin": [],
+    "Zombie": [],
+    "Spirit": [],
+
+    "Kweebec": [],
+    "Feran": [],
+    "Gentleman": [],
+    "Temple": [],
+
+    "Zone 0": [],
+    "Zone 1": [],
+    "Zone 2": [],
+    "Zone 3": [],
+    "Zone 4": []
+  }
+}
