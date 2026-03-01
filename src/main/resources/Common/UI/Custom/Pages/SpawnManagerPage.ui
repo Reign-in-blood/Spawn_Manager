@@ -113,26 +113,59 @@ $C.@PageOverlay {
               LayoutMode: Left;
               Anchor: (Height: 26);
 
-              TextButton #FilterALL {
-                Text: "ALL";
+              Group {
+                LayoutMode: Middle;
                 Anchor: (Width: 96, Height: 26);
-                Style: @FilterActiveStyle;
+
+                TextButton #FilterPASSIVEOff {
+                  Text: "PAS";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterButtonStyle;
+                }
+
+                TextButton #FilterPASSIVEOn {
+                  Text: "PAS";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
               }
 
               Group { Anchor: (Width: 4); }
 
-              TextButton #FilterPASSIVE {
-                Text: "PAS";
+              Group {
+                LayoutMode: Middle;
                 Anchor: (Width: 96, Height: 26);
-                Style: @FilterButtonStyle;
+
+                TextButton #FilterAGGRESSIVEOff {
+                  Text: "AGR";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterButtonStyle;
+                }
+
+                TextButton #FilterAGGRESSIVEOn {
+                  Text: "AGR";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
               }
 
               Group { Anchor: (Width: 4); }
 
-              TextButton #FilterAGGRESSIVE {
-                Text: "AGR";
+              Group {
+                LayoutMode: Middle;
                 Anchor: (Width: 96, Height: 26);
-                Style: @FilterButtonStyle;
+
+                TextButton #FilterMONSTEROff {
+                  Text: "MON";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterButtonStyle;
+                }
+
+                TextButton #FilterMONSTEROn {
+                  Text: "MON";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
               }
             }
 
@@ -142,26 +175,40 @@ $C.@PageOverlay {
               LayoutMode: Left;
               Anchor: (Height: 26);
 
-              TextButton #FilterMONSTER {
-                Text: "MON";
+              Group {
+                LayoutMode: Middle;
                 Anchor: (Width: 96, Height: 26);
-                Style: @FilterButtonStyle;
+
+                TextButton #FilterANIMALSOff {
+                  Text: "ANIMALS";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterButtonStyle;
+                }
+
+                TextButton #FilterANIMALSOn {
+                  Text: "ANIMALS";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
               }
 
               Group { Anchor: (Width: 4); }
 
-              TextButton #FilterANIMALS {
-                Text: "ANIMALS";
+              Group {
+                LayoutMode: Middle;
                 Anchor: (Width: 96, Height: 26);
-                Style: @FilterButtonStyle;
-              }
 
-              Group { Anchor: (Width: 4); }
+                TextButton #FilterENEMIESOff {
+                  Text: "ENEMIES";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterButtonStyle;
+                }
 
-              TextButton #FilterENEMIES {
-                Text: "ENEMIES";
-                Anchor: (Width: 96, Height: 26);
-                Style: @FilterButtonStyle;
+                TextButton #FilterENEMIESOn {
+                  Text: "ENEMIES";
+                  Anchor: (Width: 96, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
               }
             }
 

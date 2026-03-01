@@ -54,7 +54,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private String currentSearchFilter = "";
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
-    private final Set<String> activeFilters = new LinkedHashSet<>();
+    private final Set<String> activeGroups = new LinkedHashSet<>();
 
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
@@ -91,7 +91,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if (currentSearchFilter != null && !currentSearchFilter.isBlank()) {
             cmd.set("#MobSearchField.Value", currentSearchFilter);
         }
-        applyFilterButtonLabels(cmd);
+        applyFilterButtonVisibility(cmd);
         buildMobList(cmd, events);
 
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
@@ -101,12 +101,16 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
 
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterALL", EventData.of("Action", "clearFilters"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVE", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVE", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTER", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALS", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIES", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROff", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROn", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOff", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOn", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOff", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOn", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
     }
 
     @Override
@@ -154,13 +158,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
-        if ("clearFilters".equals(action)) {
-            activeFilters.clear();
-            rebuild();
-            return;
-        }
-
         if ("selectAll".equals(action)) {
+            activeGroups.clear();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, true);
@@ -174,6 +173,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
 
         if ("clearAll".equals(action)) {
+            activeGroups.clear();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, false);
@@ -241,13 +241,27 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
 
         String normalizedFilter = filterName.toUpperCase(Locale.ROOT);
-        if (activeFilters.contains(normalizedFilter)) {
-            activeFilters.remove(normalizedFilter);
+        Set<String> groupMobIds = resolveFilterMobIds(normalizedFilter);
+
+        if (activeGroups.contains(normalizedFilter)) {
+            activeGroups.remove(normalizedFilter);
+            synchronized (stagedEnabled) {
+                synchronized (dirty) {
+                    for (String mobId : groupMobIds) {
+                        if (!isCoveredByAnyActiveGroup(mobId)) {
+                            boolean previous = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
+                            if (previous) {
+                                stagedEnabled.put(mobId, false);
+                                dirty.add(mobId);
+                            }
+                        }
+                    }
+                }
+            }
             return;
         }
 
-        activeFilters.add(normalizedFilter);
-        Set<String> groupMobIds = resolveFilterMobIds(normalizedFilter);
+        activeGroups.add(normalizedFilter);
         if (groupMobIds.isEmpty()) {
             LOGGER.info("[SpawnManager] toggleFilter: filter '" + normalizedFilter + "' has no mapped mobs");
             return;
@@ -264,6 +278,16 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 }
             }
         }
+    }
+
+    private boolean isCoveredByAnyActiveGroup(String mobId) {
+        for (String activeGroup : activeGroups) {
+            Set<String> covered = resolveFilterMobIds(activeGroup);
+            if (covered.contains(mobId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Set<String> resolveFilterMobIds(String filterName) {
@@ -339,17 +363,17 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return selected;
     }
 
-    private void applyFilterButtonLabels(UICommandBuilder cmd) {
-        setFilterButtonLabel(cmd, "#FilterALL", "ALL", activeFilters.isEmpty());
-        setFilterButtonLabel(cmd, "#FilterPASSIVE", "PAS", activeFilters.contains("PASSIVE"));
-        setFilterButtonLabel(cmd, "#FilterAGGRESSIVE", "AGR", activeFilters.contains("AGGRESSIVE"));
-        setFilterButtonLabel(cmd, "#FilterMONSTER", "MON", activeFilters.contains("MONSTER"));
-        setFilterButtonLabel(cmd, "#FilterANIMALS", "ANIMALS", activeFilters.contains("ANIMALS"));
-        setFilterButtonLabel(cmd, "#FilterENEMIES", "ENEMIES", activeFilters.contains("ENEMIES"));
+    private void applyFilterButtonVisibility(UICommandBuilder cmd) {
+        setFilterButtonVisibility(cmd, "#FilterPASSIVE", activeGroups.contains("PASSIVE"));
+        setFilterButtonVisibility(cmd, "#FilterAGGRESSIVE", activeGroups.contains("AGGRESSIVE"));
+        setFilterButtonVisibility(cmd, "#FilterMONSTER", activeGroups.contains("MONSTER"));
+        setFilterButtonVisibility(cmd, "#FilterANIMALS", activeGroups.contains("ANIMALS"));
+        setFilterButtonVisibility(cmd, "#FilterENEMIES", activeGroups.contains("ENEMIES"));
     }
 
-    private static void setFilterButtonLabel(UICommandBuilder cmd, String selector, String baseLabel, boolean active) {
-        cmd.set(selector + ".Text", active ? baseLabel + " [ON]" : baseLabel);
+    private static void setFilterButtonVisibility(UICommandBuilder cmd, String baseSelector, boolean active) {
+        cmd.set(baseSelector + "On.Visible", active);
+        cmd.set(baseSelector + "Off.Visible", !active);
     }
 
     private void rebuildDisplayedMobs() {
