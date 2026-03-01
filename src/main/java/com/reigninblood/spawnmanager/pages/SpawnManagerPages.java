@@ -25,6 +25,7 @@ import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.FileEntry;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MarkerEntry;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.SpawnManagerMap;
 import com.reigninblood.spawnmanager.mapping.GroupsLoader;
 import com.reigninblood.spawnmanager.mapping.GroupsLoader.SpawnManagerGroups;
@@ -49,6 +50,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
     private static final String ROW_PATH = "Pages/MobRow.ui";
     private static final String KEY = "SpawnBlockSet";
+    private static final String MARKER_KEY = "DeactivationDistance";
 
     private final List<String> displayedMobs = new ArrayList<>();
     private String currentSearchFilter = "";
@@ -531,50 +533,101 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         for (String mobId : dirtySnapshot) {
             MobMapping mobMapping = mapping.mobs.get(mobId);
-            if (mobMapping == null || mobMapping.files == null || mobMapping.files.isEmpty()) {
-                LOGGER.warning("[SpawnManager] apply: no file mapping for mob=" + mobId);
+            if (mobMapping == null) {
+                LOGGER.warning("[SpawnManager] apply: no mapping entry for mob=" + mobId);
                 continue;
             }
 
             boolean enabled = stagedSnapshot.getOrDefault(mobId, true);
-            String replacementSpawnBlockSet = mapping.getReplacementSpawnBlockSet();
-            if (!enabled && (replacementSpawnBlockSet == null || replacementSpawnBlockSet.isBlank())) {
-                LOGGER.warning("[SpawnManager] apply: ReplacementSpawnBlockSet missing in mapping for mob=" + mobId);
+
+            boolean hasWorldFiles = mobMapping.files != null && !mobMapping.files.isEmpty();
+            boolean hasMarkers = mobMapping.markers != null && !mobMapping.markers.isEmpty();
+            if (!hasWorldFiles && !hasMarkers) {
+                LOGGER.warning("[SpawnManager] apply: no world/marker mapping for mob=" + mobId);
                 continue;
             }
 
-            for (FileEntry fileEntry : mobMapping.files) {
-                if (fileEntry == null) {
-                    LOGGER.warning("[SpawnManager] apply: null file entry for mob=" + mobId);
-                    continue;
-                }
+            String replacementSpawnBlockSet = mapping.getReplacementSpawnBlockSet();
+            if (hasWorldFiles && !enabled && (replacementSpawnBlockSet == null || replacementSpawnBlockSet.isBlank())) {
+                LOGGER.warning("[SpawnManager] apply: ReplacementSpawnBlockSet missing in mapping for mob=" + mobId);
+            }
 
-                String mappedPath = fileEntry.path;
-                String relativePath = normalizeMappedPath(mappedPath);
-                if (relativePath == null) {
-                    LOGGER.warning("[SpawnManager] apply: invalid path for mob=" + mobId + " raw='" + mappedPath + "'");
-                    continue;
-                }
+            Double replacementMarkerDistance = mapping.getReplacementMarkerDeactivationDistance();
+            if (hasMarkers && !enabled && (replacementMarkerDistance == null || !Double.isFinite(replacementMarkerDistance) || replacementMarkerDistance <= 0.0d)) {
+                LOGGER.warning("[SpawnManager] apply: ReplacementMarkerDeactivationDistance missing/invalid for mob=" + mobId);
+            }
 
-                String targetSpawnBlockSet = enabled ? fileEntry.originalSpawnBlockSet : replacementSpawnBlockSet;
-                if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
-                    LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " file=" + mappedPath);
-                    continue;
-                }
-
-                Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-                if (targetFile == null) {
-                    LOGGER.warning("[SpawnManager] apply: file not found for mob=" + mobId + " path=Server/" + relativePath);
-                    continue;
-                }
-
-                try {
-                    PatchOutcome outcome = setMobSpawnBlockSetInFile(targetFile, mobId, targetSpawnBlockSet);
-                    if (!outcome.foundMobId) {
-                        LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
+            if (hasWorldFiles) {
+                for (FileEntry fileEntry : mobMapping.files) {
+                    if (fileEntry == null) {
+                        LOGGER.warning("[SpawnManager] apply: null world file entry for mob=" + mobId);
+                        continue;
                     }
-                } catch (Exception e) {
-                    LOGGER.warning("[SpawnManager] apply: failed for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
+
+                    String mappedPath = fileEntry.path;
+                    String relativePath = normalizeMappedPath(mappedPath);
+                    if (relativePath == null) {
+                        LOGGER.warning("[SpawnManager] apply: invalid world path for mob=" + mobId + " raw='" + mappedPath + "'");
+                        continue;
+                    }
+
+                    String targetSpawnBlockSet = enabled ? fileEntry.originalSpawnBlockSet : replacementSpawnBlockSet;
+                    if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
+                        LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " file=" + mappedPath);
+                        continue;
+                    }
+
+                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: world file not found for mob=" + mobId + " path=Server/" + relativePath);
+                        continue;
+                    }
+
+                    try {
+                        PatchOutcome outcome = setMobSpawnBlockSetInFile(targetFile, mobId, targetSpawnBlockSet);
+                        if (!outcome.foundTarget) {
+                            LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
+                        }
+                    } catch (Exception e) {
+                        LOGGER.warning("[SpawnManager] apply: failed world patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
+                    }
+                }
+            }
+
+            if (hasMarkers) {
+                for (MarkerEntry markerEntry : mobMapping.markers) {
+                    if (markerEntry == null) {
+                        LOGGER.warning("[SpawnManager] apply: null marker entry for mob=" + mobId);
+                        continue;
+                    }
+
+                    String mappedPath = markerEntry.path;
+                    String relativePath = normalizeMappedPath(mappedPath);
+                    if (relativePath == null) {
+                        LOGGER.warning("[SpawnManager] apply: invalid marker path for mob=" + mobId + " raw='" + mappedPath + "'");
+                        continue;
+                    }
+
+                    Double targetDistance = enabled ? markerEntry.originalDeactivationDistance : replacementMarkerDistance;
+                    if (targetDistance == null || !Double.isFinite(targetDistance) || targetDistance <= 0.0d) {
+                        LOGGER.warning("[SpawnManager] apply: missing/invalid marker distance for mob=" + mobId + " file=" + mappedPath);
+                        continue;
+                    }
+
+                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: marker file not found for mob=" + mobId + " path=Server/" + relativePath);
+                        continue;
+                    }
+
+                    try {
+                        PatchOutcome outcome = setMarkerDeactivationDistanceInFile(targetFile, mobId, targetDistance);
+                        if (!outcome.foundTarget) {
+                            LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " file=" + targetFile);
+                        }
+                    } catch (Exception e) {
+                        LOGGER.warning("[SpawnManager] apply: failed marker patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
+                    }
                 }
             }
         }
@@ -655,6 +708,102 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return new PatchOutcome(found, modified);
     }
 
+
+    private static PatchOutcome setMarkerDeactivationDistanceInFile(Path file, String mobId, double deactivationDistance) throws IOException {
+        String json = Files.readString(file);
+        JsonElement el = JsonParser.parseString(json);
+
+        boolean found = false;
+        boolean modified = false;
+
+        if (el.isJsonObject()) {
+            JsonObject root = el.getAsJsonObject();
+
+            if (root.has("Markers") && root.get("Markers").isJsonArray()) {
+                JsonArray markers = root.getAsJsonArray("Markers");
+                for (JsonElement markerEl : markers) {
+                    if (!markerEl.isJsonObject()) continue;
+                    JsonObject marker = markerEl.getAsJsonObject();
+                    if (!markerMatchesMob(marker, mobId)) continue;
+                    found = true;
+                    double before = marker.has(MARKER_KEY) && marker.get(MARKER_KEY).isJsonPrimitive() ? marker.get(MARKER_KEY).getAsDouble() : Double.NaN;
+                    if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
+                        marker.addProperty(MARKER_KEY, deactivationDistance);
+                        modified = true;
+                    }
+                    break;
+                }
+            } else {
+                if (markerMatchesMob(root, mobId) || markerRootContainsMob(root, mobId)) {
+                    found = true;
+                    double before = root.has(MARKER_KEY) && root.get(MARKER_KEY).isJsonPrimitive() ? root.get(MARKER_KEY).getAsDouble() : Double.NaN;
+                    if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
+                        root.addProperty(MARKER_KEY, deactivationDistance);
+                        modified = true;
+                    }
+                }
+            }
+
+            if (modified) {
+                writeAtomic(file, GSON.toJson(root));
+            }
+            return new PatchOutcome(found, modified);
+        }
+
+        if (el.isJsonArray()) {
+            JsonArray arr = el.getAsJsonArray();
+            for (JsonElement markerEl : arr) {
+                if (!markerEl.isJsonObject()) continue;
+                JsonObject marker = markerEl.getAsJsonObject();
+                if (!markerMatchesMob(marker, mobId)) continue;
+                found = true;
+                double before = marker.has(MARKER_KEY) && marker.get(MARKER_KEY).isJsonPrimitive() ? marker.get(MARKER_KEY).getAsDouble() : Double.NaN;
+                if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
+                    marker.addProperty(MARKER_KEY, deactivationDistance);
+                    modified = true;
+                }
+                break;
+            }
+            if (modified) {
+                writeAtomic(file, GSON.toJson(arr));
+            }
+            return new PatchOutcome(found, modified);
+        }
+
+        return new PatchOutcome(false, false);
+    }
+
+
+    private static boolean markerRootContainsMob(JsonObject root, String mobId) {
+        if (root == null || mobId == null) return false;
+        if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return false;
+
+        JsonArray npcs = root.getAsJsonArray("NPCs");
+        for (JsonElement npcEl : npcs) {
+            if (!npcEl.isJsonObject()) continue;
+            JsonObject npc = npcEl.getAsJsonObject();
+            if (npc.has("Name") && npc.get("Name").isJsonPrimitive() && mobId.equals(npc.get("Name").getAsString())) {
+                return true;
+            }
+            if (npc.has("Id") && npc.get("Id").isJsonPrimitive() && mobId.equals(npc.get("Id").getAsString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean markerMatchesMob(JsonObject marker, String mobId) {
+        if (marker == null || mobId == null) return false;
+
+        if (marker.has("Name") && marker.get("Name").isJsonPrimitive() && mobId.equals(marker.get("Name").getAsString())) {
+            return true;
+        }
+        if (marker.has("Id") && marker.get("Id").isJsonPrimitive() && mobId.equals(marker.get("Id").getAsString())) {
+            return true;
+        }
+        return false;
+    }
+
     private static void writeAtomic(Path target, String content) throws IOException {
         Path tmp = target.resolveSibling(target.getFileName().toString() + ".tmp");
         Files.writeString(tmp, content);
@@ -669,6 +818,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private record ScoredMob(String name, int score) {
     }
 
-    private record PatchOutcome(boolean foundMobId, boolean modified) {
+    private record PatchOutcome(boolean foundTarget, boolean modified) {
     }
 }

@@ -76,20 +76,47 @@ public final class FileMappingLoader {
     private static boolean isValid(SpawnManagerMap map) {
         if (map == null) return false;
         if (map.schemaVersion != 2) return false;
-        if (map.getReplacementSpawnBlockSet() == null || map.getReplacementSpawnBlockSet().isBlank()) return false;
         if (map.mobs == null || map.mobs.isEmpty()) return false;
+
+        boolean hasWorld = false;
+        boolean hasMarkers = false;
 
         for (Map.Entry<String, MobMapping> entry : map.mobs.entrySet()) {
             String mobId = entry.getKey();
             MobMapping mob = entry.getValue();
             if (mobId == null || mobId.isBlank() || mob == null) return false;
-            if (mob.files == null || mob.files.isEmpty()) return false;
-            for (FileEntry f : mob.files) {
-                if (f == null) return false;
-                if (f.path == null || f.path.isBlank()) return false;
-                if (f.originalSpawnBlockSet == null || f.originalSpawnBlockSet.isBlank()) return false;
+
+            boolean mobHasEntries = false;
+
+            if (mob.files != null && !mob.files.isEmpty()) {
+                mobHasEntries = true;
+                hasWorld = true;
+                for (FileEntry f : mob.files) {
+                    if (f == null) return false;
+                    if (f.path == null || f.path.isBlank()) return false;
+                    if (f.originalSpawnBlockSet == null || f.originalSpawnBlockSet.isBlank()) return false;
+                }
             }
+
+            if (mob.markers != null && !mob.markers.isEmpty()) {
+                mobHasEntries = true;
+                hasMarkers = true;
+                for (MarkerEntry m : mob.markers) {
+                    if (m == null) return false;
+                    if (m.path == null || m.path.isBlank()) return false;
+                    if (m.originalDeactivationDistance == null) return false;
+                    if (!Double.isFinite(m.originalDeactivationDistance) || m.originalDeactivationDistance <= 0.0d) return false;
+                }
+            }
+
+            if (!mobHasEntries) return false;
         }
+
+        if (hasWorld && (map.getReplacementSpawnBlockSet() == null || map.getReplacementSpawnBlockSet().isBlank())) return false;
+        if (hasMarkers && (map.getReplacementMarkerDeactivationDistance() == null || !Double.isFinite(map.getReplacementMarkerDeactivationDistance()) || map.getReplacementMarkerDeactivationDistance() <= 0.0d)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -97,20 +124,33 @@ public final class FileMappingLoader {
         public int schemaVersion;
         public String ReplacementSpawnBlockSet;
         public String replacementSpawnBlockSet;
+        public Double ReplacementMarkerDeactivationDistance;
+        public Double replacementMarkerDeactivationDistance;
         public Map<String, MobMapping> mobs = new LinkedHashMap<>();
 
         public String getReplacementSpawnBlockSet() {
             if (replacementSpawnBlockSet != null && !replacementSpawnBlockSet.isBlank()) return replacementSpawnBlockSet;
             return ReplacementSpawnBlockSet;
         }
+
+        public Double getReplacementMarkerDeactivationDistance() {
+            if (replacementMarkerDeactivationDistance != null) return replacementMarkerDeactivationDistance;
+            return ReplacementMarkerDeactivationDistance;
+        }
     }
 
     public static final class MobMapping {
         public List<FileEntry> files = new ArrayList<>();
+        public List<MarkerEntry> markers = new ArrayList<>();
     }
 
     public static final class FileEntry {
         public String path;
         public String originalSpawnBlockSet;
+    }
+
+    public static final class MarkerEntry {
+        public String path;
+        public Double originalDeactivationDistance;
     }
 }
