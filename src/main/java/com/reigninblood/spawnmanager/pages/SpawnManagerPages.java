@@ -49,6 +49,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String KEY = "SpawnBlockSet";
 
     private final List<String> displayedMobs = new ArrayList<>();
+    private String currentSearchFilter = "";
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
 
@@ -62,10 +63,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
 
         this.mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
-        if (mapping != null && mapping.mobs != null) {
-            displayedMobs.addAll(mapping.mobs.keySet());
-            Collections.sort(displayedMobs);
-        }
+        rebuildDisplayedMobs();
 
         initializeFromConfig();
     }
@@ -83,9 +81,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         cmd.append(PAGE_PATH);
 
+        rebuildDisplayedMobs();
         ensureStagedForDisplayedMobs();
+        if (currentSearchFilter != null && !currentSearchFilter.isBlank()) {
+            cmd.set("#MobSearchField.Value", currentSearchFilter);
+        }
         buildMobList(cmd, events);
 
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearSearchBtn", EventData.of("Action", "clearSearch"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
@@ -112,6 +116,21 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     dirty.add(mobId);
                 }
             }
+            return;
+        }
+
+        if ("search".equals(action)) {
+            String search = data.get("@MobSearchField");
+            currentSearchFilter = search != null ? search.trim() : "";
+            rebuildDisplayedMobs();
+            rebuild();
+            return;
+        }
+
+        if ("clearSearch".equals(action)) {
+            currentSearchFilter = "";
+            rebuildDisplayedMobs();
+            rebuild();
             return;
         }
 
@@ -188,6 +207,45 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             LOGGER.info("[SpawnManager] UI open: mapping mobs=" + displayedMobs.size());
         }
         ensureStagedForDisplayedMobs();
+    }
+
+    private void rebuildDisplayedMobs() {
+        displayedMobs.clear();
+        if (mapping == null || mapping.mobs == null || mapping.mobs.isEmpty()) return;
+
+        List<String> allMobs = new ArrayList<>(mapping.mobs.keySet());
+        if (currentSearchFilter == null || currentSearchFilter.isBlank()) {
+            Collections.sort(allMobs);
+            displayedMobs.addAll(allMobs);
+            return;
+        }
+
+        String query = currentSearchFilter.trim();
+        List<ScoredMob> scored = new ArrayList<>();
+        for (String mobId : allMobs) {
+            int score = calculateSearchScore(mobId, query);
+            if (score > 0) scored.add(new ScoredMob(mobId, score));
+        }
+
+        scored.sort((a, b) -> a.score != b.score ? Integer.compare(b.score, a.score) : a.name.compareTo(b.name));
+        for (ScoredMob s : scored) displayedMobs.add(s.name);
+    }
+
+    private static int calculateSearchScore(String mobName, String query) {
+        String lowerName = mobName.toLowerCase().replace("_", " ");
+        String lowerQuery = query.toLowerCase();
+        String lowerIdName = mobName.toLowerCase();
+
+        if (lowerName.equals(lowerQuery) || lowerIdName.equals(lowerQuery)) return 100;
+        if (lowerName.startsWith(lowerQuery) || lowerIdName.startsWith(lowerQuery)) return 80;
+
+        for (String word : lowerName.split("\\s+")) {
+            if (word.startsWith(lowerQuery)) return 60;
+        }
+
+        if (lowerName.contains(lowerQuery)) return 40;
+        if (lowerIdName.contains(lowerQuery)) return 20;
+        return 0;
     }
 
     private void ensureStagedForDisplayedMobs() {
@@ -382,6 +440,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         } catch (AtomicMoveNotSupportedException e) {
             Files.move(tmp, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    private record ScoredMob(String name, int score) {
     }
 
     private record PatchOutcome(boolean foundMobId, boolean modified) {

@@ -43,6 +43,31 @@ $C.@PageOverlay {
 
           Group { Anchor: (Height: 8); }
 
+          Group {
+            LayoutMode: Left;
+            Anchor: (Height: 36);
+
+            $C.@TextField #MobSearchField {
+              Anchor: (Width: 250, Height: 34);
+              PlaceholderText: "Search mobs...";
+              Style: $C.@DefaultInputFieldStyle;
+            }
+
+            Group { Anchor: (Width: 4); }
+
+            $C.@TextButton #SearchBtn {
+              @Text = "Search";
+              Anchor: (Width: 110, Height: 34);
+            }
+
+            Group { Anchor: (Width: 4); }
+
+            $C.@SecondaryTextButton #ClearSearchBtn {
+              @Text = "Clear";
+              Anchor: (Width: 110, Height: 34);
+            }
+          }
+
           Group { Anchor: (Height: 6); }
 
           Group {
@@ -65,7 +90,11 @@ $C.@PageOverlay {
           Group { Anchor: (Height: 8); }
 
           Group #MobListContainer {
-            LayoutMode: Top;
+            LayoutMode: TopScrolling;
+            FlexWeight: 1;
+            ScrollbarStyle: $C.@DefaultScrollbarStyle;
+            Background: #0a1119;
+            Padding: (Full: 2);
           }
         }
 
