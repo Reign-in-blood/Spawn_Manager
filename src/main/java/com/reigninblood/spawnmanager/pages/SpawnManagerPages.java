@@ -23,8 +23,11 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.reigninblood.spawnmanager.SpawnManagerPlugin;
 import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader;
+import com.reigninblood.spawnmanager.mapping.FileMappingLoader.FileEntry;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.MobMapping;
 import com.reigninblood.spawnmanager.mapping.FileMappingLoader.SpawnManagerMap;
+import com.reigninblood.spawnmanager.mapping.GroupsLoader;
+import com.reigninblood.spawnmanager.mapping.GroupsLoader.SpawnManagerGroups;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -48,11 +51,14 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String KEY = "SpawnBlockSet";
 
     private final List<String> displayedMobs = new ArrayList<>();
+    private String currentSearchFilter = "";
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
+    private final Set<String> activeGroups = new LinkedHashSet<>();
 
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
+    private final SpawnManagerGroups groups;
 
     public SpawnManagerPages(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismiss);
@@ -61,10 +67,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
 
         this.mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
-        if (mapping != null && mapping.mobs != null) {
-            displayedMobs.addAll(mapping.mobs.keySet());
-            Collections.sort(displayedMobs);
-        }
+        this.groups = GroupsLoader.loadFromAssetPacks(AssetModule.get());
+        rebuildDisplayedMobs();
 
         initializeFromConfig();
     }
@@ -82,13 +86,31 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         cmd.append(PAGE_PATH);
 
+        rebuildDisplayedMobs();
         ensureStagedForDisplayedMobs();
+        if (currentSearchFilter != null && !currentSearchFilter.isBlank()) {
+            cmd.set("#MobSearchField.Value", currentSearchFilter);
+        }
+        applyFilterButtonVisibility(cmd);
         buildMobList(cmd, events);
 
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#SearchBtn", EventData.of("Action", "search").put("@MobSearchField", "#MobSearchField.Value"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearSearchBtn", EventData.of("Action", "clearSearch"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#SelectAllButton", EventData.of("Action", "selectAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ClearAllButton", EventData.of("Action", "clearAll"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ApplyButton", EventData.of("Action", "apply"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#ReloadNpcButton", EventData.of("Action", "reloadNpc"), false);
+
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterPASSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "PASSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOff", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterAGGRESSIVEOn", EventData.of("Action", "toggleFilter").append("Value", "AGGRESSIVE"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROff", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterMONSTEROn", EventData.of("Action", "toggleFilter").append("Value", "MONSTER"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOff", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterANIMALSOn", EventData.of("Action", "toggleFilter").append("Value", "ANIMALS"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOff", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterENEMIESOn", EventData.of("Action", "toggleFilter").append("Value", "ENEMIES"), false);
     }
 
     @Override
@@ -114,7 +136,30 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             return;
         }
 
+        if ("search".equals(action)) {
+            String search = data.get("@MobSearchField");
+            currentSearchFilter = search != null ? search.trim() : "";
+            rebuildDisplayedMobs();
+            rebuild();
+            return;
+        }
+
+        if ("clearSearch".equals(action)) {
+            currentSearchFilter = "";
+            rebuildDisplayedMobs();
+            rebuild();
+            return;
+        }
+
+        if ("toggleFilter".equals(action)) {
+            String filterName = data.get("Value");
+            toggleFilter(filterName);
+            rebuild();
+            return;
+        }
+
         if ("selectAll".equals(action)) {
+            activeGroups.clear();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, true);
@@ -128,6 +173,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
 
         if ("clearAll".equals(action)) {
+            activeGroups.clear();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
                     stagedEnabled.put(mobId, false);
@@ -187,6 +233,186 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             LOGGER.info("[SpawnManager] UI open: mapping mobs=" + displayedMobs.size());
         }
         ensureStagedForDisplayedMobs();
+    }
+
+    private void toggleFilter(String filterName) {
+        if (filterName == null || filterName.isBlank() || mapping == null || mapping.mobs == null) {
+            return;
+        }
+
+        String normalizedFilter = filterName.toUpperCase(Locale.ROOT);
+        Set<String> groupMobIds = resolveFilterMobIds(normalizedFilter);
+
+        if (activeGroups.contains(normalizedFilter)) {
+            activeGroups.remove(normalizedFilter);
+            synchronized (stagedEnabled) {
+                synchronized (dirty) {
+                    for (String mobId : groupMobIds) {
+                        if (!isCoveredByAnyActiveGroup(mobId)) {
+                            boolean previous = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
+                            if (previous) {
+                                stagedEnabled.put(mobId, false);
+                                dirty.add(mobId);
+                            }
+                        }
+                    }
+                }
+            }
+            return;
+        }
+
+        activeGroups.add(normalizedFilter);
+        if (groupMobIds.isEmpty()) {
+            LOGGER.info("[SpawnManager] toggleFilter: filter '" + normalizedFilter + "' has no mapped mobs");
+            return;
+        }
+
+        synchronized (stagedEnabled) {
+            synchronized (dirty) {
+                for (String mobId : groupMobIds) {
+                    boolean previous = stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId));
+                    if (!previous) {
+                        stagedEnabled.put(mobId, true);
+                        dirty.add(mobId);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isCoveredByAnyActiveGroup(String mobId) {
+        for (String activeGroup : activeGroups) {
+            Set<String> covered = resolveFilterMobIds(activeGroup);
+            if (covered.contains(mobId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Set<String> resolveFilterMobIds(String filterName) {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+        if (mapping == null || mapping.mobs == null) {
+            return selected;
+        }
+
+        switch (filterName) {
+            case "PASSIVE":
+                selected.addAll(resolveConfiguredGroup("Passive"));
+                break;
+            case "AGGRESSIVE":
+                selected.addAll(resolveConfiguredGroup("Aggressive"));
+                break;
+            case "MONSTER":
+                selected.addAll(resolveConfiguredGroup("Monsters"));
+                break;
+            case "ANIMALS":
+                selected.addAll(resolveConfiguredGroup("Animals"));
+                break;
+            case "ENEMIES":
+                selected.addAll(resolveConfiguredGroup("Enemies"));
+                selected.addAll(resolveConfiguredGroup("Aggressive"));
+                selected.addAll(resolveConfiguredGroup("Monsters"));
+                selected.addAll(resolveConfiguredGroup("Skeletons"));
+                if (selected.isEmpty()) {
+                    selected.addAll(resolveSkeletonFallback());
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (("MONSTER".equals(filterName) || "ENEMIES".equals(filterName)) && selected.isEmpty()) {
+            selected.addAll(resolveSkeletonFallback());
+        }
+
+        return selected;
+    }
+
+    private Set<String> resolveConfiguredGroup(String groupName) {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+        if (groups == null || groups.groups == null || mapping == null || mapping.mobs == null) {
+            return selected;
+        }
+
+        List<String> configured = groups.groups.get(groupName);
+        if (configured == null) {
+            return selected;
+        }
+
+        for (String mobId : configured) {
+            if (mobId != null && mapping.mobs.containsKey(mobId)) {
+                selected.add(mobId);
+            }
+        }
+
+        return selected;
+    }
+
+    private Set<String> resolveSkeletonFallback() {
+        LinkedHashSet<String> selected = new LinkedHashSet<>();
+        if (mapping == null || mapping.mobs == null) {
+            return selected;
+        }
+
+        for (String mobId : mapping.mobs.keySet()) {
+            if (mobId != null && mobId.startsWith("Skeleton")) {
+                selected.add(mobId);
+            }
+        }
+        return selected;
+    }
+
+    private void applyFilterButtonVisibility(UICommandBuilder cmd) {
+        setFilterButtonVisibility(cmd, "#FilterPASSIVE", activeGroups.contains("PASSIVE"));
+        setFilterButtonVisibility(cmd, "#FilterAGGRESSIVE", activeGroups.contains("AGGRESSIVE"));
+        setFilterButtonVisibility(cmd, "#FilterMONSTER", activeGroups.contains("MONSTER"));
+        setFilterButtonVisibility(cmd, "#FilterANIMALS", activeGroups.contains("ANIMALS"));
+        setFilterButtonVisibility(cmd, "#FilterENEMIES", activeGroups.contains("ENEMIES"));
+    }
+
+    private static void setFilterButtonVisibility(UICommandBuilder cmd, String baseSelector, boolean active) {
+        cmd.set(baseSelector + "On.Visible", active);
+        cmd.set(baseSelector + "Off.Visible", !active);
+    }
+
+    private void rebuildDisplayedMobs() {
+        displayedMobs.clear();
+        if (mapping == null || mapping.mobs == null || mapping.mobs.isEmpty()) return;
+
+        List<String> allMobs = new ArrayList<>(mapping.mobs.keySet());
+        if (currentSearchFilter == null || currentSearchFilter.isBlank()) {
+            Collections.sort(allMobs);
+            displayedMobs.addAll(allMobs);
+            return;
+        }
+
+        String query = currentSearchFilter.trim();
+        List<ScoredMob> scored = new ArrayList<>();
+        for (String mobId : allMobs) {
+            int score = calculateSearchScore(mobId, query);
+            if (score > 0) scored.add(new ScoredMob(mobId, score));
+        }
+
+        scored.sort((a, b) -> a.score != b.score ? Integer.compare(b.score, a.score) : a.name.compareTo(b.name));
+        for (ScoredMob s : scored) displayedMobs.add(s.name);
+    }
+
+    private static int calculateSearchScore(String mobName, String query) {
+        String lowerName = mobName.toLowerCase().replace("_", " ");
+        String lowerQuery = query.toLowerCase();
+        String lowerIdName = mobName.toLowerCase();
+
+        if (lowerName.equals(lowerQuery) || lowerIdName.equals(lowerQuery)) return 100;
+        if (lowerName.startsWith(lowerQuery) || lowerIdName.startsWith(lowerQuery)) return 80;
+
+        for (String word : lowerName.split("\\s+")) {
+            if (word.startsWith(lowerQuery)) return 60;
+        }
+
+        if (lowerName.contains(lowerQuery)) return 40;
+        if (lowerIdName.contains(lowerQuery)) return 20;
+        return 0;
     }
 
     private void ensureStagedForDisplayedMobs() {
@@ -254,17 +480,28 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             boolean enabled = stagedSnapshot.getOrDefault(mobId, true);
-            String targetSpawnBlockSet = enabled ? mobMapping.vanillaSpawnBlockSet : mobMapping.replacementSpawnBlockSet;
-
-            if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
-                LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId);
+            String replacementSpawnBlockSet = mapping.getReplacementSpawnBlockSet();
+            if (!enabled && (replacementSpawnBlockSet == null || replacementSpawnBlockSet.isBlank())) {
+                LOGGER.warning("[SpawnManager] apply: ReplacementSpawnBlockSet missing in mapping for mob=" + mobId);
                 continue;
             }
 
-            for (String mappedPath : mobMapping.files) {
+            for (FileEntry fileEntry : mobMapping.files) {
+                if (fileEntry == null) {
+                    LOGGER.warning("[SpawnManager] apply: null file entry for mob=" + mobId);
+                    continue;
+                }
+
+                String mappedPath = fileEntry.path;
                 String relativePath = normalizeMappedPath(mappedPath);
                 if (relativePath == null) {
                     LOGGER.warning("[SpawnManager] apply: invalid path for mob=" + mobId + " raw='" + mappedPath + "'");
+                    continue;
+                }
+
+                String targetSpawnBlockSet = enabled ? fileEntry.originalSpawnBlockSet : replacementSpawnBlockSet;
+                if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
+                    LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " file=" + mappedPath);
                     continue;
                 }
 
@@ -370,6 +607,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         } catch (AtomicMoveNotSupportedException e) {
             Files.move(tmp, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    private record ScoredMob(String name, int score) {
     }
 
     private record PatchOutcome(boolean foundMobId, boolean modified) {

@@ -67,31 +67,42 @@ public final class FileMappingLoader {
 
     private static boolean isValid(SpawnManagerMap map) {
         if (map == null) return false;
-        if (map.schemaVersion != 1) return false;
+        if (map.schemaVersion != 2) return false;
+        if (map.getReplacementSpawnBlockSet() == null || map.getReplacementSpawnBlockSet().isBlank()) return false;
         if (map.mobs == null || map.mobs.isEmpty()) return false;
 
         for (Map.Entry<String, MobMapping> entry : map.mobs.entrySet()) {
             String mobId = entry.getKey();
             MobMapping mob = entry.getValue();
             if (mobId == null || mobId.isBlank() || mob == null) return false;
-            if (mob.vanillaSpawnBlockSet == null || mob.vanillaSpawnBlockSet.isBlank()) return false;
-            if (mob.replacementSpawnBlockSet == null || mob.replacementSpawnBlockSet.isBlank()) return false;
             if (mob.files == null || mob.files.isEmpty()) return false;
+            for (FileEntry f : mob.files) {
+                if (f == null) return false;
+                if (f.path == null || f.path.isBlank()) return false;
+                if (f.originalSpawnBlockSet == null || f.originalSpawnBlockSet.isBlank()) return false;
+            }
         }
         return true;
     }
 
     public static final class SpawnManagerMap {
         public int schemaVersion;
+        public String ReplacementSpawnBlockSet;
+        public String replacementSpawnBlockSet;
         public Map<String, MobMapping> mobs = new LinkedHashMap<>();
+
+        public String getReplacementSpawnBlockSet() {
+            if (replacementSpawnBlockSet != null && !replacementSpawnBlockSet.isBlank()) return replacementSpawnBlockSet;
+            return ReplacementSpawnBlockSet;
+        }
     }
 
     public static final class MobMapping {
-        public String vanillaSpawnBlockSet;
-        public String replacementSpawnBlockSet;
-        public List<String> files = new ArrayList<>();
+        public List<FileEntry> files = new ArrayList<>();
+    }
 
-        // optionnel pour plus tard (filtrage UI)
-        public List<String> tags = new ArrayList<>();
+    public static final class FileEntry {
+        public String path;
+        public String originalSpawnBlockSet;
     }
 }

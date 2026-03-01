@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "groups": {
+    "Animals": [
+      "Spider",
+      "Bear_Grizzly"
+    ],
+    "Passive": [],
+    "Aggressive": [
+      "Spider",
+      "Bear_Grizzly"
+    ],
+    "Monsters": [],
+    "Skeletons": [],
+    "Enemies": [
+      "Spider",
+      "Bear_Grizzly"
+    ]
+  }
+}
