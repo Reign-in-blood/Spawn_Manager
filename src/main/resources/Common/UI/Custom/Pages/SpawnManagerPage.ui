@@ -284,49 +284,6 @@ $C.@PageOverlay {
 
             Group { Anchor: (Height: 8); }
 
-            Label {
-              Text: "Zones";
-              Anchor: (Height: 20);
-              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
-            }
-
-            Group { Anchor: (Height: 4); }
-
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone0Off { Text: "Zone 0"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone0On { Text: "Zone 0"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone1Off { Text: "Zone 1"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone1On { Text: "Zone 1"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone2Off { Text: "Zone 2"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone2On { Text: "Zone 2"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-            }
-            Group { Anchor: (Height: 4); }
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone3Off { Text: "Zone 3"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone3On { Text: "Zone 3"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone4Off { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone4On { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-            }
-
-            Group { Anchor: (Height: 8); }
-
             Group {
               LayoutMode: Left;
               Anchor: (Height: 30);

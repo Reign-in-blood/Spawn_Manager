@@ -54,6 +54,12 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final String ROW_PATH = "Pages/MobRow.ui";
     private static final String KEY = "SpawnBlockSet";
     private static final String MARKER_KEY = "DeactivationDistance";
+    private static final Set<String> ALL_FILTER_GROUPS = new LinkedHashSet<>(List.of(
+            "Terrestrial", "Aquatic", "Flying",
+            "Skeleton", "Scarak", "Void", "Golem", "Trork", "Outlander", "Goblin", "Undead", "Spirit",
+            "Dinosaurs", "Fen", "Dragon", "Boss", "Other",
+            "Kweebec", "Feran", "Klops", "Temple"
+    ));
 
     private final List<String> displayedMobs = new ArrayList<>();
     private String currentSearchFilter = "";
@@ -158,16 +164,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTempleOff", EventData.of("Action", "toggleFilter").append("Value", "Temple"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterTempleOn", EventData.of("Action", "toggleFilter").append("Value", "Temple"), false);
 
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone0Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 0"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone0On", EventData.of("Action", "toggleFilter").append("Value", "Zone 0"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone1Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 1"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone1On", EventData.of("Action", "toggleFilter").append("Value", "Zone 1"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone2Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 2"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone2On", EventData.of("Action", "toggleFilter").append("Value", "Zone 2"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone3Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 3"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone3On", EventData.of("Action", "toggleFilter").append("Value", "Zone 3"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone4Off", EventData.of("Action", "toggleFilter").append("Value", "Zone 4"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterZone4On", EventData.of("Action", "toggleFilter").append("Value", "Zone 4"), false);
     }
 
     @Override
@@ -217,6 +213,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         if ("selectAll".equals(action)) {
             activeGroups.clear();
+            activeGroups.addAll(ALL_FILTER_GROUPS);
             persistActiveGroups();
             synchronized (stagedEnabled) {
                 for (String mobId : displayedMobs) {
@@ -304,8 +301,16 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
         caveNpcEnabled = config.isCaveNpcEnabled();
         activeGroups.clear();
-        activeGroups.addAll(config.getActiveGroupsSnapshot());
+        for (String g : config.getActiveGroupsSnapshot()) {
+            if (ALL_FILTER_GROUPS.contains(g)) {
+                activeGroups.add(g);
+            }
+        }
         ensureStagedForDisplayedMobs();
+        if (activeGroups.isEmpty() && areAllDisplayedMobsEnabled()) {
+            activeGroups.addAll(ALL_FILTER_GROUPS);
+            persistActiveGroups();
+        }
     }
 
     private void toggleFilter(String filterName) {
@@ -504,11 +509,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         setFilterButtonVisibility(cmd, "#FilterKlops", activeGroups.contains("Klops"));
         setFilterButtonVisibility(cmd, "#FilterTemple", activeGroups.contains("Temple"));
 
-        setFilterButtonVisibility(cmd, "#FilterZone0", activeGroups.contains("Zone 0"));
-        setFilterButtonVisibility(cmd, "#FilterZone1", activeGroups.contains("Zone 1"));
-        setFilterButtonVisibility(cmd, "#FilterZone2", activeGroups.contains("Zone 2"));
-        setFilterButtonVisibility(cmd, "#FilterZone3", activeGroups.contains("Zone 3"));
-        setFilterButtonVisibility(cmd, "#FilterZone4", activeGroups.contains("Zone 4"));
     }
 
     private static void setFilterButtonVisibility(UICommandBuilder cmd, String baseSelector, boolean active) {
