@@ -436,6 +436,17 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         config.save();
     }
 
+    private boolean areAllDisplayedMobsEnabled() {
+        synchronized (stagedEnabled) {
+            for (String mobId : displayedMobs) {
+                if (!stagedEnabled.getOrDefault(mobId, config.isEnabled(mobId))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private void applyCaveNpcButtonVisibility(UICommandBuilder cmd) {
         boolean showOn = caveNpcEnabled;
         cmd.set("#CaveNpcOnButton.Visible", showOn);
