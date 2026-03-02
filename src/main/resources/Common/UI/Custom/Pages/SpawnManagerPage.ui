@@ -27,6 +27,12 @@ $C = "../Common.ui";
   Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
 );
 
+@DangerButtonStyle = TextButtonStyle(
+  Default: (Background: #3d1a1a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #4d2a2a, LabelStyle: (FontSize: 13, TextColor: #ff8a8a, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #2d0a0a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
 $C.@PageOverlay {
   LayoutMode: Middle;
 
@@ -194,8 +200,8 @@ $C.@PageOverlay {
               }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZombieOff { Text: "Zombie"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZombieOn { Text: "Zombie"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                TextButton #FilterUndeadOff { Text: "Undead"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterUndeadOn { Text: "Undead"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
@@ -215,6 +221,26 @@ $C.@PageOverlay {
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+
+            Group { Anchor: (Height: 4); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterDragonOff { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDragonOn { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterBossOff { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterBossOn { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterOtherOff { Text: "Other"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterOtherOn { Text: "Other"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
 
@@ -242,8 +268,8 @@ $C.@PageOverlay {
               }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterGentlemanOff { Text: "Gentleman"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterGentlemanOn { Text: "Gentleman"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                TextButton #FilterKlopsOff { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterKlopsOn { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
             Group { Anchor: (Height: 4); }
@@ -258,44 +284,21 @@ $C.@PageOverlay {
 
             Group { Anchor: (Height: 8); }
 
-            Label {
-              Text: "Zones";
-              Anchor: (Height: 20);
-              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
-            }
-
-            Group { Anchor: (Height: 4); }
-
             Group {
               LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone0Off { Text: "Zone 0"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone0On { Text: "Zone 0"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone1Off { Text: "Zone 1"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone1On { Text: "Zone 1"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone2Off { Text: "Zone 2"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone2On { Text: "Zone 2"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-            }
-            Group { Anchor: (Height: 4); }
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone3Off { Text: "Zone 3"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone3On { Text: "Zone 3"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterZone4Off { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterZone4On { Text: "Zone 4"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              Anchor: (Height: 30);
+
+              Group { LayoutMode: Middle; Anchor: (Width: 200, Height: 26);
+                TextButton #CaveNpcOnButton {
+                  Text: "ALL CAVE NPC [ON]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
+                TextButton #CaveNpcOffButton {
+                  Text: "ALL CAVE NPC [OFF]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @DangerButtonStyle;
+                }
               }
             }
 
