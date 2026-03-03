@@ -1,6 +1,7 @@
 {
   "schemaVersion": 2,
   "ReplacementSpawnBlockSet": "Empty",
+  "ReplacementSpawnFluidTag": "Empty",
   "ReplacementMarkerDeactivationDistance": 0.001,
   "mobs": {
     "Antelope": {
@@ -103,6 +104,24 @@
           "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
           "originalDeactivationDistance": 150
         }
+      ],
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Temperate.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Warm.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        }
       ]
     },
     "Boar": {
@@ -147,6 +166,16 @@
           "path": "Server/NPC/Spawn/Markers/Tests/Test_Fish_Marker.json",
           "originalDeactivationDistance": 150
         }
+      ],
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Tier2.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        }
       ]
     },
     "Chicken": {
@@ -182,6 +211,16 @@
         {
           "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
           "originalDeactivationDistance": 150
+        }
+      ],
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     },
@@ -636,6 +675,18 @@
         {
           "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
           "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Cold.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Tier3.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     },
@@ -1042,6 +1093,16 @@
         {
           "path": "Server/NPC/Spawn/Markers/Aquatic/Freshwater/Minnow.json",
           "originalDeactivationDistance": 150
+        }
+      ],
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Temperate.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     },
@@ -2791,6 +2852,16 @@
           "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
           "originalDeactivationDistance": 150
         }
+      ],
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
       ]
     },
     "Temple_Bluebird": {
@@ -3104,6 +3175,14 @@
         {
           "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
           "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Tier3.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     },
@@ -3354,6 +3433,134 @@
         {
           "path": "Server/NPC/Spawn/Markers/Undead/Zombie_Sand.json",
           "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Salmon": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Cold.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Tier2.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Pufferfish": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Shark_Hammerhead": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Warm.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Tang_Sailfin": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Tang_Lemon_Peel": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Tang_Chevron": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Lobster": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Trilobite_Black": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Tier3.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Whale_Humpback": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Temperate.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Red": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Man_Of_War": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Green": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Yellow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Cyan": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Jellyfish_Blue": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     }
