@@ -3177,10 +3177,6 @@
     "Trilobite": {
       "files": [
         {
-          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
-          "originalSpawnFluidTag": "Water"
-        },
-        {
           "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
           "originalSpawnBlockSet": "Rock"
         },
