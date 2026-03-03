@@ -13,7 +13,7 @@
     {
       "Weight": 10,
       "Id": "Trilobite_Black",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ],
   "DayTimeRange": [

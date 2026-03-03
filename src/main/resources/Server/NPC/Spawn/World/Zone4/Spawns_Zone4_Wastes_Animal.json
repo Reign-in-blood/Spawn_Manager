@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 15,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Horse_Skeleton"
     },
     {

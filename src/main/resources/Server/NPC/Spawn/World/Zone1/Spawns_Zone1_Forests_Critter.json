@@ -7,55 +7,55 @@
   "NPCs": [
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Crow",
       "Flock": "Group_Small"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Finch_Green",
       "Flock": "Group_Small"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Bluebird",
       "Flock": "Group_Small"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Sparrow",
       "Flock": "Group_Small"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Woodpecker",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Owl_Brown",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Pigeon",
       "Flock": "Group_Small"
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Duck",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 6,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Squirrel"
     }
   ],

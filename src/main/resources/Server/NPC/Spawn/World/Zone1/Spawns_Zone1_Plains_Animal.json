@@ -5,60 +5,60 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tetrabird",
       "Flock": "Group_Tiny"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Deer_Stag",
       "Flock": "Group_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Mosshorn_Plain",
       "Flock": "Group_Medium"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Fox"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Chicken",
       "Flock": "Group_Small"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Cow",
       "Flock": "Group_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Horse",
       "Flock": "Group_Medium"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Pig",
       "Flock": "Group_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Rabbit",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Sheep",
       "Flock": "Group_Small"
     }

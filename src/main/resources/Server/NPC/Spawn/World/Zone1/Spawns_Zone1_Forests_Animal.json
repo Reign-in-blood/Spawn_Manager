@@ -7,13 +7,13 @@
   "NPCs": [
     {
       "Weight": 20,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Boar",
       "Flock": "Group_Small"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Bunny",
       "Flock": "Group_Tiny"
     }
