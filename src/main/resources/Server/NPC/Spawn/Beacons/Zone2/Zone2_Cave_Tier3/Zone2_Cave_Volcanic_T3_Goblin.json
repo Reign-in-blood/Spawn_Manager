@@ -1,9 +1,17 @@
 {
-  "Environments": [ "Env_Zone2_Caves_Volcanic_T3" ],
+  "Environments": [
+    "Env_Zone2_Caves_Volcanic_T3"
+  ],
   "MinDistanceFromPlayer": 15,
   "MaxSpawnedNPCs": 5,
-  "ConcurrentSpawnsRange": [ 1, 2 ],
-  "SpawnAfterGameTimeRange": [ "PT20M", "PT60M" ],
+  "ConcurrentSpawnsRange": [
+    1,
+    2
+  ],
+  "SpawnAfterGameTimeRange": [
+    "PT20M",
+    "PT60M"
+  ],
   "NPCIdleDespawnTime": 60,
   "BeaconVacantDespawnGameTime": "PT15M",
   "BeaconRadius": 70,
@@ -32,6 +40,9 @@
     }
   ],
   "LightRanges": {
-    "Light": [ 0, 7 ]
+    "Light": [
+      0,
+      7
+    ]
   }
 }

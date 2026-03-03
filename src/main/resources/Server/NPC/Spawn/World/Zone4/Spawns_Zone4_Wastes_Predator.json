@@ -5,17 +5,17 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Burnt_Lancer"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Wraith"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Toad_Rhino"
     }
   ],

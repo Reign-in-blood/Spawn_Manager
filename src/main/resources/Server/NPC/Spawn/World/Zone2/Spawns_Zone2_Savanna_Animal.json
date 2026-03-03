@@ -5,13 +5,13 @@
   "NPCs": [
     {
       "Weight": 25,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Antelope",
       "Flock": "Group_Medium"
     },
     {
       "Weight": 15,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Warthog",
       "Flock": "Group_Small"
     }

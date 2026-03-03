@@ -9,6 +9,6 @@
   ],
   "ExclusionRadius": 20,
   "MaxDropHeight": 4,
-  "DeactivationDistance": 150,
+  "DeactivationDistance": 150.0,
   "ManualTrigger": true
 }

@@ -1,9 +1,17 @@
 {
-  "Environments": [ "Env_Zone3_Caves_Forests" ],
+  "Environments": [
+    "Env_Zone3_Caves_Forests"
+  ],
   "MinDistanceFromPlayer": 15,
   "MaxSpawnedNPCs": 3,
-  "ConcurrentSpawnsRange": [ 1, 2 ],
-  "SpawnAfterGameTimeRange": [ "PT20M", "PT60M" ],
+  "ConcurrentSpawnsRange": [
+    1,
+    2
+  ],
+  "SpawnAfterGameTimeRange": [
+    "PT20M",
+    "PT60M"
+  ],
   "NPCIdleDespawnTime": 15,
   "BeaconVacantDespawnGameTime": "PT15M",
   "BeaconRadius": 70,
@@ -16,6 +24,9 @@
     }
   ],
   "LightRanges": {
-    "Light": [ 0, 2 ]
+    "Light": [
+      0,
+      2
+    ]
   }
 }

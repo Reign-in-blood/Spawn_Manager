@@ -9,5 +9,5 @@
   ],
   "ExclusionRadius": 0,
   "RealtimeRespawn": true,
-  "DeactivationDistance": 150
+  "DeactivationDistance": 150.0
 }

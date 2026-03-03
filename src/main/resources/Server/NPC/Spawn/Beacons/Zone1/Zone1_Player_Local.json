@@ -22,5 +22,11 @@
   ],
   "NPCSpawnState": "Chase",
   "ConcurrentSpawnsRange": [ 2, 2 ],
-  "SpawnSuppression": "Test"
+  "SpawnSuppression": "Test",
+  "LightRanges": {
+    "Light": [
+      0,
+      2
+    ]
+  }
 }

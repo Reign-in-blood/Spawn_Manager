@@ -5,13 +5,13 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Penguin",
       "Flock": "Group_Medium"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Bear_Polar"
     }
   ]

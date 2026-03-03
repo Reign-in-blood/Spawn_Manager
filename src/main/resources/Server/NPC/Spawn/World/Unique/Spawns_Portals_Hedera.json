@@ -5,22 +5,22 @@
   "NPCs": [
     {
       "Weight": 15,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Frog_Blue"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Raven"
     },
     {
       "Weight": 25,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Snake_Marsh"
     },
     {
       "Weight": 30,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "SpawnFluidTag": "Water",
       "Id": "Crocodile"
     }

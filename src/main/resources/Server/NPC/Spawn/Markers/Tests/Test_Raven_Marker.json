@@ -11,5 +11,5 @@
   "ExclusionRadius": 10,
   "RealtimeRespawn": true,
   "MaxDropHeight": 4,
-  "DeactivationDistance": 150
+  "DeactivationDistance": 150.0
 }

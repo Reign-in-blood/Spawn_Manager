@@ -24,7 +24,7 @@
   "NPCs": [
     {
       "Weight": 25,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Crawler_Void",
       "Flock": {
         "Size": [

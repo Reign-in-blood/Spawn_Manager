@@ -5,13 +5,13 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Hyena",
       "Flock": "Pack_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Tiger_Sabertooth"
     }
   ],

@@ -170,20 +170,6 @@ $C.@PageOverlay {
                 TextButton #FilterVoidOff { Text: "Void"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterVoidOn { Text: "Void"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
-            }
-            Group { Anchor: (Height: 4); }
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterGolemOff { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterGolemOn { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterTrorkOff { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterTrorkOn { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterOutlanderOff { Text: "Outlander"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
@@ -195,6 +181,11 @@ $C.@PageOverlay {
               LayoutMode: Left;
               Anchor: (Height: 26);
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterTrorkOff { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterTrorkOn { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterGoblinOff { Text: "Goblin"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterGoblinOn { Text: "Goblin"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
@@ -205,8 +196,8 @@ $C.@PageOverlay {
               }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterSpiritOff { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterSpiritOn { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                TextButton #FilterDinosaurOff { Text: "Dinosaur"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDinosaurOn { Text: "Dinosaur"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
             Group { Anchor: (Height: 4); }
@@ -214,25 +205,29 @@ $C.@PageOverlay {
               LayoutMode: Left;
               Anchor: (Height: 26);
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterDinosaursOff { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterDinosaursOn { Text: "Dinosaurs"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+                TextButton #FilterGolemOff { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterGolemOn { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterSpiritOff { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterSpiritOn { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterDragonOff { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDragonOn { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
               Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
-            }
-
+          }
             Group { Anchor: (Height: 4); }
             Group {
               LayoutMode: Left;
               Anchor: (Height: 26);
-              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
-                TextButton #FilterDragonOff { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
-                TextButton #FilterDragonOn { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
-              }
-              Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterBossOff { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterBossOn { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
@@ -244,7 +239,7 @@ $C.@PageOverlay {
               }
             }
 
-            Group { Anchor: (Height: 8); }
+            Group { Anchor: (Height: 15); }
 
             Label {
               Text: "Passive PNJ";
@@ -271,22 +266,26 @@ $C.@PageOverlay {
                 TextButton #FilterKlopsOff { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterKlopsOn { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
-            }
-            Group { Anchor: (Height: 4); }
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 26);
+              Group { Anchor: (Width: 4); }
               Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
                 TextButton #FilterTempleOff { Text: "Temple"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
                 TextButton #FilterTempleOn { Text: "Temple"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
               }
             }
+            Group { Anchor: (Height: 20); }
 
-            Group { Anchor: (Height: 8); }
+            Label {
+              Text: "Underground Mobs";
+              Anchor: (Height: 20);
+              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
+            }
+
+            Group { Anchor: (Height: 4); }
 
             Group {
               LayoutMode: Left;
               Anchor: (Height: 30);
+                          
 
               Group { LayoutMode: Middle; Anchor: (Width: 200, Height: 26);
                 TextButton #CaveNpcOnButton {
@@ -302,7 +301,7 @@ $C.@PageOverlay {
               }
             }
 
-            Group { Anchor: (Height: 10); }
+            Group { Anchor: (Height: 25); }
 
             Group {
               LayoutMode: Left;
@@ -331,18 +330,18 @@ $C.@PageOverlay {
 
             Group {
               LayoutMode: Left;
-              Anchor: (Height: 26);
+              Anchor: (Height: 34);
 
               $C.@TextButton #SelectAllButton {
                 @Text = "Select All";
-                Anchor: (Width: 96, Height: 26);
+                Anchor: (Width: 160, Height: 34);
               }
 
               Group { Anchor: (Width: 4); }
 
               $C.@SecondaryTextButton #ClearAllButton {
                 @Text = "Clear All";
-                Anchor: (Width: 96, Height: 26);
+                Anchor: (Width: 160, Height: 34);
               }
             }
           }

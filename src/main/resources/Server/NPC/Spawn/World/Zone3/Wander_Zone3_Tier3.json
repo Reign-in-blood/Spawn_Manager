@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 6,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Soldier",
       "Flock": {
         "Size": [
@@ -16,7 +16,7 @@
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Soldier_Wander",
       "Flock": {
         "Size": [
@@ -27,7 +27,7 @@
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Mage",
       "Flock": {
         "Size": [
@@ -38,7 +38,7 @@
     },
     {
       "Weight": 1,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Mage_Wander",
       "Flock": {
         "Size": [
@@ -49,7 +49,7 @@
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Knight",
       "Flock": {
         "Size": [
@@ -60,7 +60,7 @@
     },
     {
       "Weight": 0.5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Skeleton_Frost_Knight_Wander",
       "Flock": {
         "Size": [

@@ -11,5 +11,11 @@
     "PT10M"
   ],
   "NPCSpawnState": "Seek",
-  "TargetSlot": "LockedTarget"
+  "TargetSlot": "LockedTarget",
+  "LightRanges": {
+    "Light": [
+      0,
+      2
+    ]
+  }
 }

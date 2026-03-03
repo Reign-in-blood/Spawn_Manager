@@ -9,5 +9,5 @@
   ],
   "ExclusionRadius": 20,
   "MaxDropHeight": 8,
-  "DeactivationDistance": 150
+  "DeactivationDistance": 150.0
 }

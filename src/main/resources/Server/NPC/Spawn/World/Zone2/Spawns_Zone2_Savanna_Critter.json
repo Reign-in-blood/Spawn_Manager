@@ -5,18 +5,18 @@
   "NPCs": [
     {
       "Weight": 4,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Birds",
       "Id": "Parrot",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 8,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Gecko"
     },
     {
       "Weight": 8,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Meerkat",
       "Flock": "EasterEgg_Pair"
     }

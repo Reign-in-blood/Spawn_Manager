@@ -6,6 +6,7 @@
   "NPCs": [
     {
       "Weight": 10,
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Burnt_Soldier_Wander",
       "Flock": {
         "Size": [
@@ -16,6 +17,7 @@
     },
     {
       "Weight": 5,
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Burnt_Praetorian_Wander",
       "Flock": {
         "Size": [

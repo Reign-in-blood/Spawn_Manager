@@ -6,7 +6,7 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Fighter",
       "Flock": {
         "Size": [
@@ -17,7 +17,7 @@
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Fighter_Wander",
       "Flock": {
         "Size": [
@@ -28,7 +28,7 @@
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Mage",
       "Flock": {
         "Size": [
@@ -39,7 +39,7 @@
     },
     {
       "Weight": 1,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Mage_Wander",
       "Flock": {
         "Size": [
@@ -50,7 +50,7 @@
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Burnt_Praetorian",
       "Flock": {
         "Size": [

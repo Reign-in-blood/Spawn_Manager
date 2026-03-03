@@ -5,18 +5,18 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Wolf_White",
       "Flock": "Pack_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Bear_Polar"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "IceAndSnow",
       "Id": "Leopard_Snow"
     }
   ],

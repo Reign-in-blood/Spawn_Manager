@@ -2,8 +2,14 @@
   "Environments": [],
   "MinDistanceFromPlayer": 3,
   "MaxSpawnedNPCs": 1,
-  "ConcurrentSpawnsRange": [1, 2],
-  "SpawnAfterGameTimeRange":["PT80M", "PT110M"],
+  "ConcurrentSpawnsRange": [
+    1,
+    2
+  ],
+  "SpawnAfterGameTimeRange": [
+    "PT80M",
+    "PT110M"
+  ],
   "NPCIdleDespawnTime": 25,
   "BeaconVacantDespawnGameTime": "PT35M",
   "BeaconRadius": 10,
@@ -15,5 +21,11 @@
       "Id": "Spirit_Frost"
     }
   ],
-  "NPCSpawnState": "Alerted"
+  "NPCSpawnState": "Alerted",
+  "LightRanges": {
+    "Light": [
+      0,
+      2
+    ]
+  }
 }

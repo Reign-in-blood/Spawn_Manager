@@ -6,7 +6,7 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Burnt_Lancer_Wander",
       "Flock": {
         "Size": [
@@ -17,7 +17,7 @@
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Incandescent_Footman_Wander",
       "Flock": {
         "Size": [
@@ -28,7 +28,7 @@
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Skeleton_Incandescent_Mage_Wander",
       "Flock": {
         "Size": [

@@ -5,12 +5,12 @@
   "NPCs": [
     {
       "Weight": 4,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Portals_Oasis_Orange",
       "Id": "Tiger_Sabertooth"
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Portals_Oasis_Soil",
       "SpawnFluidTag": "Water",
       "Id": "Crocodile"
     }

@@ -20,9 +20,18 @@
   ],
   "MinDistanceFromPlayer": 2,
   "MaxSpawnedNPCs": 5,
-  "ConcurrentSpawnsRange": [ 1, 2 ],
+  "ConcurrentSpawnsRange": [
+    1,
+    2
+  ],
   "BeaconRadius": 6,
   "SpawnRadius": 6,
   "NPCSpawnState": "Chase",
-  "TargetSlot": "LockedTarget"
+  "TargetSlot": "LockedTarget",
+  "LightRanges": {
+    "Light": [
+      0,
+      7
+    ]
+  }
 }

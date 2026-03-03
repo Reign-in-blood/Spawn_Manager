@@ -5,17 +5,17 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Sand",
       "Id": "Tiger_Sabertooth"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Sand",
       "Id": "Cactee"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Sand",
       "Id": "Scarak_Seeker"
     }
   ],

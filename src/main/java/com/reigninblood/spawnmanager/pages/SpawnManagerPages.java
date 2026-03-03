@@ -57,7 +57,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final Set<String> ALL_FILTER_GROUPS = new LinkedHashSet<>(List.of(
             "Terrestrial", "Aquatic", "Flying",
             "Skeleton", "Scarak", "Void", "Golem", "Trork", "Outlander", "Goblin", "Undead", "Spirit",
-            "Dinosaurs", "Fen", "Dragon", "Boss", "Other",
+            "Dinosaur", "Fen", "Dragon", "Boss", "Other",
             "Kweebec", "Feran", "Klops", "Temple"
     ));
 
@@ -144,8 +144,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterUndeadOn", EventData.of("Action", "toggleFilter").append("Value", "Undead"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOff", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterSpiritOn", EventData.of("Action", "toggleFilter").append("Value", "Spirit"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOff", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
-        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaursOn", EventData.of("Action", "toggleFilter").append("Value", "Dinosaurs"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaurOff", EventData.of("Action", "toggleFilter").append("Value", "Dinosaur"), false);
+        events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDinosaurOn", EventData.of("Action", "toggleFilter").append("Value", "Dinosaur"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOff", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterFenOn", EventData.of("Action", "toggleFilter").append("Value", "Fen"), false);
         events.addEventBinding(CustomUIEventBindingType.Activating, "#FilterDragonOff", EventData.of("Action", "toggleFilter").append("Value", "Dragon"), false);
@@ -509,7 +509,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         setFilterButtonVisibility(cmd, "#FilterGoblin", activeGroups.contains("Goblin"));
         setFilterButtonVisibility(cmd, "#FilterUndead", activeGroups.contains("Undead"));
         setFilterButtonVisibility(cmd, "#FilterSpirit", activeGroups.contains("Spirit"));
-        setFilterButtonVisibility(cmd, "#FilterDinosaurs", activeGroups.contains("Dinosaurs"));
+        setFilterButtonVisibility(cmd, "#FilterDinosaur", activeGroups.contains("Dinosaur"));
         setFilterButtonVisibility(cmd, "#FilterFen", activeGroups.contains("Fen"));
         setFilterButtonVisibility(cmd, "#FilterDragon", activeGroups.contains("Dragon"));
         setFilterButtonVisibility(cmd, "#FilterBoss", activeGroups.contains("Boss"));

@@ -20,7 +20,7 @@
   "NPCs": [
     {
       "Weight": 20,
-      "SpawnBlockSet": "Empty",
+      "SpawnBlockSet": "Soil",
       "Id": "Larva_Void",
       "Flock": {
         "Size": [
