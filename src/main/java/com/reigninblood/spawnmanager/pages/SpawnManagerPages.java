@@ -775,7 +775,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
 
-        Path pluginOverrideRoot = Path.of("mods", "SpawnManager", "Server");
+        // NOTE: use the mod folder name from manifest (Spawn_Manager), not Java package name.
+        Path pluginOverrideRoot = Path.of("mods", "Spawn_Manager", "Server");
         Path pluginOverrideTarget = pluginOverrideRoot.resolve(relativeUnderServer).normalize();
         if (Files.exists(pluginOverrideTarget) && Files.isRegularFile(pluginOverrideTarget)) {
             return pluginOverrideTarget;
