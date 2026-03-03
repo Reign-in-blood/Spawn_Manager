@@ -755,51 +755,34 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
 
-        Path foundMutable = null;
-        Path foundAny = null;
-        AssetPack mutablePack = null;
-
-        for (AssetPack pack : assetModule.getAssetPacks()) {
-            if (!pack.isImmutable() && mutablePack == null) {
-                mutablePack = pack;
-            }
-
-            Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
-            if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
-                if (!pack.isImmutable() && foundMutable == null) {
-                    foundMutable = candidate;
-                }
-                if (foundAny == null) {
-                    foundAny = candidate;
-                }
-            }
+        // Safety: never patch game installation packs directly.
+        // We always patch files under our mod-owned writable override folder.
+        Path overrideTarget = Path.of("mods", "SpawnManager", "Server").resolve(relativeUnderServer).normalize();
+        if (Files.exists(overrideTarget) && Files.isRegularFile(overrideTarget)) {
+            return overrideTarget;
         }
 
-        if (foundMutable != null) {
-            return foundMutable;
+        Path foundAny = null;
+        for (AssetPack pack : assetModule.getAssetPacks()) {
+            Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
+            if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
+                foundAny = candidate;
+                break;
+            }
         }
 
         if (foundAny == null) {
             return null;
         }
 
-        if (mutablePack == null) {
-            return foundAny;
-        }
-
-        Path stagedOverride = mutablePack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
-        if (Files.exists(stagedOverride) && Files.isRegularFile(stagedOverride)) {
-            return stagedOverride;
-        }
-
         try {
-            Files.createDirectories(stagedOverride.getParent());
-            Files.copy(foundAny, stagedOverride, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("[SpawnManager] staged writable override: " + stagedOverride + " (from " + foundAny + ")");
-            return stagedOverride;
+            Files.createDirectories(overrideTarget.getParent());
+            Files.copy(foundAny, overrideTarget, StandardCopyOption.REPLACE_EXISTING);
+            LOGGER.info("[SpawnManager] staged writable override in mod folder: " + overrideTarget + " (from " + foundAny + ")");
+            return overrideTarget;
         } catch (Exception e) {
-            LOGGER.warning("[SpawnManager] failed to stage writable override: source=" + foundAny + " target=" + stagedOverride + " error=" + e.getMessage());
-            return foundAny;
+            LOGGER.warning("[SpawnManager] failed to stage writable mod override: source=" + foundAny + " target=" + overrideTarget + " error=" + e.getMessage());
+            return null;
         }
     }
 
