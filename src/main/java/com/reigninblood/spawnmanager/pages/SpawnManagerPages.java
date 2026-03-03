@@ -79,7 +79,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         super(playerRef, CustomPageLifetime.CanDismiss);
 
         SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
-        this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("SpawnManager"));
+        this.config = plugin != null ? plugin.getConfig() : new SpawnManagerConfig(Path.of("mods", "SpawnManager"));
 
         this.mapping = FileMappingLoader.loadFromAssetPacks(AssetModule.get());
         this.groups = GroupsLoader.loadFromAssetPacks(AssetModule.get());
@@ -757,19 +757,50 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         Path foundMutable = null;
         Path foundAny = null;
+        AssetPack mutablePack = null;
 
         for (AssetPack pack : assetModule.getAssetPacks()) {
-            Path root = pack.getRoot();
-            boolean immutable = pack.isImmutable();
+            if (!pack.isImmutable() && mutablePack == null) {
+                mutablePack = pack;
+            }
 
-            Path candidate = root.resolve("Server").resolve(relativeUnderServer).normalize();
+            Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
-                if (!immutable && foundMutable == null) foundMutable = candidate;
-                if (foundAny == null) foundAny = candidate;
+                if (!pack.isImmutable() && foundMutable == null) {
+                    foundMutable = candidate;
+                }
+                if (foundAny == null) {
+                    foundAny = candidate;
+                }
             }
         }
 
-        return (foundMutable != null) ? foundMutable : foundAny;
+        if (foundMutable != null) {
+            return foundMutable;
+        }
+
+        if (foundAny == null) {
+            return null;
+        }
+
+        if (mutablePack == null) {
+            return foundAny;
+        }
+
+        Path stagedOverride = mutablePack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
+        if (Files.exists(stagedOverride) && Files.isRegularFile(stagedOverride)) {
+            return stagedOverride;
+        }
+
+        try {
+            Files.createDirectories(stagedOverride.getParent());
+            Files.copy(foundAny, stagedOverride, StandardCopyOption.REPLACE_EXISTING);
+            LOGGER.info("[SpawnManager] staged writable override: " + stagedOverride + " (from " + foundAny + ")");
+            return stagedOverride;
+        } catch (Exception e) {
+            LOGGER.warning("[SpawnManager] failed to stage writable override: source=" + foundAny + " target=" + stagedOverride + " error=" + e.getMessage());
+            return foundAny;
+        }
     }
 
     private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
