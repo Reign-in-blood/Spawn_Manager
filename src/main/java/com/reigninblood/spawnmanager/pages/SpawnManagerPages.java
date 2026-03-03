@@ -611,6 +611,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         for (Map.Entry<String, Boolean> e : stagedSnapshot.entrySet()) {
             config.setEnabled(e.getKey(), e.getValue());
         }
+        if (mapping != null && mapping.mobs != null) {
+            config.retainDisabledMobs(mapping.mobs.keySet());
+        }
         config.save();
 
         synchronized (dirty) {

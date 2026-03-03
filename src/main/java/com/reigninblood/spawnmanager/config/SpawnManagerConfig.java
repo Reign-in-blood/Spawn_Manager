@@ -87,6 +87,11 @@ public final class SpawnManagerConfig {
         return new HashSet<>(globalConfig.disabledMobs);
     }
 
+    public void retainDisabledMobs(Set<String> knownMobIds) {
+        if (knownMobIds == null) return;
+        globalConfig.disabledMobs.retainAll(knownMobIds);
+    }
+
 
     public boolean isCaveNpcEnabled() {
         return globalConfig.caveNpcEnabled;
