@@ -2745,6 +2745,10 @@
         {
           "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
           "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
         }
       ]
     },
@@ -3173,6 +3177,10 @@
     "Trilobite": {
       "files": [
         {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
           "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
           "originalSpawnBlockSet": "Rock"
         },
@@ -3283,6 +3291,12 @@
       ]
     },
     "Trout_Rainbow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Tier2.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ],
       "markers": [
         {
           "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
@@ -3560,6 +3574,30 @@
       "files": [
         {
           "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Shores.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Eel_Moray": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone0/Spawns_Zone0_Oceans_Warm.json",
+          "originalSpawnFluidTag": "Water"
+        }
+      ]
+    },
+    "Pike": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Fish_Tier1.json",
+          "originalSpawnFluidTag": "Water"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Fish_Tier3.json",
           "originalSpawnFluidTag": "Water"
         }
       ]

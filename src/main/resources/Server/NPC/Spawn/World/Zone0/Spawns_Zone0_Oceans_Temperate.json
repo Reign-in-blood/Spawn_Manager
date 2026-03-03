@@ -6,19 +6,19 @@
     {
       "Weight": 2,
       "Id": "Whale_Humpback",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Minnow",
       "Flock": "Group_Large",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Bluegill",
       "Flock": "Group_Large",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ]
 }

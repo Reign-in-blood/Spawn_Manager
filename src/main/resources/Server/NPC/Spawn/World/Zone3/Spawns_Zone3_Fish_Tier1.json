@@ -7,12 +7,12 @@
       "Weight": 10,
       "Id": "Bluegill",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Pike",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ],
   "DayTimeRange": [

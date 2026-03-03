@@ -10,7 +10,7 @@
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tortoise"
     },
     {
