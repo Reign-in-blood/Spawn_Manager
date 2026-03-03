@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 50,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Raven",
       "Flock": "Group_Small"
     }
