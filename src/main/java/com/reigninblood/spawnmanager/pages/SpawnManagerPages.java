@@ -35,6 +35,7 @@ import com.reigninblood.spawnmanager.mapping.GroupsLoader.SpawnManagerGroups;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -753,25 +754,50 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     }
 
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
-        if (assetModule == null || relativeUnderServer == null) return null;
+        if (relativeUnderServer == null) return null;
 
-        // Safety: never write into game installation/asset-pack files.
-        // We only return files that are already in a mutable pack.
-        Path foundMutable = null;
+        // 1) Always prefer a writable override in the mod folder.
+        Path modOverride = Path.of("mods", "SpawnManager", "Server").resolve(relativeUnderServer).normalize();
+        if (Files.exists(modOverride) && Files.isRegularFile(modOverride)) {
+            return modOverride;
+        }
 
+        // 2) If missing, seed it from this mod bundled resource (never from game core assets).
+        Path staged = stageOverrideFromBundledResource(relativeUnderServer, modOverride);
+        if (staged != null) {
+            return staged;
+        }
+
+        // 3) Fallback: use an already-mutable pack file if available.
+        if (assetModule == null) return null;
         for (AssetPack pack : assetModule.getAssetPacks()) {
-            if (pack.isImmutable()) {
-                continue;
-            }
-
+            if (pack.isImmutable()) continue;
             Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
-                foundMutable = candidate;
-                break;
+                return candidate;
             }
         }
 
-        return foundMutable;
+        return null;
+    }
+
+    private static Path stageOverrideFromBundledResource(String relativeUnderServer, Path targetOverride) {
+        String resourcePath = "Server/" + relativeUnderServer.replace('\\', '/');
+        ClassLoader cl = SpawnManagerPages.class.getClassLoader();
+
+        try (InputStream in = cl.getResourceAsStream(resourcePath)) {
+            if (in == null) {
+                return null;
+            }
+
+            Files.createDirectories(targetOverride.getParent());
+            Files.copy(in, targetOverride, StandardCopyOption.REPLACE_EXISTING);
+            LOGGER.info("[SpawnManager] staged mod override from bundled resource: " + targetOverride + " (resource=" + resourcePath + ")");
+            return targetOverride;
+        } catch (Exception e) {
+            LOGGER.warning("[SpawnManager] failed to stage bundled override: resource=" + resourcePath + " target=" + targetOverride + " error=" + e.getMessage());
+            return null;
+        }
     }
 
     private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
