@@ -757,10 +757,14 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
         Path foundMutable = null;
         Path foundAny = null;
+        Path mutableRoot = null;
 
         for (AssetPack pack : assetModule.getAssetPacks()) {
             Path root = pack.getRoot();
             boolean immutable = pack.isImmutable();
+            if (!immutable && mutableRoot == null) {
+                mutableRoot = root;
+            }
 
             Path candidate = root.resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
@@ -769,7 +773,28 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
 
-        return (foundMutable != null) ? foundMutable : foundAny;
+        if (foundMutable != null) {
+            return foundMutable;
+        }
+
+        if (foundAny != null && mutableRoot != null) {
+            Path writableTarget = mutableRoot.resolve("Server").resolve(relativeUnderServer).normalize();
+            try {
+                if (!Files.exists(writableTarget)) {
+                    Path parent = writableTarget.getParent();
+                    if (parent != null) {
+                        Files.createDirectories(parent);
+                    }
+                    Files.copy(foundAny, writableTarget, StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.info("[SpawnManager] staged writable override for " + relativeUnderServer + " at " + writableTarget);
+                }
+                return writableTarget;
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] failed to stage writable override for " + relativeUnderServer + ": " + e.getMessage());
+            }
+        }
+
+        return foundAny;
     }
 
     private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
