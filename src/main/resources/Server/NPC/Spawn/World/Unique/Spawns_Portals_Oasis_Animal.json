@@ -12,7 +12,7 @@
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Portals_Oasis_Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tortoise"
     }
   ],
