@@ -1,36 +1,36 @@
 $C = "../Common.ui";
 
-// Custom styles only for elements needing dynamic color changes via cmd.set()
-@FilterButtonStyle = TextButtonStyle(
-  Default: (Background: #2b3542, LabelStyle: (FontSize: 11, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #3b4552, LabelStyle: (FontSize: 11, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #1b2532, LabelStyle: (FontSize: 11, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@FilterActiveStyle = TextButtonStyle(
-  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 11, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 11, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 11, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@TabButtonStyle = TextButtonStyle(
-  Default: (Background: #151e28, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #1e293b, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a1119, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
-@ToggleOnStyle = TextButtonStyle(
-  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 13, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
-  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
-);
-
+// Custom Styles
 @RadiusButtonStyle = TextButtonStyle(
   Default: (Background: $C.@DefaultSquareButtonDefaultBackground, LabelStyle: $C.@DefaultButtonLabelStyle),
   Hovered: (Background: $C.@DefaultSquareButtonHoveredBackground, LabelStyle: $C.@DefaultButtonLabelStyle),
   Pressed: (Background: $C.@DefaultSquareButtonPressedBackground, LabelStyle: $C.@DefaultButtonLabelStyle),
   Disabled: (Background: $C.@DefaultSquareButtonDisabledBackground, LabelStyle: $C.@DefaultButtonDisabledLabelStyle),
   Sounds: $C.@ButtonSounds,
+);
+
+@CollabButtonStyle = TextButtonStyle(
+  Default: (Background: #2a3545, LabelStyle: (FontSize: 13, TextColor: #7eb8d4, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #3a4555, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #1a2535, LabelStyle: (FontSize: 13, TextColor: #7eb8d4, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@FilterButtonStyle = TextButtonStyle(
+  Default: (Background: #2b3542, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #3b4552, LabelStyle: (FontSize: 13, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #1b2532, LabelStyle: (FontSize: 13, TextColor: #96a9be, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@FilterActiveStyle = TextButtonStyle(
+  Default: (Background: #1a3d2e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #2a4d3e, LabelStyle: (FontSize: 13, TextColor: #6aff9f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #0a2d1e, LabelStyle: (FontSize: 13, TextColor: #4aff7f, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@DangerButtonStyle = TextButtonStyle(
+  Default: (Background: #3d1a1a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Hovered: (Background: #4d2a2a, LabelStyle: (FontSize: 13, TextColor: #ff8a8a, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+  Pressed: (Background: #2d0a0a, LabelStyle: (FontSize: 13, TextColor: #ff6b6b, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
 );
 
 $C.@PageOverlay {
@@ -56,14 +56,50 @@ $C.@PageOverlay {
         Group #LeftPane {
           FlexWeight: 1;
           LayoutMode: Top;
+          Background: #151e28;
+          Padding: (Full: 10);
 
-          Group { Anchor: (Height: 6); }
+          Label {
+            Text: "MOBS";
+            Anchor: (Height: 18);
+            Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
+          }
 
-          Group #ContentArea {
+          Group { Anchor: (Height: 8); }
+
+          Group {
+            LayoutMode: Left;
+            Anchor: (Height: 36);
+
+            $C.@TextField #MobSearchField {
+              Anchor: (Width: 250, Height: 34);
+              PlaceholderText: "Search mobs...";
+              Style: $C.@DefaultInputFieldStyle;
+            }
+
+            Group { Anchor: (Width: 4); }
+
+            $C.@TextButton #SearchBtn {
+              @Text = "Search";
+              Anchor: (Width: 110, Height: 34);
+            }
+
+            Group { Anchor: (Width: 4); }
+
+            $C.@SecondaryTextButton #ClearSearchBtn {
+              @Text = "Clear";
+              Anchor: (Width: 110, Height: 34);
+            }
+          }
+
+          Group { Anchor: (Height: 8); }
+
+          Group #MobListContainer {
+            LayoutMode: TopScrolling;
             FlexWeight: 1;
-            Background: #151e28;
-            LayoutMode: Top;
-            Padding: (Full: 8);
+            ScrollbarStyle: $C.@DefaultScrollbarStyle;
+            Background: #0a1119;
+            Padding: (Full: 2);
           }
         }
 
@@ -72,45 +108,229 @@ $C.@PageOverlay {
         Group #RightPane {
           Anchor: (Width: 420);
           LayoutMode: Top;
+          FlexWeight: 1;
 
-          Group { Anchor: (Height: 8); }
-
-          Group #FilterArea {
+          Group #FilterSection {
             LayoutMode: Top;
+            Background: #151e28;
+            Padding: (Full: 10);
+
+            Label {
+              Text: "Animals";
+              Anchor: (Height: 20);
+              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterTerrestrialOff { Text: "Terrestrial"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterTerrestrialOn { Text: "Terrestrial"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterAquaticOff { Text: "Aquatic"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterAquaticOn { Text: "Aquatic"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterFlyingOff { Text: "Flying"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterFlyingOn { Text: "Flying"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+
+            Group { Anchor: (Height: 8); }
+
+            Label {
+              Text: "Monsters";
+              Anchor: (Height: 20);
+              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterSkeletonOff { Text: "Skeleton"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterSkeletonOn { Text: "Skeleton"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterScarakOff { Text: "Scarak"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterScarakOn { Text: "Scarak"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterVoidOff { Text: "Void"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterVoidOn { Text: "Void"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterOutlanderOff { Text: "Outlander"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterOutlanderOn { Text: "Outlander"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+            Group { Anchor: (Height: 4); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterTrorkOff { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterTrorkOn { Text: "Trork"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterGoblinOff { Text: "Goblin"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterGoblinOn { Text: "Goblin"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterUndeadOff { Text: "Undead"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterUndeadOn { Text: "Undead"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterDinosaurOff { Text: "Dinosaur"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDinosaurOn { Text: "Dinosaur"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+            Group { Anchor: (Height: 4); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterGolemOff { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterGolemOn { Text: "Golem"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterSpiritOff { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterSpiritOn { Text: "Spirit"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterDragonOff { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterDragonOn { Text: "Dragon"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterFenOff { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterFenOn { Text: "Fen"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+          }
+            Group { Anchor: (Height: 4); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterBossOff { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterBossOn { Text: "Boss"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterOtherOff { Text: "Other"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterOtherOn { Text: "Other"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+
+            Group { Anchor: (Height: 15); }
+
+            Label {
+              Text: "Passive PNJ";
+              Anchor: (Height: 20);
+              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 26);
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterKweebecOff { Text: "Kweebec"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterKweebecOn { Text: "Kweebec"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterFeranOff { Text: "Feran"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterFeranOn { Text: "Feran"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterKlopsOff { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterKlopsOn { Text: "Klops"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+              Group { Anchor: (Width: 4); }
+              Group { LayoutMode: Middle; Anchor: (Width: 96, Height: 26);
+                TextButton #FilterTempleOff { Text: "Temple"; Anchor: (Width: 96, Height: 26); Style: @FilterButtonStyle; }
+                TextButton #FilterTempleOn { Text: "Temple"; Anchor: (Width: 96, Height: 26); Style: @FilterActiveStyle; }
+              }
+            }
+            Group { Anchor: (Height: 20); }
+
+            Label {
+              Text: "Underground Mobs";
+              Anchor: (Height: 20);
+              Style: (FontSize: 14, TextColor: #8fb5cc, RenderBold: true);
+            }
+
+            Group { Anchor: (Height: 4); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 30);
+                          
+
+              Group { LayoutMode: Middle; Anchor: (Width: 200, Height: 26);
+                TextButton #CaveNpcOnButton {
+                  Text: "ALL CAVE NPC [ON]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @FilterActiveStyle;
+                }
+                TextButton #CaveNpcOffButton {
+                  Text: "ALL CAVE NPC [OFF]";
+                  Anchor: (Width: 200, Height: 26);
+                  Style: @DangerButtonStyle;
+                }
+              }
+            }
+
+            Group { Anchor: (Height: 25); }
+
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 34);
+
+              $C.@TextButton #ApplyButton {
+                @Text = "Apply";
+                Anchor: (Width: 160, Height: 34);
+              }
+
+              Group { Anchor: (Width: 4); }
+
+              $C.@SecondaryTextButton #ReloadNpcButton {
+                @Text = "Reload NPC";
+                Anchor: (Width: 160, Height: 34);
+              }
+            }
           }
 
-          Group { Anchor: (Height: 8); }
+          Group { FlexWeight: 1; }
 
-          Group { Anchor: (Height: 8); }
-
-          Group #SelectionSection {
+          Group #BulkSelectionSection {
             LayoutMode: Top;
             Background: #151e28;
             Padding: (Full: 10);
 
             Group {
               LayoutMode: Left;
-              Anchor: (Height: 18);
-
-              Label #SelectionTitle {
-                Text: "Select Mobs";
-                Style: (FontSize: 11, TextColor: #5a7a8a, RenderBold: true, RenderUppercase: true);
-              }
-
-              Group { FlexWeight: 1; }
-
-              Label #ItemCount {
-                Text: "(0)";
-                Anchor: (Width: 80, Height: 18);
-                Style: (FontSize: 11, TextColor: #5a7a8a, HorizontalAlignment: Center);
-              }
-            }
-
-            Group { Anchor: (Height: 6); }
-
-            Group {
-              LayoutMode: Left;
-              Anchor: (Height: 36);
+              Anchor: (Height: 34);
 
               $C.@TextButton #SelectAllButton {
                 @Text = "Select All";

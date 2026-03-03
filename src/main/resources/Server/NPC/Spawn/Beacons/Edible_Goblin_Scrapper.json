@@ -1,0 +1,21 @@
+{
+  "Environments": [],
+  "NPCs": [
+    {
+      "Weight": 1,
+      "Id": "Edible_Goblin_Scrapper"
+    }
+  ],
+  "SpawnAfterGameTimeRange": [
+    "PT5M",
+    "PT10M"
+  ],
+  "NPCSpawnState": "Seek",
+  "TargetSlot": "LockedTarget",
+  "LightRanges": {
+    "Light": [
+      0,
+      2
+    ]
+  }
+}

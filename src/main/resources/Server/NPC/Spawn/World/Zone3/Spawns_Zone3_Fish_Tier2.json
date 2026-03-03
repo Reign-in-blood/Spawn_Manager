@@ -1,0 +1,17 @@
+{
+  "Environments": [
+    "Env_Zone3_Forests",
+    "Env_Zone3_Mountains"
+  ],
+  "NPCs": [
+    {
+      "Weight": 10,
+      "Id": "Salmon",
+      "SpawnFluidTag": "Water"
+    }
+  ],
+  "DayTimeRange": [
+    6,
+    24
+  ]
+}

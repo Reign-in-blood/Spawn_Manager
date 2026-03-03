@@ -1,0 +1,3361 @@
+{
+  "schemaVersion": 2,
+  "ReplacementSpawnBlockSet": "Empty",
+  "ReplacementMarkerDeactivationDistance": 0.001,
+  "mobs": {
+    "Antelope": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Archaeopteryx": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Armadillo": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Bat": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Bat.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Bear_Grizzly": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Bear.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Welcome_Animal.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Bear_Polar": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Predator.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Shore.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Bison": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Animal.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Bluebird": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Bluegill": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Boar": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ]
+    },
+    "Bunny": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Cactee": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Desert_Predator.json",
+          "originalSpawnBlockSet": "Sand"
+        }
+      ]
+    },
+    "Camel": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Desert_Animal.json",
+          "originalSpawnBlockSet": "Sand"
+        }
+      ]
+    },
+    "Catfish": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Fish_Marker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Chicken": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Chicken_Desert": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Chicken_Undead": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Clownfish": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Cow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Cow_Undead": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Wastes_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Crab": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Shore.json",
+          "originalSpawnBlockSet": "Sand"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Shore.json",
+          "originalSpawnBlockSet": "Sand"
+        }
+      ]
+    },
+    "Crawler_Void": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier1_Night_NPC2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier2_Night_NPC2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier3_Night_NPC2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Void/Crawler_Void.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Crocodile": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Hedera.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Predator.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Crocodile.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Crow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Deer_Stag": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Dragon_Fire": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dragon_Fire.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Dragon_Frost": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dragon_Frost.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Duck": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Dungeon_Scarak_Broodmother": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Broodmother.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Broodmother_Young": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Broodmother_Young.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Defender": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Defender.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Defender_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Defender_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Fighter": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Fighter.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Fighter_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Fighter_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Louse": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Louse.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Scarak_Seeker": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Scarak_Seeker.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Skeleton_Sand_Archer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Skeleton_Sand_Archer.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Skeleton_Sand_Assassin": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Skeleton_Sand_Assassin.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Skeleton_Sand_Mage": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Skeleton_Sand_Mage.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Dungeon_Skeleton_Sand_Soldier": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Dungeon_Skeleton_Sand_Soldier.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Emberwulf": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Eye_Void": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier1_Night_NPC3.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier2_Night_NPC3.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier3_Night_NPC3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Fen_Stalker": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Predator.json",
+          "originalSpawnBlockSet": "Mud"
+        }
+      ]
+    },
+    "Feran_Burrower": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_Burrower.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T2.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Feran_Civilian": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_Civilian.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T1.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T2.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T3.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Feran_Cub": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Feran_Longtooth": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_Longtooth.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T1.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T3.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Feran_Sharptooth": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_Sharptooth.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T2.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Feran_Windwalker": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Feran.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T1.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_T3.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Feran/Feran_Windwalker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Finch_Green": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Flamingo": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Animal.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Animal.json",
+          "originalSpawnBlockSet": "Grass"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Fox": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Fox.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Frog_Blue": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Hedera.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Mud"
+        }
+      ]
+    },
+    "Frog_Green": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Critter.json",
+          "originalSpawnBlockSet": "Mud"
+        }
+      ]
+    },
+    "Frog_Orange": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Frostgill": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
+          "originalSpawnBlockSet": "Rock"
+        }
+      ]
+    },
+    "Gecko": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Goat": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Animal.json",
+          "originalSpawnBlockSet": "StoneAndSoil"
+        }
+      ]
+    },
+    "Goblin_Duke": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Duke.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Duke_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Lobber": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Goblin.json",
+          "originalSpawnBlockSet": "Volcanic"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Lobber.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Lobber_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Lobber_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Miner": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Goblin.json",
+          "originalSpawnBlockSet": "Volcanic"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Miner.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Miner_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Miner_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Ogre": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Ogre.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Ogre_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Scavenger": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Scavenger.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Scavenger_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Scrapper": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/Beacons/Zone1/Zone1_Cave/Zone1_Cave_Goblin.json",
+          "originalSpawnBlockSet": "Volcanic"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Scrapper.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Scrapper_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Scrapper_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Thief": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin.json",
+          "originalDeactivationDistance": 40
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Thief.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Goblin_Thief_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Goblin/Goblin_Thief_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Golem_Crystal_Earth": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Elemental/Golem_Crystal_Earth.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Golem_Crystal_Flame": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Elemental/Golem_Crystal_Flame.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Golem_Crystal_Frost": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Elemental/Golem_Crystal_Frost.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Golem_Crystal_Sand": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Elemental/Golem_Crystal_Sand.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Golem_Firesteel": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Elemental/Golem_Firesteel.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Hawk": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Critter.json",
+          "originalSpawnBlockSet": "StoneAndSoil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Rock"
+        }
+      ]
+    },
+    "Hedera": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Marker_Hedera.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Horse": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Horse_Skeleton": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Wastes_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Hound_Bleached": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Hyena": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Hyena.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Klops_Gentleman": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Klops_Gentleman.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Klops_Miner": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Klops_Miner.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Klops_Miner_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Klops_Miner_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Merchant": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec_Merchant.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Razorleaf": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Razorleaf_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec_Razorleaf_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Sapling": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Sapling_Orange": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Sapling_Pink": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Sproutling": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Kweebec_Sproutling_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec_Sproutling_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Larva_Void": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier1_Night_NPC1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier2_Night_NPC1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier3_Night_NPC1.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Leopard_Snow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Predator.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Lizard_Sand": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Desert_Critter.json",
+          "originalSpawnBlockSet": "Sand"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Lizard_Sand.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Meerkat": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Minnow": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Aquatic/Freshwater/Minnow.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Moose_Bull": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Mosshorn": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Mosshorn_Plain": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Mouflon": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Animal.json",
+          "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Animal.json",
+          "originalSpawnBlockSet": "Stone"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Mountains_Animal.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Mouse": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ]
+    },
+    "Outlander_Berserker": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Outlander.json",
+          "originalSpawnBlockSet": "Outlander"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Berserker.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Marauder_Backup.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Brute": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Brute.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Cultist": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Cultist.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Hunter": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Outlander.json",
+          "originalSpawnBlockSet": "Outlander"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Hunter.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Marauder_Backup.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Marauder": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Marauder.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Peon": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Peon.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Priest": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Priest.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Sorcerer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Sorcerer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Outlander_Stalker": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Outlander/Outlander_Stalker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Owl_Brown": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Mountains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Owl_Snow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Mountains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Parrot": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Birds_Cave.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Penguin": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Animal.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Shore.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Pig": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Pig_Undead": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Pig_Wild": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Pigeon": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Piranha_Black": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Piranha_Black.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Pterodactyl": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Pterodactyl.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Rabbit": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Animal.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Kweebec_Rabbit.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Ram": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Raptor_Cave": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Rex_Cave.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Rat": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Rat.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Raven": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Hedera.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Hedera.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Raven_Marker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Rex_Cave": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Rex_Cave.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Broodmother": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak_Boss.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Defender": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak_Defender.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Defender_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak_Defender_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Fighter": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Dungeon_Scarak.json",
+          "originalSpawnBlockSet": "StoneAndSoil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Fighter_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scarak_Seeker": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Desert_Predator.json",
+          "originalSpawnBlockSet": "Sand"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Predator.json",
+          "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scarak_Seeker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Scorpion": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Predator.json",
+          "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Scorpion.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Sheep": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Marker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Manual_Marker.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Marker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Archer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Archer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Archer_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Archer_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Archmage": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Archmage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Archmage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Archmage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Alchemist": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Alchemist.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Alchemist_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Alchemist_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Archer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Archer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Archer_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Archer_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Gunner": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Gunner.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Gunner_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Gunner_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Knight": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Knight.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Knight_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Knight_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Lancer": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Wastes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Lancer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Lancer_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Lancer_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Lancer_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Wander_Zone4_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Burnt_Praetorian": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Wander_Zone4_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Praetorian.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Praetorian_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Praetorian_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Praetorian_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Burnt_Soldier": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Soldier.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Soldier_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Soldier_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Wizard": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Wizard.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Burnt_Wizard_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Burnt/Skeleton_Burnt_Wizard_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Fighter": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Fighter.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Fighter_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Fighter_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Fighter_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Frost_Archer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Archer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Archer_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Archer_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Archmage": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Archmage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Archmage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Archmage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Fighter": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier2.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Fighter.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Fighter_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Fighter_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Fighter_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier2.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Skeleton_Frost_Knight": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Knight.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Knight_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Knight_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Knight_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Skeleton_Frost_Mage": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Mage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Mage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Mage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Mage_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Skeleton_Frost_Ranger": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Ranger.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Ranger_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Ranger_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Scout": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Scout.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Scout_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Scout_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Soldier": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Soldier.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Soldier_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Frost/Skeleton_Frost_Soldier_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Frost_Soldier_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier3.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Skeleton_Burnt_Soldier_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Wander_Zone4_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Fighter": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Fighter.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Fighter_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Fighter_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Footman": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Footman.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Footman_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Footman_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Footman_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Wander_Zone4_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Head": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Head.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Mage": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Mage.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Mage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Incandescent/Skeleton_Incandescent_Mage_Patrol.json",
+          "originalDeactivationDistance": 40
+        }
+      ]
+    },
+    "Skeleton_Incandescent_Mage_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Wander_Zone4_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Knight": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Knight.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Knight_Manual.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Knight_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Knight_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Mage": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Mage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Mage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Mage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Mage_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Wander_Zone1_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Pirate_Captain": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Captain.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Pirate_Captain_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Captain_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Pirate_Gunner": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Gunner.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Pirate_Gunner_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Gunner_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Pirate_Striker": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Striker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Pirate_Striker_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Pirate/Skeleton_Pirate_Striker_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Ranger": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Ranger.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Ranger_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Ranger_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Archer": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Archer.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Archer_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Archer_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Archmage": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Archmage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Archmage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Archmage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Assassin": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Assassin.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Assassin_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Assassin_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Assassin_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Sand_Guard": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Guard.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Guard_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Guard_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Guard_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier2.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Sand_Mage": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Mage.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Mage_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Mage_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Mage_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Wander_Zone2_Tier3.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Sand_Ranger": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Ranger.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Ranger_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Ranger_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Scout": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Scout.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Scout_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Scout_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Soldier": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Soldier.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Sand_Soldier_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton_Sand/Skeleton_Sand_Soldier_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Scout": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Scout.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Scout_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Scout_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Scout_Wander": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Wander_Zone3_Tier1.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Skeleton_Soldier": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Skeleton_Stones.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Soldier.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skeleton_Soldier_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Skeleton/Skeleton_Soldier_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Skrill": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Slug_Magma": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Slug_Magma.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Snail_Frost": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Critter.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        }
+      ]
+    },
+    "Snail_Magma": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Snake_Cobra": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Tundra_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Snakes.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Snake_Marsh": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Hedera.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Snake_Rattle": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Snakes.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Snake_Rattle.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Snapdragon": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Snapjaw": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
+          "originalSpawnBlockSet": "Rock"
+        }
+      ]
+    },
+    "Spark_Living": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Sparrow": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Spawn_Void": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier1_Night_NPC4.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier2_Night_NPC4.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier3_Night_NPC4.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Void/Spawn_Void.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Spectre_Void": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Void/Tier3_Night_NPC5.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Spider": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Spider_Cave": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Spider_Cave.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Dungeon_Goblin/Spider_Cave_Respawn.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Spirit_Root": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Spirit_Root.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Spirit_Root_Manual.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Squirrel": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Soil_NoSnow"
+        }
+      ]
+    },
+    "Tang_Blue": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Temple_Bluebird": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Bluebird.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Bunny": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Bunny.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Deer_Doe": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Deer_Doe.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Deer_Stag": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Deer_Stag.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Duck": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Duck.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Feran": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Feran.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Feran_Longtooth": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Feran_Longtooth.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Finch_Green": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Finch_Green.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Frog_Blue": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Frog_Blue.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Frog_Green": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Frog_Green.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Frog_Orange": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Frog_Orange.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Klops": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Klops.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Elder": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Eldar.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Merchant": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Merchant_Static.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol1": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol1.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol2": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol2.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol3": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol3.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol4": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol4.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Razorleaf_Patrol5": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Sapling_Razorleaf_Patrol5.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Rootling_Static": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Rootling_Static.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Seedling_Static": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Seedling_Static.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Kweebec_Static": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Kweebec_Static.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Mithril_Guard": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Mithril_Guard.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Owl_Brown": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Owl_Brown.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Temple_Squirrel": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Instance/Forgotten_Temple/Temple_Squirrel.json",
+          "originalDeactivationDistance": 1000
+        }
+      ]
+    },
+    "Test_Dummy": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Flock_Marker.json",
+          "originalDeactivationDistance": 10.0
+        }
+      ]
+    },
+    "Tetrabird": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Tiger_Sabertooth": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Predator.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Orange"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Desert_Predator.json",
+          "originalSpawnBlockSet": "Sand"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Toad_Rhino": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Wastes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Toad_Rhino_Magma": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Toad_Rhino_Magma.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Tortoise": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Animal.json",
+          "originalSpawnBlockSet": "Portals_Oasis_Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Oasis_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Trillodon": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Jungles_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Trilobite": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Caves.json",
+          "originalSpawnBlockSet": "Rock"
+        }
+      ]
+    },
+    "Trork_Brawler": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Brawler.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Chieftain": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Chieftain.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Doctor_Witch": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Doctor_Witch.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Guard": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Guard.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Hunter": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Hunter.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Mauler": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Mauler.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Sentry": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Chieftain_Backup.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Sentry.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Shaman": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Shaman.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Warrior": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Chieftain_Backup.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Warrior.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Objective_Spawn_Marker.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Trork_Marker.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trork_Warrior_Patrol": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Intelligent/Trork/Trork_Warrior_Patrol.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Trout_Rainbow": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Ocean_Fish.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Turkey": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Swamps_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Vulture": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Unique/Spawns_Portals_Oasis_Critter.json",
+          "originalSpawnBlockSet": "Rock"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Plateau_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Scrub_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Warthog": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone2/Spawns_Zone2_Savanna_Animal.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Wolf_Black": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Plains_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Wolf_Black.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Wolf_White": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Glacial_Predator.json",
+          "originalSpawnBlockSet": "IceAndSnow"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Mountains_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Wolf_White.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Woodpecker": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone1/Spawns_Zone1_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        },
+        {
+          "path": "Server/NPC/Spawn/World/Zone3/Spawns_Zone3_Forests_Critter.json",
+          "originalSpawnBlockSet": "Birds"
+        }
+      ]
+    },
+    "Wraith": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Wastes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ],
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Wraith.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Wraith_Lantern": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Wraith_Lantern.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Yeti": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Yeti.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Zombie": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Manual_Marker.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Tests/Test_Marker.json",
+          "originalDeactivationDistance": 150
+        },
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Zombie.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Zombie_Burnt": {
+      "files": [
+        {
+          "path": "Server/NPC/Spawn/World/Zone4/Spawns_Zone4_Volcanoes_Predator.json",
+          "originalSpawnBlockSet": "Soil"
+        }
+      ]
+    },
+    "Zombie_Frost": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Zombie_Frost.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    },
+    "Zombie_Sand": {
+      "markers": [
+        {
+          "path": "Server/NPC/Spawn/Markers/Undead/Zombie_Sand.json",
+          "originalDeactivationDistance": 150
+        }
+      ]
+    }
+  }
+}
