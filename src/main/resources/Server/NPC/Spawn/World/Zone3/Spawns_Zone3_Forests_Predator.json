@@ -5,17 +5,17 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Bear_Grizzly"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Snake_Cobra"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Fox"
     }
   ],

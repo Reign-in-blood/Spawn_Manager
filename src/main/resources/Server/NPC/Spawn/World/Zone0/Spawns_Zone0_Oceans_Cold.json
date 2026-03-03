@@ -6,13 +6,13 @@
     {
       "Weight": 10,
       "Id": "Salmon",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Frostgill",
       "Flock": "Group_Large",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ]
 }

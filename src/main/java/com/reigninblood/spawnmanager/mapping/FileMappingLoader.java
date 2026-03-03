@@ -79,6 +79,8 @@ public final class FileMappingLoader {
         if (map.mobs == null || map.mobs.isEmpty()) return false;
 
         boolean hasWorld = false;
+        boolean hasSpawnBlockSetWorld = false;
+        boolean hasSpawnFluidTagWorld = false;
         boolean hasMarkers = false;
 
         for (Map.Entry<String, MobMapping> entry : map.mobs.entrySet()) {
@@ -94,7 +96,11 @@ public final class FileMappingLoader {
                 for (FileEntry f : mob.files) {
                     if (f == null) return false;
                     if (f.path == null || f.path.isBlank()) return false;
-                    if (f.originalSpawnBlockSet == null || f.originalSpawnBlockSet.isBlank()) return false;
+                    boolean hasSpawnBlockSet = f.originalSpawnBlockSet != null && !f.originalSpawnBlockSet.isBlank();
+                    boolean hasSpawnFluidTag = f.originalSpawnFluidTag != null && !f.originalSpawnFluidTag.isBlank();
+                    if (!hasSpawnBlockSet && !hasSpawnFluidTag) return false;
+                    if (hasSpawnBlockSet) hasSpawnBlockSetWorld = true;
+                    if (hasSpawnFluidTag) hasSpawnFluidTagWorld = true;
                 }
             }
 
@@ -112,7 +118,9 @@ public final class FileMappingLoader {
             if (!mobHasEntries) return false;
         }
 
-        if (hasWorld && (map.getReplacementSpawnBlockSet() == null || map.getReplacementSpawnBlockSet().isBlank())) return false;
+        if (hasWorld && !hasSpawnBlockSetWorld && !hasSpawnFluidTagWorld) return false;
+        if (hasSpawnBlockSetWorld && (map.getReplacementSpawnBlockSet() == null || map.getReplacementSpawnBlockSet().isBlank())) return false;
+        if (hasSpawnFluidTagWorld && (map.getReplacementSpawnFluidTag() == null || map.getReplacementSpawnFluidTag().isBlank())) return false;
         if (hasMarkers && (map.getReplacementMarkerDeactivationDistance() == null || !Double.isFinite(map.getReplacementMarkerDeactivationDistance()) || map.getReplacementMarkerDeactivationDistance() <= 0.0d)) {
             return false;
         }
@@ -126,6 +134,8 @@ public final class FileMappingLoader {
         public String replacementSpawnBlockSet;
         public Double ReplacementMarkerDeactivationDistance;
         public Double replacementMarkerDeactivationDistance;
+        public String ReplacementSpawnFluidTag;
+        public String replacementSpawnFluidTag;
         public Map<String, MobMapping> mobs = new LinkedHashMap<>();
 
         public String getReplacementSpawnBlockSet() {
@@ -137,6 +147,11 @@ public final class FileMappingLoader {
             if (replacementMarkerDeactivationDistance != null) return replacementMarkerDeactivationDistance;
             return ReplacementMarkerDeactivationDistance;
         }
+
+        public String getReplacementSpawnFluidTag() {
+            if (replacementSpawnFluidTag != null && !replacementSpawnFluidTag.isBlank()) return replacementSpawnFluidTag;
+            return ReplacementSpawnFluidTag;
+        }
     }
 
     public static final class MobMapping {
@@ -147,6 +162,7 @@ public final class FileMappingLoader {
     public static final class FileEntry {
         public String path;
         public String originalSpawnBlockSet;
+        public String originalSpawnFluidTag;
     }
 
     public static final class MarkerEntry {

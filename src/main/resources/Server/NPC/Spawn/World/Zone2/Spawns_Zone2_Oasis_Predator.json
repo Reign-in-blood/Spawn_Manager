@@ -5,12 +5,12 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tiger_Sabertooth"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "SpawnFluidTag": "Water",
       "Id": "Crocodile"
     }

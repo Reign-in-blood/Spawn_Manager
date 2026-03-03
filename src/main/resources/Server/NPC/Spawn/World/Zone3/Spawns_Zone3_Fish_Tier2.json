@@ -7,7 +7,7 @@
     {
       "Weight": 10,
       "Id": "Salmon",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ],
   "DayTimeRange": [

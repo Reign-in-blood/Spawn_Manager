@@ -6,65 +6,60 @@
     {
       "Weight": 10,
       "Id": "Tortoise",
-      "Flock": "One_Or_Two"
+      "Flock": "One_Or_Two",
+      "SpawnFluidTag": "Water"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Blue",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Cyan",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
-    },
-    {
-      "Weight": 10,
-      "Id": "Jellyfish_Blue",
-      "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Green",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Yellow",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Red",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Jellyfish_Man_Of_War",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Tang_Blue",
       "Flock": "Group_Small",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Clownfish",
       "Flock": "EasterEgg_Pair",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Pufferfish",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ],
   "DayTimeRange": [
