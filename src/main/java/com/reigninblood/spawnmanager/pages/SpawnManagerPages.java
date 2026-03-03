@@ -755,35 +755,23 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
 
-        // Safety: never patch game installation packs directly.
-        // We always patch files under our mod-owned writable override folder.
-        Path overrideTarget = Path.of("mods", "SpawnManager", "Server").resolve(relativeUnderServer).normalize();
-        if (Files.exists(overrideTarget) && Files.isRegularFile(overrideTarget)) {
-            return overrideTarget;
-        }
+        // Safety: never write into game installation/asset-pack files.
+        // We only return files that are already in a mutable pack.
+        Path foundMutable = null;
 
-        Path foundAny = null;
         for (AssetPack pack : assetModule.getAssetPacks()) {
+            if (pack.isImmutable()) {
+                continue;
+            }
+
             Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
-                foundAny = candidate;
+                foundMutable = candidate;
                 break;
             }
         }
 
-        if (foundAny == null) {
-            return null;
-        }
-
-        try {
-            Files.createDirectories(overrideTarget.getParent());
-            Files.copy(foundAny, overrideTarget, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("[SpawnManager] staged writable override in mod folder: " + overrideTarget + " (from " + foundAny + ")");
-            return overrideTarget;
-        } catch (Exception e) {
-            LOGGER.warning("[SpawnManager] failed to stage writable mod override: source=" + foundAny + " target=" + overrideTarget + " error=" + e.getMessage());
-            return null;
-        }
+        return foundMutable;
     }
 
     private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
