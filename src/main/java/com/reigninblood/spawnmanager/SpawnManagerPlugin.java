@@ -5,7 +5,9 @@ import com.reigninblood.spawnmanager.command.SpawnManagerUICommand;
 import com.reigninblood.spawnmanager.config.SpawnManagerConfig;
 
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
 
 public final class SpawnManagerPlugin extends JavaPlugin {
@@ -17,7 +19,34 @@ public final class SpawnManagerPlugin extends JavaPlugin {
     public SpawnManagerPlugin(com.hypixel.hytale.server.core.plugin.JavaPluginInit init) {
         super(init);
         INSTANCE = this;
-        this.config = new SpawnManagerConfig(Path.of("SpawnManager"));
+        this.config = new SpawnManagerConfig(resolveConfigDirectory());
+    }
+
+    private static Path resolveConfigDirectory() {
+        Path target = Path.of("mods", "SpawnManager");
+        Path legacy = Path.of("SpawnManager");
+
+        if (Files.exists(legacy) && !Files.exists(target)) {
+            try {
+                Files.createDirectories(target.getParent());
+                Files.move(legacy, target, StandardCopyOption.ATOMIC_MOVE);
+                LOGGER.info("[SpawnManager] migrated legacy config directory to " + target);
+            } catch (Exception moveFailed) {
+                try {
+                    Files.createDirectories(target);
+                    Path legacyConfig = legacy.resolve("config.json");
+                    Path targetConfig = target.resolve("config.json");
+                    if (Files.exists(legacyConfig) && !Files.exists(targetConfig)) {
+                        Files.copy(legacyConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
+                        LOGGER.info("[SpawnManager] copied legacy config.json to " + targetConfig);
+                    }
+                } catch (Exception copyFailed) {
+                    LOGGER.warning("[SpawnManager] failed to migrate legacy config directory: " + copyFailed.getMessage());
+                }
+            }
+        }
+
+        return target;
     }
 
     public static SpawnManagerPlugin get() {

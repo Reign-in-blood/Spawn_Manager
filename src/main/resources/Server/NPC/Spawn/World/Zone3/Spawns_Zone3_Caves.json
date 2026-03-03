@@ -9,17 +9,17 @@
   "NPCs": [
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Snapjaw"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Frostgill"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Trilobite"
     }
   ]

@@ -52,7 +52,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
     private static final String ROW_PATH = "Pages/MobRow.ui";
-    private static final String KEY = "SpawnBlockSet";
+    private static final String SPAWN_BLOCK_SET_KEY = "SpawnBlockSet";
+    private static final String SPAWN_FLUID_TAG_KEY = "SpawnFluidTag";
     private static final String MARKER_KEY = "DeactivationDistance";
     private static final Set<String> ALL_FILTER_GROUPS = new LinkedHashSet<>(List.of(
             "Terrestrial", "Aquatic", "Flying",
@@ -245,6 +246,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("apply".equals(action)) {
             final Map<String, Boolean> snapshot;
             final Set<String> dirtySnapshot;
+            final Player player = store.getComponent(ref, Player.getComponentType());
+            final SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             synchronized (stagedEnabled) {
                 snapshot = new HashMap<>(stagedEnabled);
             }
@@ -252,7 +255,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 dirtySnapshot = new HashSet<>(dirty);
             }
 
-            CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            CompletableFuture.runAsync(() -> {
+                applyAndSave(snapshot, dirtySnapshot);
+                if (plugin != null) {
+                    plugin.triggerSpawningPopulate(player);
+                }
+            }).exceptionally(error -> {
+                LOGGER.warning("[SpawnManager] apply async failed: " + error.getMessage());
+                return null;
+            });
             rebuild();
             return;
         }
@@ -261,9 +272,19 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("toggleCaveNpc".equals(action)) {
             caveNpcEnabled = !caveNpcEnabled;
             boolean targetEnabled = caveNpcEnabled;
+            final Player player = store.getComponent(ref, Player.getComponentType());
+            final SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             config.setCaveNpcEnabled(targetEnabled);
             config.save();
-            CompletableFuture.runAsync(() -> applyCaveNpcLightRanges(targetEnabled));
+            CompletableFuture.runAsync(() -> {
+                applyCaveNpcLightRanges(targetEnabled);
+                if (plugin != null) {
+                    plugin.triggerSpawningPopulate(player);
+                }
+            }).exceptionally(error -> {
+                LOGGER.warning("[SpawnManager] cave toggle async failed: " + error.getMessage());
+                return null;
+            });
             rebuild();
             return;
         }
@@ -610,6 +631,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         for (Map.Entry<String, Boolean> e : stagedSnapshot.entrySet()) {
             config.setEnabled(e.getKey(), e.getValue());
         }
+        if (mapping != null && mapping.mobs != null) {
+            config.retainDisabledMobs(mapping.mobs.keySet());
+        }
         config.save();
 
         synchronized (dirty) {
@@ -640,9 +664,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             String replacementSpawnBlockSet = mapping.getReplacementSpawnBlockSet();
-            if (hasWorldFiles && !enabled && (replacementSpawnBlockSet == null || replacementSpawnBlockSet.isBlank())) {
-                LOGGER.warning("[SpawnManager] apply: ReplacementSpawnBlockSet missing in mapping for mob=" + mobId);
-            }
+            String replacementSpawnFluidTag = mapping.getReplacementSpawnFluidTag();
 
             Double replacementMarkerDistance = mapping.getReplacementMarkerDeactivationDistance();
             if (hasMarkers && !enabled && (replacementMarkerDistance == null || !Double.isFinite(replacementMarkerDistance) || replacementMarkerDistance <= 0.0d)) {
@@ -663,9 +685,18 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                         continue;
                     }
 
-                    String targetSpawnBlockSet = enabled ? fileEntry.originalSpawnBlockSet : replacementSpawnBlockSet;
-                    if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
-                        LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " file=" + mappedPath);
+                    String spawnPropertyKey = resolveSpawnPropertyKey(fileEntry);
+                    String originalSpawnValue = resolveOriginalSpawnValue(fileEntry);
+                    String replacementSpawnValue = SPAWN_FLUID_TAG_KEY.equals(spawnPropertyKey) ? replacementSpawnFluidTag : replacementSpawnBlockSet;
+
+                    if (!enabled && (replacementSpawnValue == null || replacementSpawnValue.isBlank())) {
+                        LOGGER.warning("[SpawnManager] apply: missing replacement value for key=" + spawnPropertyKey + " mob=" + mobId);
+                        continue;
+                    }
+
+                    String targetSpawnValue = enabled ? originalSpawnValue : replacementSpawnValue;
+                    if (targetSpawnValue == null || targetSpawnValue.isBlank()) {
+                        LOGGER.warning("[SpawnManager] apply: missing target value for key=" + spawnPropertyKey + " mob=" + mobId + " file=" + mappedPath);
                         continue;
                     }
 
@@ -676,7 +707,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     try {
-                        PatchOutcome outcome = setMobSpawnBlockSetInFile(targetFile, mobId, targetSpawnBlockSet);
+                        PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
                         if (!outcome.foundTarget) {
                             LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
                         }
@@ -744,12 +775,23 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
 
+        // NOTE: use the mod folder name from manifest (Spawn_Manager), not Java package name.
+        Path pluginOverrideRoot = Path.of("mods", "Spawn_Manager", "Server");
+        Path pluginOverrideTarget = pluginOverrideRoot.resolve(relativeUnderServer).normalize();
+        if (Files.exists(pluginOverrideTarget) && Files.isRegularFile(pluginOverrideTarget)) {
+            return pluginOverrideTarget;
+        }
+
         Path foundMutable = null;
         Path foundAny = null;
+        Path mutableRoot = null;
 
         for (AssetPack pack : assetModule.getAssetPacks()) {
             Path root = pack.getRoot();
             boolean immutable = pack.isImmutable();
+            if (!immutable && mutableRoot == null) {
+                mutableRoot = root;
+            }
 
             Path candidate = root.resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
@@ -758,17 +800,67 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
 
-        return (foundMutable != null) ? foundMutable : foundAny;
+        if (foundMutable != null) {
+            return foundMutable;
+        }
+
+        if (foundAny != null && mutableRoot != null) {
+            Path writableTarget = mutableRoot.resolve("Server").resolve(relativeUnderServer).normalize();
+            try {
+                if (!Files.exists(writableTarget)) {
+                    Path parent = writableTarget.getParent();
+                    if (parent != null) {
+                        Files.createDirectories(parent);
+                    }
+                    Files.copy(foundAny, writableTarget, StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.info("[SpawnManager] staged writable override for " + relativeUnderServer + " at " + writableTarget);
+                }
+                return writableTarget;
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] failed to stage writable override for " + relativeUnderServer + ": " + e.getMessage());
+            }
+        }
+
+        if (foundAny != null) {
+            try {
+                Path parent = pluginOverrideTarget.getParent();
+                if (parent != null) {
+                    Files.createDirectories(parent);
+                }
+                if (!Files.exists(pluginOverrideTarget)) {
+                    Files.copy(foundAny, pluginOverrideTarget, StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.info("[SpawnManager] staged plugin override for " + relativeUnderServer + " at " + pluginOverrideTarget);
+                }
+                return pluginOverrideTarget;
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] failed to stage plugin override for " + relativeUnderServer + ": " + e.getMessage());
+            }
+        }
+
+        return foundAny;
     }
 
-    private static PatchOutcome setMobSpawnBlockSetInFile(Path file, String mobId, String spawnBlockSetValue) throws IOException {
+    private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
+        if (fileEntry != null && fileEntry.originalSpawnFluidTag != null && !fileEntry.originalSpawnFluidTag.isBlank()) {
+            return SPAWN_FLUID_TAG_KEY;
+        }
+        return SPAWN_BLOCK_SET_KEY;
+    }
+
+    private static String resolveOriginalSpawnValue(FileEntry fileEntry) {
+        if (fileEntry == null) return null;
+        if (fileEntry.originalSpawnFluidTag != null && !fileEntry.originalSpawnFluidTag.isBlank()) return fileEntry.originalSpawnFluidTag;
+        return fileEntry.originalSpawnBlockSet;
+    }
+
+    private static PatchOutcome setMobSpawnPropertyInFile(Path file, String mobId, String propertyKey, String propertyValue) throws IOException {
         String json = Files.readString(file);
         JsonElement el = JsonParser.parseString(json);
         if (!el.isJsonObject()) return new PatchOutcome(false, false);
 
         JsonObject root = el.getAsJsonObject();
 
-        if (root.has(KEY)) root.remove(KEY);
+        if (SPAWN_BLOCK_SET_KEY.equals(propertyKey) && root.has(SPAWN_BLOCK_SET_KEY)) root.remove(SPAWN_BLOCK_SET_KEY);
 
         if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return new PatchOutcome(false, false);
         JsonArray npcs = root.getAsJsonArray("NPCs");
@@ -784,9 +876,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             String id = npc.get("Id").getAsString();
             if (mobId.equals(id)) {
                 found = true;
-                String before = npc.has(KEY) && npc.get(KEY).isJsonPrimitive() ? npc.get(KEY).getAsString() : null;
-                if (!Objects.equals(before, spawnBlockSetValue)) {
-                    npc.addProperty(KEY, spawnBlockSetValue);
+                String before = npc.has(propertyKey) && npc.get(propertyKey).isJsonPrimitive() ? npc.get(propertyKey).getAsString() : null;
+                if (!Objects.equals(before, propertyValue)) {
+                    npc.addProperty(propertyKey, propertyValue);
                     modified = true;
                 }
                 break;
