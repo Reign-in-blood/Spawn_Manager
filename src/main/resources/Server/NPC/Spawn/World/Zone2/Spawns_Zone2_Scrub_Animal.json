@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Chicken_Desert",
       "Flock": "Group_Small"
     }

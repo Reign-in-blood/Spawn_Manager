@@ -5,23 +5,23 @@
   "NPCs": [
     {
       "Weight": 2,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Vulture"
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Hyena",
       "Flock": "Pack_Small"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Scorpion"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Snake_Rattle"
     },
     {

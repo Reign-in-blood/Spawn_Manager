@@ -5,12 +5,12 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Grass",
+      "SpawnBlockSet": "Empty",
       "Id": "Flamingo"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tortoise"
     }
   ],

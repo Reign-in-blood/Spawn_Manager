@@ -5,25 +5,25 @@
   "NPCs": [
     {
       "Weight": 15,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Boar",
       "Flock": "Group_Small"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Moose_Bull",
       "Flock": "Group_Small"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Soil_NoSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Rabbit",
       "Flock": "One_Or_Two"
     },
     {
       "Weight": 5,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Mouflon",
       "Flock": "Group_Small"
     }

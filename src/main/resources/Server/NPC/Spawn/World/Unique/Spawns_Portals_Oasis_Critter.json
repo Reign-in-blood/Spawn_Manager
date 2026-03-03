@@ -5,12 +5,12 @@
   "NPCs": [
     {
       "Weight": 6,
-      "SpawnBlockSet": "Portals_Oasis_Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Lizard_Sand"
     },
     {
       "Weight": 6,
-      "SpawnBlockSet": "Portals_Oasis_Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Frog_Orange"
     },
     {
@@ -24,13 +24,13 @@
     },
     {
       "Weight": 4,
-      "SpawnBlockSet": "Birds",
+      "SpawnBlockSet": "Empty",
       "Id": "Parrot",
       "Flock": "Group_Tiny"
     },
     {
       "Weight": 2,
-      "SpawnBlockSet": "Rock",
+      "SpawnBlockSet": "Empty",
       "Id": "Vulture"
     }
   ],

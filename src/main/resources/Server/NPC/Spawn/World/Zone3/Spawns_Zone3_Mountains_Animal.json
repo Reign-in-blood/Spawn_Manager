@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 15,
-      "SpawnBlockSet": "IceAndSnow",
+      "SpawnBlockSet": "Empty",
       "Id": "Mouflon",
       "Flock": "Group_Small"
     }

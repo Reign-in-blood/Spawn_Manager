@@ -5,7 +5,7 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Wolf_White",
       "Flock": "Pack_Small"
     }

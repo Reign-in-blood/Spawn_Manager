@@ -5,14 +5,14 @@
   "NPCs": [
     {
       "Weight": 15,
-      "SpawnBlockSet": "Portals_Oasis_Soil",
+      "SpawnBlockSet": "Empty",
       "SpawnFluidTag": "Water",
       "Id": "Flamingo",
       "Flock": "Group_Small"
     },
     {
       "Weight": 10,
-      "SpawnBlockSet": "Portals_Oasis_Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Tortoise"
     }
   ],

@@ -6,19 +6,19 @@
     {
       "Weight": 2,
       "Id": "Shark_Hammerhead",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Bluegill",
       "Flock": "Group_Large",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     },
     {
       "Weight": 10,
       "Id": "Eel_Moray",
       "Flock": "Group_Large",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ]
 }

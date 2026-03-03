@@ -445,27 +445,6 @@
         0,
         2
       ]
-    },
-    {
-      "path": "Server/NPC/Spawn/Beacons/Zone4/Zone4_Elemental_Circle_Tier1.json",
-      "originalLight": [
-        0,
-        2
-      ]
-    },
-    {
-      "path": "Server/NPC/Spawn/Beacons/Zone4/Zone4_Elemental_Circle_Tier2.json",
-      "originalLight": [
-        0,
-        2
-      ]
-    },
-    {
-      "path": "Server/NPC/Spawn/Beacons/Zone4/Zone4_Elemental_Circle_Tier3.json",
-      "originalLight": [
-        0,
-        2
-      ]
     }
   ]
 }
