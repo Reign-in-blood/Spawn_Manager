@@ -35,19 +35,13 @@ import com.reigninblood.spawnmanager.mapping.GroupsLoader.SpawnManagerGroups;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 import java.util.logging.Logger;
 
 public final class SpawnManagerPages extends BasicCustomUIPage {
@@ -481,31 +475,21 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             if (relativePath == null) continue;
 
             Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+            if (targetFile == null) {
+                missing++;
+                LOGGER.warning("[SpawnManager] cave toggle: file not found path=Server/" + relativePath);
+                continue;
+            }
 
             int[] range = enabled ? entry.originalLight : disabledRange;
             if (range == null || range.length != 2) continue;
 
-            if (targetFile != null) {
-                try {
-                    if (setBeaconLightRangeInFile(targetFile, range[0], range[1])) {
-                        patched++;
-                    }
-                } catch (Exception e) {
-                    LOGGER.warning("[SpawnManager] cave toggle failed file=" + targetFile + " error=" + e.getMessage());
-                }
-                continue;
-            }
-
             try {
-                if (setBeaconLightRangeInOwnJar(relativePath, range[0], range[1])) {
+                if (setBeaconLightRangeInFile(targetFile, range[0], range[1])) {
                     patched++;
-                } else {
-                    missing++;
-                    LOGGER.warning("[SpawnManager] cave toggle: file not found in writable pack or mod jar path=Server/" + relativePath);
                 }
             } catch (Exception e) {
-                missing++;
-                LOGGER.warning("[SpawnManager] cave toggle failed jar entry=Server/" + relativePath + " error=" + e.getMessage());
+                LOGGER.warning("[SpawnManager] cave toggle failed file=" + targetFile + " error=" + e.getMessage());
             }
         }
 
@@ -697,25 +681,18 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-                    if (targetFile != null) {
-                        try {
-                            PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
-                            if (!outcome.foundTarget) {
-                                LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.warning("[SpawnManager] apply: failed world patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
-                        }
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: world file not found for mob=" + mobId + " path=Server/" + relativePath);
                         continue;
                     }
 
                     try {
-                        PatchOutcome outcome = setMobSpawnPropertyInOwnJar(relativePath, mobId, spawnPropertyKey, targetSpawnValue);
+                        PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
                         if (!outcome.foundTarget) {
-                            LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " jarEntry=Server/" + relativePath);
+                            LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: world file not found in writable pack and jar patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: failed world patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
                     }
                 }
             }
@@ -741,25 +718,18 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-                    if (targetFile != null) {
-                        try {
-                            PatchOutcome outcome = setMarkerDeactivationDistanceInFile(targetFile, mobId, targetDistance);
-                            if (!outcome.foundTarget) {
-                                LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " file=" + targetFile);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.warning("[SpawnManager] apply: failed marker patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
-                        }
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: marker file not found for mob=" + mobId + " path=Server/" + relativePath);
                         continue;
                     }
 
                     try {
-                        PatchOutcome outcome = setMarkerDeactivationDistanceInOwnJar(relativePath, mobId, targetDistance);
+                        PatchOutcome outcome = setMarkerDeactivationDistanceInFile(targetFile, mobId, targetDistance);
                         if (!outcome.foundTarget) {
-                            LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " jarEntry=Server/" + relativePath);
+                            LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " file=" + targetFile);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: marker file not found in writable pack and jar patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: failed marker patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
                     }
                 }
             }
@@ -783,24 +753,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     }
 
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
-        if (relativeUnderServer == null) return null;
+        if (assetModule == null || relativeUnderServer == null) return null;
 
-        // 1) Always prefer a writable override in the mod folder.
-        Path modOverride = Path.of("mods", "SpawnManager", "Server").resolve(relativeUnderServer).normalize();
-        if (Files.exists(modOverride) && Files.isRegularFile(modOverride)) {
-            return modOverride;
-        }
-
-        // 2) If missing, seed it from this mod bundled resource (never from game core assets).
-        Path staged = stageOverrideFromBundledResource(relativeUnderServer, modOverride);
-        if (staged != null) {
-            return staged;
-        }
-
-        // 3) Fallback: use an already-mutable pack file if available.
-        if (assetModule == null) return null;
         for (AssetPack pack : assetModule.getAssetPacks()) {
             if (pack.isImmutable()) continue;
+
             Path candidate = pack.getRoot().resolve("Server").resolve(relativeUnderServer).normalize();
             if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
                 return candidate;
@@ -808,25 +765,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
 
         return null;
-    }
-
-    private static Path stageOverrideFromBundledResource(String relativeUnderServer, Path targetOverride) {
-        String resourcePath = "Server/" + relativeUnderServer.replace('\\', '/');
-        ClassLoader cl = SpawnManagerPages.class.getClassLoader();
-
-        try (InputStream in = cl.getResourceAsStream(resourcePath)) {
-            if (in == null) {
-                return null;
-            }
-
-            Files.createDirectories(targetOverride.getParent());
-            Files.copy(in, targetOverride, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("[SpawnManager] staged mod override from bundled resource: " + targetOverride + " (resource=" + resourcePath + ")");
-            return targetOverride;
-        } catch (Exception e) {
-            LOGGER.warning("[SpawnManager] failed to stage bundled override: resource=" + resourcePath + " target=" + targetOverride + " error=" + e.getMessage());
-            return null;
-        }
     }
 
     private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
@@ -1019,224 +957,6 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         } catch (AtomicMoveNotSupportedException e) {
             Files.move(tmp, target, StandardCopyOption.REPLACE_EXISTING);
         }
-    }
-
-    private static PatchOutcome setMobSpawnPropertyInOwnJar(String relativeUnderServer, String mobId, String propertyKey, String propertyValue) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return new PatchOutcome(false, false);
-
-        String json = readJarEntry(jarPath, jarEntry);
-        if (json == null) return new PatchOutcome(false, false);
-
-        PatchResult result = patchMobSpawnProperty(json, mobId, propertyKey, propertyValue);
-        if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
-        }
-        return new PatchOutcome(result.foundTarget, result.modified);
-    }
-
-    private static PatchOutcome setMarkerDeactivationDistanceInOwnJar(String relativeUnderServer, String mobId, double deactivationDistance) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return new PatchOutcome(false, false);
-
-        String json = readJarEntry(jarPath, jarEntry);
-        if (json == null) return new PatchOutcome(false, false);
-
-        PatchResult result = patchMarkerDeactivationDistance(json, mobId, deactivationDistance);
-        if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
-        }
-        return new PatchOutcome(result.foundTarget, result.modified);
-    }
-
-    private static boolean setBeaconLightRangeInOwnJar(String relativeUnderServer, int minLight, int maxLight) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return false;
-
-        String json = readJarEntry(jarPath, jarEntry);
-        if (json == null) return false;
-
-        LightPatchResult result = patchBeaconLightRange(json, minLight, maxLight);
-        if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
-        }
-        return true;
-    }
-
-    private static Path locateOwnJarPath() {
-        try {
-            URI uri = SpawnManagerPages.class.getProtectionDomain().getCodeSource().getLocation().toURI();
-            Path path = Path.of(uri).normalize();
-            if (Files.isRegularFile(path) && path.toString().endsWith(".jar")) {
-                return path;
-            }
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
-
-    private static String readJarEntry(Path jarPath, String entryName) throws IOException {
-        try (ZipFile zip = new ZipFile(jarPath.toFile())) {
-            ZipEntry entry = zip.getEntry(entryName);
-            if (entry == null) return null;
-            try (InputStream in = zip.getInputStream(entry)) {
-                return new String(in.readAllBytes());
-            }
-        }
-    }
-
-    private static void replaceJarEntry(Path jarPath, String entryName, String updatedContent) throws IOException {
-        Path tmp = jarPath.resolveSibling(jarPath.getFileName() + ".tmp");
-        boolean replaced = false;
-
-        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(jarPath));
-             ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(tmp))) {
-            ZipEntry entry;
-            while ((entry = zis.getNextEntry()) != null) {
-                String name = entry.getName();
-                ZipEntry out = new ZipEntry(name);
-                zos.putNextEntry(out);
-                if (entryName.equals(name)) {
-                    zos.write(updatedContent.getBytes());
-                    replaced = true;
-                } else {
-                    zis.transferTo(zos);
-                }
-                zos.closeEntry();
-                zis.closeEntry();
-            }
-
-            if (!replaced) {
-                ZipEntry out = new ZipEntry(entryName);
-                zos.putNextEntry(out);
-                zos.write(updatedContent.getBytes());
-                zos.closeEntry();
-            }
-        }
-
-        Files.move(tmp, jarPath, StandardCopyOption.REPLACE_EXISTING);
-    }
-
-    private static PatchResult patchMobSpawnProperty(String json, String mobId, String propertyKey, String propertyValue) {
-        JsonElement el = JsonParser.parseString(json);
-        if (!el.isJsonObject()) return new PatchResult(false, false, json);
-
-        JsonObject root = el.getAsJsonObject();
-        if (SPAWN_BLOCK_SET_KEY.equals(propertyKey) && root.has(SPAWN_BLOCK_SET_KEY)) root.remove(SPAWN_BLOCK_SET_KEY);
-        if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return new PatchResult(false, false, json);
-
-        JsonArray npcs = root.getAsJsonArray("NPCs");
-        boolean found = false;
-        boolean modified = false;
-
-        for (JsonElement npcEl : npcs) {
-            if (!npcEl.isJsonObject()) continue;
-            JsonObject npc = npcEl.getAsJsonObject();
-            if (!npc.has("Id") || !npc.get("Id").isJsonPrimitive()) continue;
-            String id = npc.get("Id").getAsString();
-            if (mobId.equals(id)) {
-                found = true;
-                String before = npc.has(propertyKey) && npc.get(propertyKey).isJsonPrimitive() ? npc.get(propertyKey).getAsString() : null;
-                if (!Objects.equals(before, propertyValue)) {
-                    npc.addProperty(propertyKey, propertyValue);
-                    modified = true;
-                }
-                break;
-            }
-        }
-
-        return new PatchResult(found, modified, modified ? GSON.toJson(root) : json);
-    }
-
-    private static PatchResult patchMarkerDeactivationDistance(String json, String mobId, double deactivationDistance) {
-        JsonElement el = JsonParser.parseString(json);
-        boolean found = false;
-        boolean modified = false;
-
-        if (el.isJsonObject()) {
-            JsonObject root = el.getAsJsonObject();
-            if (root.has("Markers") && root.get("Markers").isJsonArray()) {
-                JsonArray markers = root.getAsJsonArray("Markers");
-                for (JsonElement markerEl : markers) {
-                    if (!markerEl.isJsonObject()) continue;
-                    JsonObject marker = markerEl.getAsJsonObject();
-                    if (!markerMatchesMob(marker, mobId)) continue;
-                    found = true;
-                    double before = marker.has(MARKER_KEY) && marker.get(MARKER_KEY).isJsonPrimitive() ? marker.get(MARKER_KEY).getAsDouble() : Double.NaN;
-                    if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
-                        marker.addProperty(MARKER_KEY, deactivationDistance);
-                        modified = true;
-                    }
-                    break;
-                }
-            } else if (markerMatchesMob(root, mobId) || markerRootContainsMob(root, mobId)) {
-                found = true;
-                double before = root.has(MARKER_KEY) && root.get(MARKER_KEY).isJsonPrimitive() ? root.get(MARKER_KEY).getAsDouble() : Double.NaN;
-                if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
-                    root.addProperty(MARKER_KEY, deactivationDistance);
-                    modified = true;
-                }
-            }
-            return new PatchResult(found, modified, modified ? GSON.toJson(root) : json);
-        }
-
-        if (el.isJsonArray()) {
-            JsonArray arr = el.getAsJsonArray();
-            for (JsonElement markerEl : arr) {
-                if (!markerEl.isJsonObject()) continue;
-                JsonObject marker = markerEl.getAsJsonObject();
-                if (!markerMatchesMob(marker, mobId)) continue;
-                found = true;
-                double before = marker.has(MARKER_KEY) && marker.get(MARKER_KEY).isJsonPrimitive() ? marker.get(MARKER_KEY).getAsDouble() : Double.NaN;
-                if (!Double.isFinite(before) || Double.compare(before, deactivationDistance) != 0) {
-                    marker.addProperty(MARKER_KEY, deactivationDistance);
-                    modified = true;
-                }
-                break;
-            }
-            return new PatchResult(found, modified, modified ? GSON.toJson(arr) : json);
-        }
-
-        return new PatchResult(false, false, json);
-    }
-
-    private static LightPatchResult patchBeaconLightRange(String json, int minLight, int maxLight) {
-        JsonElement el = JsonParser.parseString(json);
-        if (!el.isJsonObject()) return new LightPatchResult(false, json);
-
-        JsonObject root = el.getAsJsonObject();
-        JsonObject lightRanges = root.has("LightRanges") && root.get("LightRanges").isJsonObject()
-                ? root.getAsJsonObject("LightRanges")
-                : new JsonObject();
-
-        int beforeMin = Integer.MIN_VALUE;
-        int beforeMax = Integer.MIN_VALUE;
-        if (lightRanges.has("Light") && lightRanges.get("Light").isJsonArray()) {
-            JsonArray arr = lightRanges.getAsJsonArray("Light");
-            if (arr.size() >= 2 && arr.get(0).isJsonPrimitive() && arr.get(1).isJsonPrimitive()) {
-                beforeMin = arr.get(0).getAsInt();
-                beforeMax = arr.get(1).getAsInt();
-            }
-        }
-
-        boolean modified = beforeMin != minLight || beforeMax != maxLight;
-        if (!modified) return new LightPatchResult(false, json);
-
-        JsonArray newLight = new JsonArray();
-        newLight.add(minLight);
-        newLight.add(maxLight);
-        lightRanges.add("Light", newLight);
-        root.add("LightRanges", lightRanges);
-        return new LightPatchResult(true, GSON.toJson(root));
-    }
-
-    private record PatchResult(boolean foundTarget, boolean modified, String updatedJson) {
-    }
-
-    private record LightPatchResult(boolean modified, String updatedJson) {
     }
 
     private record ScoredMob(String name, int score) {
