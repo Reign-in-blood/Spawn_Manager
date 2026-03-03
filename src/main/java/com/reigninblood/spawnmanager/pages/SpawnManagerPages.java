@@ -52,7 +52,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
     private static final String ROW_PATH = "Pages/MobRow.ui";
-    private static final String KEY = "SpawnBlockSet";
+    private static final String SPAWN_BLOCK_SET_KEY = "SpawnBlockSet";
+    private static final String SPAWN_FLUID_TAG_KEY = "SpawnFluidTag";
     private static final String MARKER_KEY = "DeactivationDistance";
     private static final Set<String> ALL_FILTER_GROUPS = new LinkedHashSet<>(List.of(
             "Terrestrial", "Aquatic", "Flying",
@@ -640,9 +641,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             String replacementSpawnBlockSet = mapping.getReplacementSpawnBlockSet();
-            if (hasWorldFiles && !enabled && (replacementSpawnBlockSet == null || replacementSpawnBlockSet.isBlank())) {
-                LOGGER.warning("[SpawnManager] apply: ReplacementSpawnBlockSet missing in mapping for mob=" + mobId);
-            }
+            String replacementSpawnFluidTag = mapping.getReplacementSpawnFluidTag();
 
             Double replacementMarkerDistance = mapping.getReplacementMarkerDeactivationDistance();
             if (hasMarkers && !enabled && (replacementMarkerDistance == null || !Double.isFinite(replacementMarkerDistance) || replacementMarkerDistance <= 0.0d)) {
@@ -663,9 +662,18 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                         continue;
                     }
 
-                    String targetSpawnBlockSet = enabled ? fileEntry.originalSpawnBlockSet : replacementSpawnBlockSet;
-                    if (targetSpawnBlockSet == null || targetSpawnBlockSet.isBlank()) {
-                        LOGGER.warning("[SpawnManager] apply: missing target SpawnBlockSet for mob=" + mobId + " file=" + mappedPath);
+                    String spawnPropertyKey = resolveSpawnPropertyKey(fileEntry);
+                    String originalSpawnValue = resolveOriginalSpawnValue(fileEntry);
+                    String replacementSpawnValue = SPAWN_FLUID_TAG_KEY.equals(spawnPropertyKey) ? replacementSpawnFluidTag : replacementSpawnBlockSet;
+
+                    if (!enabled && (replacementSpawnValue == null || replacementSpawnValue.isBlank())) {
+                        LOGGER.warning("[SpawnManager] apply: missing replacement value for key=" + spawnPropertyKey + " mob=" + mobId);
+                        continue;
+                    }
+
+                    String targetSpawnValue = enabled ? originalSpawnValue : replacementSpawnValue;
+                    if (targetSpawnValue == null || targetSpawnValue.isBlank()) {
+                        LOGGER.warning("[SpawnManager] apply: missing target value for key=" + spawnPropertyKey + " mob=" + mobId + " file=" + mappedPath);
                         continue;
                     }
 
@@ -676,7 +684,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     try {
-                        PatchOutcome outcome = setMobSpawnBlockSetInFile(targetFile, mobId, targetSpawnBlockSet);
+                        PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
                         if (!outcome.foundTarget) {
                             LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
                         }
@@ -761,14 +769,27 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return (foundMutable != null) ? foundMutable : foundAny;
     }
 
-    private static PatchOutcome setMobSpawnBlockSetInFile(Path file, String mobId, String spawnBlockSetValue) throws IOException {
+    private static String resolveSpawnPropertyKey(FileEntry fileEntry) {
+        if (fileEntry != null && fileEntry.originalSpawnFluidTag != null && !fileEntry.originalSpawnFluidTag.isBlank()) {
+            return SPAWN_FLUID_TAG_KEY;
+        }
+        return SPAWN_BLOCK_SET_KEY;
+    }
+
+    private static String resolveOriginalSpawnValue(FileEntry fileEntry) {
+        if (fileEntry == null) return null;
+        if (fileEntry.originalSpawnFluidTag != null && !fileEntry.originalSpawnFluidTag.isBlank()) return fileEntry.originalSpawnFluidTag;
+        return fileEntry.originalSpawnBlockSet;
+    }
+
+    private static PatchOutcome setMobSpawnPropertyInFile(Path file, String mobId, String propertyKey, String propertyValue) throws IOException {
         String json = Files.readString(file);
         JsonElement el = JsonParser.parseString(json);
         if (!el.isJsonObject()) return new PatchOutcome(false, false);
 
         JsonObject root = el.getAsJsonObject();
 
-        if (root.has(KEY)) root.remove(KEY);
+        if (SPAWN_BLOCK_SET_KEY.equals(propertyKey) && root.has(SPAWN_BLOCK_SET_KEY)) root.remove(SPAWN_BLOCK_SET_KEY);
 
         if (!root.has("NPCs") || !root.get("NPCs").isJsonArray()) return new PatchOutcome(false, false);
         JsonArray npcs = root.getAsJsonArray("NPCs");
@@ -784,9 +805,9 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             String id = npc.get("Id").getAsString();
             if (mobId.equals(id)) {
                 found = true;
-                String before = npc.has(KEY) && npc.get(KEY).isJsonPrimitive() ? npc.get(KEY).getAsString() : null;
-                if (!Objects.equals(before, spawnBlockSetValue)) {
-                    npc.addProperty(KEY, spawnBlockSetValue);
+                String before = npc.has(propertyKey) && npc.get(propertyKey).isJsonPrimitive() ? npc.get(propertyKey).getAsString() : null;
+                if (!Objects.equals(before, propertyValue)) {
+                    npc.addProperty(propertyKey, propertyValue);
                     modified = true;
                 }
                 break;
