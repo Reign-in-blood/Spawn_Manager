@@ -775,6 +775,12 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static Path locateWorldPathInAssetPacks(AssetModule assetModule, String relativeUnderServer) {
         if (assetModule == null || relativeUnderServer == null) return null;
 
+        Path pluginOverrideRoot = Path.of("mods", "SpawnManager", "Server");
+        Path pluginOverrideTarget = pluginOverrideRoot.resolve(relativeUnderServer).normalize();
+        if (Files.exists(pluginOverrideTarget) && Files.isRegularFile(pluginOverrideTarget)) {
+            return pluginOverrideTarget;
+        }
+
         Path foundMutable = null;
         Path foundAny = null;
         Path mutableRoot = null;
@@ -811,6 +817,22 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 return writableTarget;
             } catch (Exception e) {
                 LOGGER.warning("[SpawnManager] failed to stage writable override for " + relativeUnderServer + ": " + e.getMessage());
+            }
+        }
+
+        if (foundAny != null) {
+            try {
+                Path parent = pluginOverrideTarget.getParent();
+                if (parent != null) {
+                    Files.createDirectories(parent);
+                }
+                if (!Files.exists(pluginOverrideTarget)) {
+                    Files.copy(foundAny, pluginOverrideTarget, StandardCopyOption.REPLACE_EXISTING);
+                    LOGGER.info("[SpawnManager] staged plugin override for " + relativeUnderServer + " at " + pluginOverrideTarget);
+                }
+                return pluginOverrideTarget;
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] failed to stage plugin override for " + relativeUnderServer + ": " + e.getMessage());
             }
         }
 
