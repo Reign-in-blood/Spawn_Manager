@@ -5,18 +5,18 @@
   "NPCs": [
     {
       "Weight": 10,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Mosshorn"
     },
     {
       "Weight": 20,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Pig_Wild",
       "Flock": "Group_Small"
     },
     {
       "Weight": 15,
-      "SpawnBlockSet": "Soil",
+      "SpawnBlockSet": "Empty",
       "Id": "Turkey",
       "Flock": "Group_Small"
     }

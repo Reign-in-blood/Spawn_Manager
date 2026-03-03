@@ -19,7 +19,7 @@
     {
       "Weight": 15,
       "Id": "Pike",
-      "SpawnFluidTag": "Water"
+      "SpawnFluidTag": "Empty"
     }
   ],
   "DayTimeRange": [
