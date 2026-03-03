@@ -246,6 +246,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("apply".equals(action)) {
             final Map<String, Boolean> snapshot;
             final Set<String> dirtySnapshot;
+            final Player player = store.getComponent(ref, Player.getComponentType());
+            final SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             synchronized (stagedEnabled) {
                 snapshot = new HashMap<>(stagedEnabled);
             }
@@ -253,7 +255,15 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 dirtySnapshot = new HashSet<>(dirty);
             }
 
-            CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            CompletableFuture.runAsync(() -> {
+                applyAndSave(snapshot, dirtySnapshot);
+                if (plugin != null) {
+                    plugin.triggerSpawningPopulate(player);
+                }
+            }).exceptionally(error -> {
+                LOGGER.warning("[SpawnManager] apply async failed: " + error.getMessage());
+                return null;
+            });
             rebuild();
             return;
         }
@@ -262,9 +272,19 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         if ("toggleCaveNpc".equals(action)) {
             caveNpcEnabled = !caveNpcEnabled;
             boolean targetEnabled = caveNpcEnabled;
+            final Player player = store.getComponent(ref, Player.getComponentType());
+            final SpawnManagerPlugin plugin = SpawnManagerPlugin.get();
             config.setCaveNpcEnabled(targetEnabled);
             config.save();
-            CompletableFuture.runAsync(() -> applyCaveNpcLightRanges(targetEnabled));
+            CompletableFuture.runAsync(() -> {
+                applyCaveNpcLightRanges(targetEnabled);
+                if (plugin != null) {
+                    plugin.triggerSpawningPopulate(player);
+                }
+            }).exceptionally(error -> {
+                LOGGER.warning("[SpawnManager] cave toggle async failed: " + error.getMessage());
+                return null;
+            });
             rebuild();
             return;
         }
