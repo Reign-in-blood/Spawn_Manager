@@ -56,8 +56,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Type MAP_TYPE = new TypeToken<Map<String, String>>() {}.getType();
 
-    private static final String PAGE_PATH = "Common/UI/Custom/Pages/SpawnManagerPage.ui";
-    private static final String ROW_PATH = "Common/UI/Custom/Pages/MobRow.ui";
+    private static final String PAGE_PATH = "Pages/SpawnManagerPage.ui";
+    private static final String ROW_PATH = "Pages/MobRow.ui";
     private static final String SPAWN_BLOCK_SET_KEY = "SpawnBlockSet";
     private static final String SPAWN_FLUID_TAG_KEY = "SpawnFluidTag";
     private static final String MARKER_KEY = "DeactivationDistance";
