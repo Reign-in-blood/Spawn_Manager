@@ -497,7 +497,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
 
             try {
-                if (setBeaconLightRangeInOwnJar(relativePath, range[0], range[1])) {
+                if (setBeaconLightRangeInAssetZip(relativePath, range[0], range[1])) {
                     patched++;
                 } else {
                     missing++;
@@ -505,7 +505,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 }
             } catch (Exception e) {
                 missing++;
-                LOGGER.warning("[SpawnManager] cave toggle failed jar entry=Server/" + relativePath + " error=" + e.getMessage());
+                LOGGER.warning("[SpawnManager] cave toggle failed asset zip entry=Server/" + relativePath + " error=" + e.getMessage());
             }
         }
 
@@ -710,12 +710,12 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     try {
-                        PatchOutcome outcome = setMobSpawnPropertyInOwnJar(relativePath, mobId, spawnPropertyKey, targetSpawnValue);
+                        PatchOutcome outcome = setMobSpawnPropertyInAssetZip(relativePath, mobId, spawnPropertyKey, targetSpawnValue);
                         if (!outcome.foundTarget) {
                             LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " jarEntry=Server/" + relativePath);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: world file not found and jar patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: world file not found and asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
                     }
                 }
             }
@@ -754,12 +754,12 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                     }
 
                     try {
-                        PatchOutcome outcome = setMarkerDeactivationDistanceInOwnJar(relativePath, mobId, targetDistance);
+                        PatchOutcome outcome = setMarkerDeactivationDistanceInAssetZip(relativePath, mobId, targetDistance);
                         if (!outcome.foundTarget) {
                             LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " jarEntry=Server/" + relativePath);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: marker file not found and jar patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: marker file not found and asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
                     }
                 }
             }
@@ -989,49 +989,73 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
     }
 
-    private static PatchOutcome setMobSpawnPropertyInOwnJar(String relativeUnderServer, String mobId, String propertyKey, String propertyValue) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return new PatchOutcome(false, false);
+    private static PatchOutcome setMobSpawnPropertyInAssetZip(String relativeUnderServer, String mobId, String propertyKey, String propertyValue) throws IOException {
+        String zipEntry = "Server/" + relativeUnderServer;
+        Path zipPath = locateOwnAssetZipPath();
+        if (zipPath == null) return new PatchOutcome(false, false);
 
-        String json = readJarEntry(jarPath, jarEntry);
+        String json = readZipEntry(zipPath, zipEntry);
         if (json == null) return new PatchOutcome(false, false);
 
         PatchResult result = patchMobSpawnProperty(json, mobId, propertyKey, propertyValue);
         if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
+            replaceZipEntry(zipPath, zipEntry, result.updatedJson);
         }
         return new PatchOutcome(result.foundTarget, result.modified);
     }
 
-    private static PatchOutcome setMarkerDeactivationDistanceInOwnJar(String relativeUnderServer, String mobId, double deactivationDistance) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return new PatchOutcome(false, false);
+    private static PatchOutcome setMarkerDeactivationDistanceInAssetZip(String relativeUnderServer, String mobId, double deactivationDistance) throws IOException {
+        String zipEntry = "Server/" + relativeUnderServer;
+        Path zipPath = locateOwnAssetZipPath();
+        if (zipPath == null) return new PatchOutcome(false, false);
 
-        String json = readJarEntry(jarPath, jarEntry);
+        String json = readZipEntry(zipPath, zipEntry);
         if (json == null) return new PatchOutcome(false, false);
 
         PatchResult result = patchMarkerDeactivationDistance(json, mobId, deactivationDistance);
         if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
+            replaceZipEntry(zipPath, zipEntry, result.updatedJson);
         }
         return new PatchOutcome(result.foundTarget, result.modified);
     }
 
-    private static boolean setBeaconLightRangeInOwnJar(String relativeUnderServer, int minLight, int maxLight) throws IOException {
-        String jarEntry = "Server/" + relativeUnderServer;
-        Path jarPath = locateOwnJarPath();
-        if (jarPath == null) return false;
+    private static boolean setBeaconLightRangeInAssetZip(String relativeUnderServer, int minLight, int maxLight) throws IOException {
+        String zipEntry = "Server/" + relativeUnderServer;
+        Path zipPath = locateOwnAssetZipPath();
+        if (zipPath == null) return false;
 
-        String json = readJarEntry(jarPath, jarEntry);
+        String json = readZipEntry(zipPath, zipEntry);
         if (json == null) return false;
 
         LightPatchResult result = patchBeaconLightRange(json, minLight, maxLight);
         if (result.modified) {
-            replaceJarEntry(jarPath, jarEntry, result.updatedJson);
+            replaceZipEntry(zipPath, zipEntry, result.updatedJson);
         }
         return true;
+    }
+
+    private static Path locateOwnAssetZipPath() {
+        Path pluginJar = locateOwnJarPath();
+        if (pluginJar == null) return null;
+
+        Path dir = pluginJar.getParent();
+        if (dir == null || !Files.isDirectory(dir)) return null;
+
+        Path byName = dir.resolve("Spawn_Manager_Assets.zip");
+        if (Files.isRegularFile(byName)) return byName;
+
+        try {
+            try (var stream = Files.list(dir)) {
+                return stream
+                        .filter(Files::isRegularFile)
+                        .filter(p -> p.getFileName().toString().toLowerCase().endsWith(".zip"))
+                        .filter(p -> p.getFileName().toString().toLowerCase().contains("spawn_manager"))
+                        .findFirst()
+                        .orElse(null);
+            }
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     private static Path locateOwnJarPath() {
@@ -1046,8 +1070,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         return null;
     }
 
-    private static String readJarEntry(Path jarPath, String entryName) throws IOException {
-        try (ZipFile zip = new ZipFile(jarPath.toFile())) {
+    private static String readZipEntry(Path zipPath, String entryName) throws IOException {
+        try (ZipFile zip = new ZipFile(zipPath.toFile())) {
             ZipEntry entry = zip.getEntry(entryName);
             if (entry == null) return null;
             try (InputStream in = zip.getInputStream(entry)) {
@@ -1056,11 +1080,11 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
         }
     }
 
-    private static void replaceJarEntry(Path jarPath, String entryName, String updatedContent) throws IOException {
-        Path tmp = jarPath.resolveSibling(jarPath.getFileName() + ".tmp");
+    private static void replaceZipEntry(Path zipPath, String entryName, String updatedContent) throws IOException {
+        Path tmp = zipPath.resolveSibling(zipPath.getFileName() + ".tmp");
         boolean replaced = false;
 
-        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(jarPath));
+        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(zipPath));
              ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(tmp))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
@@ -1085,7 +1109,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
         }
 
-        Files.move(tmp, jarPath, StandardCopyOption.REPLACE_EXISTING);
+        Files.move(tmp, zipPath, StandardCopyOption.REPLACE_EXISTING);
     }
 
     private static PatchResult patchMobSpawnProperty(String json, String mobId, String propertyKey, String propertyValue) {

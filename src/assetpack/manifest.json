@@ -1,0 +1,17 @@
+{
+  "Group": "Spawn_Manager_Assets",
+  "Name": "Spawn_Manager_Assets",
+  "Version": "0.1.0",
+  "Description": "Asset pack for Spawn Manager plugin.",
+  "Authors": [
+    {
+      "Name": "ReignInBlood"
+    }
+  ],
+  "Website": "https://www.curseforge.com/members/reigninblood/projects",
+  "ServerVersion": "2026.02.17-255364b8e",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false
+}
