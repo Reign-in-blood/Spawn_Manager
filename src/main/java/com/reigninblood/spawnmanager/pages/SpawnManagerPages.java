@@ -480,32 +480,31 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             String relativePath = normalizeMappedPath(entry.path);
             if (relativePath == null) continue;
 
-            Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-
             int[] range = enabled ? entry.originalLight : disabledRange;
             if (range == null || range.length != 2) continue;
-
-            if (targetFile != null) {
-                try {
-                    if (setBeaconLightRangeInFile(targetFile, range[0], range[1])) {
-                        patched++;
-                    }
-                } catch (Exception e) {
-                    LOGGER.warning("[SpawnManager] cave toggle failed file=" + targetFile + " error=" + e.getMessage());
-                }
-                continue;
-            }
 
             try {
                 if (setBeaconLightRangeInAssetZip(relativePath, range[0], range[1])) {
                     patched++;
-                } else {
-                    missing++;
-                    LOGGER.warning("[SpawnManager] cave toggle: file not found path=Server/" + relativePath);
+                    continue;
                 }
             } catch (Exception e) {
-                missing++;
                 LOGGER.warning("[SpawnManager] cave toggle failed asset zip entry=Server/" + relativePath + " error=" + e.getMessage());
+            }
+
+            Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+            if (targetFile == null) {
+                missing++;
+                LOGGER.warning("[SpawnManager] cave toggle: file not found in asset zip or mutable pack path=Server/" + relativePath);
+                continue;
+            }
+
+            try {
+                if (setBeaconLightRangeInFile(targetFile, range[0], range[1])) {
+                    patched++;
+                }
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] cave toggle failed file=" + targetFile + " error=" + e.getMessage());
             }
         }
 
@@ -696,26 +695,29 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                         continue;
                     }
 
-                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-                    if (targetFile != null) {
-                        try {
-                            PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
-                            if (!outcome.foundTarget) {
-                                LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.warning("[SpawnManager] apply: failed world patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
+                    try {
+                        PatchOutcome outcome = setMobSpawnPropertyInAssetZip(relativePath, mobId, spawnPropertyKey, targetSpawnValue);
+                        if (outcome.foundTarget) {
+                            continue;
                         }
+                        LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " asset zip entry=Server/" + relativePath);
+                    } catch (Exception e) {
+                        LOGGER.warning("[SpawnManager] apply: asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                    }
+
+                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: world file not found in asset zip or mutable pack for mob=" + mobId + " path=Server/" + relativePath);
                         continue;
                     }
 
                     try {
-                        PatchOutcome outcome = setMobSpawnPropertyInAssetZip(relativePath, mobId, spawnPropertyKey, targetSpawnValue);
+                        PatchOutcome outcome = setMobSpawnPropertyInFile(targetFile, mobId, spawnPropertyKey, targetSpawnValue);
                         if (!outcome.foundTarget) {
-                            LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " jarEntry=Server/" + relativePath);
+                            LOGGER.warning("[SpawnManager] apply: Id not found in NPCs for mob=" + mobId + " file=" + targetFile);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: world file not found and asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: failed world patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
                     }
                 }
             }
@@ -740,26 +742,29 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                         continue;
                     }
 
-                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
-                    if (targetFile != null) {
-                        try {
-                            PatchOutcome outcome = setMarkerDeactivationDistanceInFile(targetFile, mobId, targetDistance);
-                            if (!outcome.foundTarget) {
-                                LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " file=" + targetFile);
-                            }
-                        } catch (Exception e) {
-                            LOGGER.warning("[SpawnManager] apply: failed marker patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
+                    try {
+                        PatchOutcome outcome = setMarkerDeactivationDistanceInAssetZip(relativePath, mobId, targetDistance);
+                        if (outcome.foundTarget) {
+                            continue;
                         }
+                        LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " asset zip entry=Server/" + relativePath);
+                    } catch (Exception e) {
+                        LOGGER.warning("[SpawnManager] apply: marker asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                    }
+
+                    Path targetFile = locateWorldPathInAssetPacks(AssetModule.get(), relativePath);
+                    if (targetFile == null) {
+                        LOGGER.warning("[SpawnManager] apply: marker file not found in asset zip or mutable pack for mob=" + mobId + " path=Server/" + relativePath);
                         continue;
                     }
 
                     try {
-                        PatchOutcome outcome = setMarkerDeactivationDistanceInAssetZip(relativePath, mobId, targetDistance);
+                        PatchOutcome outcome = setMarkerDeactivationDistanceInFile(targetFile, mobId, targetDistance);
                         if (!outcome.foundTarget) {
-                            LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " jarEntry=Server/" + relativePath);
+                            LOGGER.warning("[SpawnManager] apply: marker target not found for mob=" + mobId + " file=" + targetFile);
                         }
                     } catch (Exception e) {
-                        LOGGER.warning("[SpawnManager] apply: marker file not found and asset zip patch failed for mob=" + mobId + " path=Server/" + relativePath + " error=" + e.getMessage());
+                        LOGGER.warning("[SpawnManager] apply: failed marker patch for mob=" + mobId + " file=" + targetFile + " error=" + e.getMessage());
                     }
                 }
             }
@@ -1042,12 +1047,20 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             if (dir != null) {
                 Path sibling = dir.resolve("Spawn_Manager_Assets.zip");
                 if (Files.isRegularFile(sibling)) return sibling;
+                Path siblingLower = dir.resolve("spawn_manager_assets.zip");
+                if (Files.isRegularFile(siblingLower)) return siblingLower;
             }
         }
 
-        Path modsDir = Path.of("mods");
-        Path inMods = modsDir.resolve("Spawn_Manager_Assets.zip");
-        if (Files.isRegularFile(inMods)) return inMods;
+        Path[] candidates = new Path[] {
+                Path.of("mods", "Spawn_Manager_Assets.zip"),
+                Path.of("mods", "spawn_manager_assets.zip"),
+                Path.of("run", "mods", "Spawn_Manager_Assets.zip"),
+                Path.of("run", "mods", "spawn_manager_assets.zip")
+        };
+        for (Path candidate : candidates) {
+            if (Files.isRegularFile(candidate)) return candidate;
+        }
 
         return null;
     }
