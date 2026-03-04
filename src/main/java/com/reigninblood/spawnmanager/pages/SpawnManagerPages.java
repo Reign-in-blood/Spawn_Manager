@@ -329,15 +329,51 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     }
 
     private boolean invokePlayerMessageMethod(@Nonnull Player player, @Nonnull String message) {
-        for (String methodName : new String[]{"sendMessage", "sendSystemMessage", "sendChatMessage", "sendServerMessage"}) {
+        // 1) Direct calls on Player instance
+        if (invokeMessageLikeMethods(player, message)) {
+            return true;
+        }
+
+        // 2) Common sender adapters found in command/player APIs
+        for (String adapter : new String[]{"getCommandSender", "getSender", "asCommandSender"}) {
             try {
-                java.lang.reflect.Method m = player.getClass().getMethod(methodName, String.class);
+                java.lang.reflect.Method m = player.getClass().getMethod(adapter);
                 m.setAccessible(true);
-                m.invoke(player, message);
-                return true;
+                Object sender = m.invoke(player);
+                if (sender != null && invokeMessageLikeMethods(sender, message)) {
+                    return true;
+                }
             } catch (Exception ignored) {
             }
         }
+
+        return false;
+    }
+
+    private boolean invokeMessageLikeMethods(@Nonnull Object target, @Nonnull String message) {
+        String[] preferred = new String[]{"sendMessage", "sendSystemMessage", "sendChatMessage", "sendServerMessage", "message"};
+
+        for (String methodName : preferred) {
+            for (java.lang.reflect.Method m : target.getClass().getMethods()) {
+                if (!methodName.equals(m.getName())) continue;
+                try {
+                    Class<?>[] p = m.getParameterTypes();
+                    if (p.length == 1 && (p[0] == String.class || p[0] == CharSequence.class || p[0] == Object.class)) {
+                        m.setAccessible(true);
+                        m.invoke(target, message);
+                        return true;
+                    }
+                    if (p.length == 2 && (p[0] == String.class || p[0] == CharSequence.class || p[0] == Object.class)
+                            && (p[1] == boolean.class || p[1] == Boolean.class)) {
+                        m.setAccessible(true);
+                        m.invoke(target, message, Boolean.TRUE);
+                        return true;
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
         return false;
     }
 
