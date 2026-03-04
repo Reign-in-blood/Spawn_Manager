@@ -1036,26 +1036,20 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
 
     private static Path locateOwnAssetZipPath() {
         Path pluginJar = locateOwnJarPath();
-        if (pluginJar == null) return null;
 
-        Path dir = pluginJar.getParent();
-        if (dir == null || !Files.isDirectory(dir)) return null;
-
-        Path byName = dir.resolve("Spawn_Manager_Assets.zip");
-        if (Files.isRegularFile(byName)) return byName;
-
-        try {
-            try (var stream = Files.list(dir)) {
-                return stream
-                        .filter(Files::isRegularFile)
-                        .filter(p -> p.getFileName().toString().toLowerCase().endsWith(".zip"))
-                        .filter(p -> p.getFileName().toString().toLowerCase().contains("spawn_manager"))
-                        .findFirst()
-                        .orElse(null);
+        if (pluginJar != null) {
+            Path dir = pluginJar.getParent();
+            if (dir != null) {
+                Path sibling = dir.resolve("Spawn_Manager_Assets.zip");
+                if (Files.isRegularFile(sibling)) return sibling;
             }
-        } catch (Exception ignored) {
-            return null;
         }
+
+        Path modsDir = Path.of("mods");
+        Path inMods = modsDir.resolve("Spawn_Manager_Assets.zip");
+        if (Files.isRegularFile(inMods)) return inMods;
+
+        return null;
     }
 
     private static Path locateOwnJarPath() {

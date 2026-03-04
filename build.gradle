@@ -95,23 +95,9 @@ tasks.named('shadowJar') {
     mergeServiceFiles()
 }
 
-tasks.register('assetPackZip', Zip) {
-    archiveBaseName.set('Spawn_Manager_Assets')
-    archiveClassifier.set('')
-    destinationDirectory.set(layout.buildDirectory.dir('distributions'))
-
-    from('src/main/resources') {
-        exclude 'manifest.json'
-    }
-    from('src/assetpack') {
-        include 'manifest.json'
-    }
-}
-
 // Ensure the shaded jar is produced during a normal build.
 tasks.named('build') {
     dependsOn 'shadowJar'
-    dependsOn 'assetPackZip'
 }
 
 if (hasHytaleHome) {
@@ -139,16 +125,14 @@ if (hasHytaleHome) {
     def serverJar = file("$hytaleHome/install/$patchline/package/game/latest/Server/HytaleServer.jar")
     def assetsZip = file("$hytaleHome/install/$patchline/package/game/latest/Assets.zip")
     def shadowJarTask = tasks.named('shadowJar')
-    def assetPackZipTask = tasks.named('assetPackZip')
 
     tasks.register('runServerJar', JavaExec) {
-        dependsOn shadowJarTask, assetPackZipTask
+        dependsOn shadowJarTask
         mainClass = 'com.hypixel.hytale.Main'
         classpath = files(serverJar)
         workingDir = serverRunDir.absolutePath
         doFirst {
             def modPaths = [shadowJarTask.get().archiveFile.get().asFile.absolutePath]
-            modPaths << assetPackZipTask.get().archiveFile.get().asFile.absolutePath
             if (load_user_mods.toBoolean()) {
                 modPaths << "${hytaleHome}/UserData/Mods"
             }
