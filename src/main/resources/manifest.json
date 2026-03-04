@@ -17,6 +17,6 @@
         
     },
     "DisabledByDefault": false,
-    "IncludesAssetPack": false,
+    "IncludesAssetPack": true,
     "Main": "com.reigninblood.spawnmanager.SpawnManagerPlugin"
 }
