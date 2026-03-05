@@ -44,6 +44,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -73,6 +74,7 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
     private final Map<String, Boolean> stagedEnabled = new HashMap<>();
     private final Set<String> dirty = new HashSet<>();
     private final Set<String> activeGroups = new LinkedHashSet<>();
+    private final AtomicInteger pendingWriteTasks = new AtomicInteger(0);
 
     private final SpawnManagerConfig config;
     private final SpawnManagerMap mapping;
@@ -259,7 +261,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
                 dirtySnapshot = new HashSet<>(dirty);
             }
 
-            CompletableFuture.runAsync(() -> applyAndSave(snapshot, dirtySnapshot));
+            notifyPlayer(store, ref, "[SpawnManager] Apply started. Please wait before closing the menu or game...");
+            runTrackedAsync(store, ref, () -> applyAndSave(snapshot, dirtySnapshot), "apply");
             rebuild();
             return;
         }
@@ -270,7 +273,8 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             boolean targetEnabled = caveNpcEnabled;
             config.setCaveNpcEnabled(targetEnabled);
             config.save();
-            CompletableFuture.runAsync(() -> applyCaveNpcLightRanges(targetEnabled));
+            notifyPlayer(store, ref, "[SpawnManager] Cave NPC update started. Please wait...");
+            runTrackedAsync(store, ref, () -> applyCaveNpcLightRanges(targetEnabled), "cave");
             rebuild();
             return;
         }
@@ -283,6 +287,94 @@ public final class SpawnManagerPages extends BasicCustomUIPage {
             }
             rebuild();
         }
+    }
+
+    private void runTrackedAsync(@Nonnull Store<EntityStore> store,
+                                 @Nonnull Ref<EntityStore> ref,
+                                 @Nonnull Runnable task,
+                                 @Nonnull String kind) {
+        pendingWriteTasks.incrementAndGet();
+        CompletableFuture.runAsync(() -> {
+            try {
+                task.run();
+            } catch (Exception e) {
+                LOGGER.warning("[SpawnManager] async " + kind + " failed: " + e.getMessage());
+            } finally {
+                int remaining = pendingWriteTasks.decrementAndGet();
+                if (remaining <= 0) {
+                    notifyPlayer(store, ref, "[SpawnManager] Changes saved. Restart/reload the game world to apply updated assets.");
+                } else {
+                    notifyPlayer(store, ref, "[SpawnManager] One task finished. Remaining background tasks: " + remaining);
+                }
+            }
+        });
+    }
+
+    private void notifyPlayer(@Nonnull Store<EntityStore> store,
+                              @Nonnull Ref<EntityStore> ref,
+                              @Nonnull String message) {
+        try {
+            Player player = store.getComponent(ref, Player.getComponentType());
+            if (player == null) {
+                LOGGER.info(message);
+                return;
+            }
+            if (invokePlayerMessageMethod(player, message)) {
+                return;
+            }
+            LOGGER.info(message);
+        } catch (Exception e) {
+            LOGGER.info(message);
+        }
+    }
+
+    private boolean invokePlayerMessageMethod(@Nonnull Player player, @Nonnull String message) {
+        // 1) Direct calls on Player instance
+        if (invokeMessageLikeMethods(player, message)) {
+            return true;
+        }
+
+        // 2) Common sender adapters found in command/player APIs
+        for (String adapter : new String[]{"getCommandSender", "getSender", "asCommandSender"}) {
+            try {
+                java.lang.reflect.Method m = player.getClass().getMethod(adapter);
+                m.setAccessible(true);
+                Object sender = m.invoke(player);
+                if (sender != null && invokeMessageLikeMethods(sender, message)) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+
+        return false;
+    }
+
+    private boolean invokeMessageLikeMethods(@Nonnull Object target, @Nonnull String message) {
+        String[] preferred = new String[]{"sendMessage", "sendSystemMessage", "sendChatMessage", "sendServerMessage", "message"};
+
+        for (String methodName : preferred) {
+            for (java.lang.reflect.Method m : target.getClass().getMethods()) {
+                if (!methodName.equals(m.getName())) continue;
+                try {
+                    Class<?>[] p = m.getParameterTypes();
+                    if (p.length == 1 && (p[0] == String.class || p[0] == CharSequence.class || p[0] == Object.class)) {
+                        m.setAccessible(true);
+                        m.invoke(target, message);
+                        return true;
+                    }
+                    if (p.length == 2 && (p[0] == String.class || p[0] == CharSequence.class || p[0] == Object.class)
+                            && (p[1] == boolean.class || p[1] == Boolean.class)) {
+                        m.setAccessible(true);
+                        m.invoke(target, message, Boolean.TRUE);
+                        return true;
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
