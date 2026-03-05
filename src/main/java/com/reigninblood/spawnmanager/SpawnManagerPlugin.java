@@ -17,7 +17,7 @@ public final class SpawnManagerPlugin extends JavaPlugin {
     public SpawnManagerPlugin(com.hypixel.hytale.server.core.plugin.JavaPluginInit init) {
         super(init);
         INSTANCE = this;
-        this.config = new SpawnManagerConfig(Path.of("SpawnManager"));
+        this.config = new SpawnManagerConfig(Path.of("mods", "SpawnManager"));
     }
 
     public static SpawnManagerPlugin get() {
